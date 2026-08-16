@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family-poppins: 'Poppins', sans-serif;
+  --font-family-playfair: 'Playfair Display', serif;
+
+    --color-primary-color: oklch(0.3577 0.0908 247.24);
+    --color-secondary-color:oklch(0.4336 0.0076 255.53);
+}
+
+:root {
+  /* Shared design tokens for the parent application flow.
+     Reuses the existing Inzozi brand colors (gold/navy) rather than
+     introducing a second palette, so these pages stay consistent with
+     the rest of the site. */
+  --inzozi-gold: #F09C00;
+  --inzozi-gold-light: #FFB833;
+  --inzozi-gold-tint: #FFF3E0;
+  --inzozi-navy: #05416B;
+  --inzozi-navy-dark: #053F69;
+  --inzozi-navy-tint: #CFDCEA;
+  --inzozi-ink: #282C34;
+  --inzozi-ink-soft: #6B7280;
+  --inzozi-border: #E5E7EB;
+  --inzozi-success: #1E7A34;
+  --inzozi-success-tint: #E7F5EA;
+  --inzozi-danger: #B10E1E;
+  --inzozi-danger-tint: #FBEAE8;
+  --inzozi-radius-sm: 8px;
+  --inzozi-radius-md: 14px;
+  --inzozi-radius-lg: 22px;
+  --inzozi-shadow-card: 0 1px 2px rgba(5,65,107,0.05), 0 8px 24px -12px rgba(5,65,107,0.15);
+  --inzozi-shadow-pop: 0 4px 8px rgba(5,65,107,0.08), 0 16px 40px -16px rgba(5,65,107,0.25);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes inzozi-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes inzozi-dialog-in {
+  from { opacity: 0; transform: scale(0.94) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.inzozi-backdrop {
+  animation: inzozi-backdrop-in 0.18s ease-out;
+}
+
+.inzozi-dialog {
+  animation: inzozi-dialog-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+

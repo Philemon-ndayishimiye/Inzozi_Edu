@@ -1,0 +1,29 @@
+import ContNav from '../Components/ContNav';
+import { FaCheckCircle } from 'react-icons/fa';
+import Footer from '../Components/Footer';
+import AuthLayout from '../Components/AuthLayout';
+import { Link } from 'react-router-dom';
+
+export default function ResetPasswordSuccessPage() {
+  return (
+    <div>
+      <ContNav />
+      <AuthLayout title="Password reset was successful!">
+        <div className="flex flex-col items-center text-center py-4">
+          <FaCheckCircle className="text-6xl text-[#F09C00] mb-3" />
+          <h2 className="text-[#F09C00] text-[20px] font-bold mb-2">Success!</h2>
+          <p className="text-gray-500 text-[13.5px] font-family-poppins mb-6">
+            Your new password was successfully registered. Now you can log into your account.
+          </p>
+          <Link
+            to="/login"
+            className="w-full bg-[#05416B] text-white font-bold rounded-lg py-3 text-center text-[14.5px]"
+          >
+            Return to log in
+          </Link>
+        </div>
+      </AuthLayout>
+      <Footer />
+    </div>
+  );
+}

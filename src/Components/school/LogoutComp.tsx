@@ -1,12 +1,14 @@
 
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import profile from '../../assets/profile.png'; // make sure this exists
 import { useUser } from '../../Hooks/useUser';
 import { useLogoutMutation } from '../../App/api/Auth/auth';
 import ConfirmDialog from '../ConfirmDialog';
 
 export default function LogoutComp() {
+  const { t } = useTranslation();
   const [logout, { isLoading }] = useLogoutMutation();
   const navigate = useNavigate();
   const { clearUser, user } = useUser();
@@ -33,27 +35,27 @@ export default function LogoutComp() {
 
       <div className="flex flex-col gap-2 py-[30px] font-semibold text-white">
         <Link className="hover:bg-blue-400 px-5 py-2" to="/setting">
-          Settings and privacy
+          {t('logoutMenu.settingsAndPrivacy')}
         </Link>
         <a className="hover:bg-blue-400 px-5 py-2 cursor-pointer" href="">
-          Help
+          {t('logoutMenu.help')}
         </a>
         <a className="hover:bg-blue-400 px-5 py-2 cursor-pointer" href="">
-          Profiles
+          {t('logoutMenu.profiles')}
         </a>
         <a className="hover:bg-blue-400 px-5 py-2 cursor-pointer" href="">
-          Trendings
+          {t('logoutMenu.trendings')}
         </a>
         <a className="hover:bg-blue-400 px-5 py-2 cursor-pointer" onClick={() => setConfirming(true)}>
-          Sign Out
+          {t('logoutMenu.signOut')}
         </a>
       </div>
 
       <ConfirmDialog
         isOpen={confirming}
-        title="Log out?"
-        message="You'll need to log in again afterwards."
-        confirmLabel="Log out"
+        title={t('logoutMenu.logOutConfirmTitle')}
+        message={t('logoutMenu.logOutConfirmMessage')}
+        confirmLabel={t('logoutMenu.logOut')}
         tone="danger"
         loading={isLoading}
         onConfirm={handleLogout}

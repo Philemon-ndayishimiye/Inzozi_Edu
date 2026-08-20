@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IoCheckmarkCircle, IoDocumentAttachOutline } from 'react-icons/io5';
 
 type DecisionBoxProps = {
@@ -12,14 +13,15 @@ type DecisionBoxProps = {
 };
 
 export default function DecisionBox({
-  title = 'Decision',
-  description = 'This decision is emailed to the parent immediately — include a reason if you\'re rejecting.',
+  title,
+  description,
   onApprove,
   onReject,
   approveRequiresFile = false,
   approving = false,
   rejecting = false,
 }: DecisionBoxProps) {
+  const { t } = useTranslation();
   const [showReason, setShowReason] = useState(false);
   const [reason, setReason] = useState('');
   const [approvalFile, setApprovalFile] = useState<File | null>(null);
@@ -29,8 +31,8 @@ export default function DecisionBox({
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5">
-      <h3 className="text-[14.5px] font-bold text-[#282C34] font-family-playfair mb-1">{title}</h3>
-      <p className="text-[12px] text-gray-500 mb-4">{description}</p>
+      <h3 className="text-[14.5px] font-bold text-[#282C34] font-family-playfair mb-1">{title ?? t('decisionBox.title')}</h3>
+      <p className="text-[12px] text-gray-500 mb-4">{description ?? t('decisionBox.description')}</p>
 
       {approveRequiresFile && (
         <label
@@ -47,9 +49,9 @@ export default function DecisionBox({
           <IoDocumentAttachOutline className="text-lg text-[#1E7A34] flex-shrink-0" />
           <div className="min-w-0">
             <div className="text-[12.5px] font-semibold text-[#282C34] truncate">
-              {approvalFile ? approvalFile.name : 'Attach admission letter (required)'}
+              {approvalFile ? approvalFile.name : t('decisionBox.attachLetter')}
             </div>
-            <div className="text-[10.5px] text-gray-400">Sent to the parent once approved</div>
+            <div className="text-[10.5px] text-gray-400">{t('decisionBox.sentOnceApproved')}</div>
           </div>
         </label>
       )}
@@ -64,25 +66,25 @@ export default function DecisionBox({
         ) : (
           <IoCheckmarkCircle />
         )}
-        {approving ? 'Approving…' : 'Approve application'}
+        {approving ? t('decisionBox.approving') : t('decisionBox.approve')}
       </button>
       <button
         onClick={() => setShowReason(true)}
         disabled={disabled}
         className="w-full bg-white border-[1.5px] border-[#B10E1E] text-[#B10E1E] font-bold text-[13px] rounded-lg py-2.5 cursor-pointer disabled:opacity-50"
       >
-        Reject application
+        {t('decisionBox.reject')}
       </button>
 
       {showReason && (
         <div className="mt-3">
           <label className="block text-[12px] font-semibold text-[#B10E1E] mb-1.5">
-            Reason for rejection (required)
+            {t('decisionBox.rejectReasonLabel')}
           </label>
           <textarea
             value={reason}
             onChange={(e) => setReason(e.target.value)}
-            placeholder="e.g. Class has reached capacity for this term."
+            placeholder={t('decisionBox.rejectReasonPlaceholder')}
             className="w-full border-[1.5px] border-[#B10E1E] rounded-lg px-3 py-2 text-[12.5px] min-h-[70px] outline-none"
           />
           <button
@@ -91,7 +93,7 @@ export default function DecisionBox({
             className="w-full flex items-center justify-center gap-2 bg-[#B10E1E] hover:bg-[#8f0b18] text-white font-bold text-[13px] rounded-lg py-2.5 mt-2 cursor-pointer disabled:opacity-50 transition-colors"
           >
             {rejecting && <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
-            {rejecting ? 'Rejecting…' : 'Confirm rejection'}
+            {rejecting ? t('decisionBox.rejecting') : t('decisionBox.confirmRejection')}
           </button>
         </div>
       )}

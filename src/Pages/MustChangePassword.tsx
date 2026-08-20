@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { FaLock } from 'react-icons/fa';
 import LoginInput from '../Components/LoginInput';
@@ -15,6 +16,7 @@ const isStrongPassword = (password: string) =>
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(password);
 
 export default function MustChangePassword() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user, refetchUser } = useUser();
   const [updateUser, { isLoading, error, isError }] = useUpdateUserMutation();
@@ -40,15 +42,14 @@ export default function MustChangePassword() {
 
     const next = { newPassword: '', confirmPassword: '' };
     if (!newPassword) {
-      next.newPassword = 'Password is required.';
+      next.newPassword = t('auth.mustChangePassword.passwordRequired');
     } else if (!isStrongPassword(newPassword)) {
-      next.newPassword =
-        'Password must be at least 8 characters and include uppercase, lowercase, number, and special character.';
+      next.newPassword = t('auth.mustChangePassword.passwordWeak');
     }
     if (!confirmPassword) {
-      next.confirmPassword = 'Please confirm your password.';
+      next.confirmPassword = t('auth.mustChangePassword.confirmRequired');
     } else if (newPassword && confirmPassword !== newPassword) {
-      next.confirmPassword = 'Passwords do not match.';
+      next.confirmPassword = t('auth.mustChangePassword.passwordsNoMatch');
     }
 
     setFormError(next);
@@ -66,13 +67,13 @@ export default function MustChangePassword() {
   const submitErrorMessage =
     isError && error && 'status' in (error as FetchBaseQueryError)
       ? (error as FetchBaseQueryError & { data: ErrorResponse }).data?.message ||
-        'Could not update your password. Please try again.'
+        t('auth.mustChangePassword.genericError')
       : '';
 
   return (
     <AuthLayout
-      title="Set a new password"
-      subtitle="For your security, you need to set your own password before continuing."
+      title={t('auth.mustChangePassword.title')}
+      subtitle={t('auth.mustChangePassword.subtitle')}
     >
       <form onSubmit={handleSubmit}>
         {submitErrorMessage && (
@@ -82,11 +83,11 @@ export default function MustChangePassword() {
         )}
 
         <LoginInput
-          label="New password"
+          label={t('auth.mustChangePassword.newPassword')}
           name="newPassword"
           type="password"
           icon={<FaLock />}
-          placeholder="Password"
+          placeholder={t('auth.login.password')}
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           variant="default"
@@ -96,11 +97,11 @@ export default function MustChangePassword() {
         )}
 
         <LoginInput
-          label="Confirm new password"
+          label={t('auth.mustChangePassword.confirmPassword')}
           name="confirmPassword"
           type="password"
           icon={<FaLock />}
-          placeholder="Password"
+          placeholder={t('auth.login.password')}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           variant="default"
@@ -115,7 +116,7 @@ export default function MustChangePassword() {
           className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] text-white font-bold rounded-lg py-3 text-[14.5px] mt-4 cursor-pointer disabled:opacity-60 transition-transform active:scale-[0.98]"
         >
           {isLoading && <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
-          {isLoading ? 'Saving…' : 'Set password & continue'}
+          {isLoading ? t('auth.mustChangePassword.saving') : t('auth.mustChangePassword.setAndContinue')}
         </button>
       </form>
     </AuthLayout>

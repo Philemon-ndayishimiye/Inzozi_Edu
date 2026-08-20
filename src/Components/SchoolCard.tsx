@@ -2,6 +2,7 @@ import { SlLocationPin } from 'react-icons/sl';
 import { MdVerified } from 'react-icons/md';
 import { IoDocumentTextOutline, IoEyeOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 type CustomSchool = {
   id: string;
@@ -16,6 +17,7 @@ type CustomSchool = {
 };
 
 export default function SchoolCard({ id, image, title, location, level, studentType }: CustomSchool) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const initial = title?.trim().charAt(0).toUpperCase() || '?';
 
@@ -41,7 +43,7 @@ export default function SchoolCard({ id, image, title, location, level, studentT
           </h1>
         )}
         <span className="absolute top-3 right-3 flex items-center gap-1 bg-white/95 px-2.5 py-1 rounded-2xl text-[11px] text-[#05416B] font-semibold">
-          <MdVerified className="text-[#F09C00]" /> Verified
+          <MdVerified className="text-[#F09C00]" /> {t('schoolCard.verified')}
         </span>
       </div>
 
@@ -54,7 +56,7 @@ export default function SchoolCard({ id, image, title, location, level, studentT
         </h1>
         <div className="flex items-center gap-2 text-[#6B7280] text-[13.5px] pt-2 font-family-poppins">
           <SlLocationPin className="text-base flex-shrink-0" />
-          <span>{location} District</span>
+          <span>{location} {t('schoolCard.district')}</span>
         </div>
 
         <div className="border-t border-gray-100 mt-4 mb-4" />
@@ -67,7 +69,7 @@ export default function SchoolCard({ id, image, title, location, level, studentT
             }}
             className="flex-1 flex items-center justify-center gap-1.5 border-[1.5px] border-[#05416B] text-[#05416B] font-bold text-[12.5px] sm:text-[13px] rounded-lg py-2.5 cursor-pointer transition-colors hover:bg-[#CFDCEA]/40 active:scale-[0.97]"
           >
-            <IoEyeOutline className="text-[15px]" /> View Details
+            <IoEyeOutline className="text-[15px]" /> {t('schoolCard.viewDetails')}
           </button>
           <button
             onClick={(e) => {
@@ -76,7 +78,7 @@ export default function SchoolCard({ id, image, title, location, level, studentT
             }}
             className="flex-1 flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#F09C00] to-[#FFB833] text-white font-bold text-[12.5px] sm:text-[13px] rounded-lg py-2.5 cursor-pointer shadow-sm transition-transform active:scale-[0.97]"
           >
-            <IoDocumentTextOutline className="text-[15px]" /> Apply
+            <IoDocumentTextOutline className="text-[15px]" /> {t('schoolCard.apply')}
           </button>
         </div>
       </div>

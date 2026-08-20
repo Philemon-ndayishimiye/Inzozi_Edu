@@ -5,6 +5,7 @@ import { SelectInput } from '../../Components/seats/SelectInput';
 import {Levels, StudentType, MinimumGrade} from '../../Types/Seats';
 import {Button} from '../../Components/seats/AddSeats';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { useRegisterSpotMutation } from '../../App/api/spots/spot';
 import { useGetSchoolDetailsQuery } from '../../App/api/school/school';
@@ -49,7 +50,7 @@ admissionConditions?: AdmissionConditions;
   
 
 export default function AddSeats() {
- 
+  const { t } = useTranslation();
   const navigate =useNavigate();
   const{user}=useUser();
   const[registerSpot, {isLoading: submitting}]=useRegisterSpotMutation();
@@ -175,12 +176,12 @@ const validateFields = (): ErrorState => {
     totalSpots: '',
   };
 
-  if (!formData.level) {newErrors.level = 'Level is required';}
-  if (!formData.studentType) {newErrors.studentType = 'Student type is required';}
-  if (!formData.academicYear) {newErrors.academicYear = 'Enter a valid academic year (e.g. 2025/2026)';}
-  if (!formData.yearofstudy) {newErrors.yearofstudy = 'Year of study is required';}
+  if (!formData.level) {newErrors.level = t('addSeatsPage.levelRequired');}
+  if (!formData.studentType) {newErrors.studentType = t('addSeatsPage.studentTypeRequired');}
+  if (!formData.academicYear) {newErrors.academicYear = t('addSeatsPage.academicYearInvalid');}
+  if (!formData.yearofstudy) {newErrors.yearofstudy = t('addSeatsPage.yearOfStudyRequired');}
   if (!formData.totalSpots || formData.totalSpots <= 0){
-    newErrors.totalSpots = 'Total spots must be greater than 0';
+    newErrors.totalSpots = t('addSeatsPage.totalSpotsInvalid');
   }
     // optional fields — only send if they have values
 
@@ -249,49 +250,49 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
   return (
     <div className='px-6 py-6'>
          <div className='border border-gray-300 py-5 px-3 rounded-lg'>
-            <h1 className='text-primary-color font-bold text-[22px] px-8 pb-10 font-family-playfair'>Add Available Seats</h1>
+            <h1 className='text-primary-color font-bold text-[22px] px-8 pb-10 font-family-playfair'>{t('addSeatsPage.title')}</h1>
 
             <div>
                 <form action="" onSubmit={createSeats} className='px-10'>
                     <div className='flex gap-13'>
-                     <SelectInput options={availableLevelOptions} label=' Level' placeholder='Select Level' name='level' value={formData.level} onChange={handleSelectChange} />
+                     <SelectInput options={availableLevelOptions} label={t('addSeatsPage.level')} placeholder={t('addSeatsPage.selectLevel')} name='level' value={formData.level} onChange={handleSelectChange} />
                      {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.level}</span>
                      )}
-                     <SelectInput options={StudentType} label=' Student Type' placeholder='Select Student Level' onChange={handleSelectChange} name='studentType' value={formData.studentType} />
+                     <SelectInput options={StudentType} label={t('addSeatsPage.studentType')} placeholder={t('addSeatsPage.selectStudentType')} onChange={handleSelectChange} name='studentType' value={formData.studentType} />
                      {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.studentType}</span>
                      )}
                     </div>
-                     
+
                     <div className='flex gap-13 py-2'>
-                      <TextInput label={'Academic Year *'} placeholder='e.g., 2025/2026' type='text' name='academicYear' value={formData.academicYear} onChange={handleInputChange}/>
+                      <TextInput label={t('addSeatsPage.academicYear')} placeholder='e.g., 2025/2026' type='text' name='academicYear' value={formData.academicYear} onChange={handleInputChange}/>
                       {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.academicYear}</span>
                      )}
-                      <TextInput label={'Year of Study *'} onChange={handleInputChange} value={formData.yearofstudy} name='yearofstudy'/>
+                      <TextInput label={t('addSeatsPage.yearOfStudy')} onChange={handleInputChange} value={formData.yearofstudy} name='yearofstudy'/>
                       {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.yearofstudy}</span>
                      )}
                     </div>
 
                     <div className='flex gap-13 py-2'>
-                      <TextInput label={'Total Spots *'} placeholder='50' type='number' name='totalSpots' value={formData.totalSpots.toString()} onChange={handleInputChange} />
+                      <TextInput label={t('addSeatsPage.totalSpots')} placeholder='50' type='number' name='totalSpots' value={formData.totalSpots.toString()} onChange={handleInputChange} />
                       {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.totalSpots}</span>
                      )}
-                      <TextInput label={'Occupied Spots *'} name='occupiedSpots' value={formData.occupiedSpots} onChange={handleInputChange} type='number' placeholder='0'/>
+                      <TextInput label={t('addSeatsPage.occupiedSpots')} name='occupiedSpots' value={formData.occupiedSpots} onChange={handleInputChange} type='number' placeholder='0'/>
                     </div>
 
                     <div>
-                      
+
                     </div>
-                    
-                    <h1 className='text-black py-12 font-semibold text-[18px] pb-4 font-family-playfair'>Admission Condition</h1>
-                        
+
+                    <h1 className='text-black py-12 font-semibold text-[18px] pb-4 font-family-playfair'>{t('addSeatsPage.admissionCondition')}</h1>
+
                     <div className='flex gap-13 py-2'>
-                      <SelectInput options={MinimumGrade} name="minGrade" value={formData.admissionConditions?.minGrade || ''} onChange={handleAdmissionChange} label=' minimum grade' placeholder='Select Level' />
-                      <TextInput label={'Exam Score *'} name='examScore' value={formData.admissionConditions?.examScore} onChange={handleAdmissionChange} placeholder='e.g.,,75%'/>
+                      <SelectInput options={MinimumGrade} name="minGrade" value={formData.admissionConditions?.minGrade || ''} onChange={handleAdmissionChange} label={t('addSeatsPage.minimumGrade')} placeholder={t('addSeatsPage.selectLevel')} />
+                      <TextInput label={t('addSeatsPage.examScore')} name='examScore' value={formData.admissionConditions?.examScore} onChange={handleAdmissionChange} placeholder='e.g.,,75%'/>
                     </div>
 
                     {/* <div className='flex gap-13 py-2'>
@@ -301,7 +302,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
                     {/* documents */}
 
                     <div className="flex flex-col gap-2 py-2">
-  <label className="font-semibold">Required Documents</label>
+  <label className="font-semibold">{t('addSeatsPage.requiredDocuments')}</label>
 
   <label className="flex items-center gap-2">
     <input
@@ -309,7 +310,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
       checked={(formData.admissionConditions?.documents || []).includes('Birth Certificate')}
       onChange={() => toggleDocument('Birth Certificate')}
     />
-    Birth Certificate
+    {t('addSeatsPage.docBirthCertificate')}
   </label>
 
   <label className="flex items-center gap-2">
@@ -318,7 +319,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
       checked={(formData.admissionConditions?.documents || []).includes('Recent passport-size photograph (2 copies)')}
       onChange={() => toggleDocument('Recent passport-size photograph (2 copies)')}
     />
-    Recent passport-size photograph (2 copies)
+    {t('addSeatsPage.docPassportPhoto')}
   </label>
 
   <label className="flex items-center gap-2">
@@ -327,7 +328,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
       checked={(formData.admissionConditions?.documents || []).includes('Transfer certificate (if applicable)')}
       onChange={() => toggleDocument('Transfer certificate (if applicable)')}
     />
-    Transfer certificate (if applicable)
+    {t('addSeatsPage.docTransferCertificate')}
   </label>
 
   <label className="flex items-center gap-2">
@@ -336,7 +337,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
       checked={(formData.admissionConditions?.documents || []).includes('Previous school report card / academic records')}
       onChange={() => toggleDocument('Previous school report card / academic records')}
     />
-    Previous school report card / academic records
+    {t('addSeatsPage.docPreviousReport')}
   </label>
 
   <label className="flex items-center gap-2">
@@ -345,7 +346,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
       checked={(formData.admissionConditions?.documents || []).includes('Proof of residence (utility bill or ID)')}
       onChange={() => toggleDocument('Proof of residence (utility bill or ID)')}
     />
-    Proof of residence (utility bill or ID)
+    {t('addSeatsPage.docProofOfResidence')}
   </label>
 
   <label className="flex items-center gap-2">
@@ -354,7 +355,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
       checked={(formData.admissionConditions?.documents || []).includes('ID')}
       onChange={() => toggleDocument('ID')}
     />
-   Parent / guardian ID
+   {t('addSeatsPage.docGuardianId')}
   </label>
 
   <label className="flex items-center gap-2">
@@ -363,18 +364,18 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
       checked={(formData.admissionConditions?.documents || []).includes('Result slip')}
       onChange={() => toggleDocument('Result slip')}
     />
-    Result slip
+    {t('addSeatsPage.docResultSlip')}
   </label>
 </div>
 
 
                      <div className='flex gap-13 py-2'>
-                      <TextInput label={' Additional Notes'} value={formData.admissionConditions?.notes} onChange={handleAdmissionChange} name='notes' type='text' placeholder='other unique condition for specific school year'/>
+                      <TextInput label={t('addSeatsPage.additionalNotes')} value={formData.admissionConditions?.notes} onChange={handleAdmissionChange} name='notes' type='text' placeholder='other unique condition for specific school year'/>
                     </div>
 
                     <div className='flex justify-between py-2'>
-                        <Button label={submitting ? 'Adding…' : 'Add Seat Availability'} type='submit' variant='secondary' loading={submitting} disabled={submitting}/>
-                         <Button label='Cancel' variant='third' onClick={handleCancel} disabled={submitting}/>
+                        <Button label={submitting ? t('addSeatsPage.adding') : t('addSeatsPage.addSeatAvailability')} type='submit' variant='secondary' loading={submitting} disabled={submitting}/>
+                         <Button label={t('addSeatsPage.cancel')} variant='third' onClick={handleCancel} disabled={submitting}/>
                     </div>
                 </form>
             </div>

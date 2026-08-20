@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { SearchInput } from '../../Components/seats/Search';
 import { SelectInput } from '../../Components/seats/SelectInput';
 import { Levels, StudentType } from '../../Types/Seats';
@@ -12,6 +13,7 @@ import Toggle from '../../Components/dashboard/Toggle';
 import { IoAddCircleOutline, IoTrashOutline } from 'react-icons/io5';
 
 export default function Seats() {
+  const { t } = useTranslation();
   const { user } = useUser();
   const { data, refetch } = useGetAllSpotsQuery(user?.schoolId ?? skipToken);
   const navigate = useNavigate();
@@ -66,31 +68,30 @@ export default function Seats() {
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-[13.5px] text-gray-500 max-w-xl">
-          Manage seat availability across all education levels. Adding or removing a class here changes what
-          parents can apply for immediately.
+          {t('seatsPage.intro')}
         </p>
         <button
           onClick={() => navigate('../addSeats')}
           className="flex items-center gap-1.5 bg-gradient-to-r from-[#F09C00] to-[#FFB833] text-white font-bold text-[13px] px-4 py-2.5 rounded-lg cursor-pointer whitespace-nowrap"
         >
-          <IoAddCircleOutline className="text-base" /> Add class
+          <IoAddCircleOutline className="text-base" /> {t('seatsPage.addClass')}
         </button>
       </div>
 
       <Panel noBodyPadding>
         <div className="flex flex-col sm:flex-row gap-3 p-4 border-b border-gray-200">
-          <SearchInput value={search} onChange={(e) => setSearch(e.target.value)} />
+          <SearchInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t('seatsPage.searchPlaceholder')} />
           <div className="flex gap-3">
-            <SelectInput options={Levels} value={level} onChange={(e) => setLevel(e.target.value)} placeholder="All levels" />
-            <SelectInput options={StudentType} value={studentType} onChange={(e) => setStudentType(e.target.value)} placeholder="All types" />
+            <SelectInput options={Levels} value={level} onChange={(e) => setLevel(e.target.value)} placeholder={t('seatsPage.allLevels')} />
+            <SelectInput options={StudentType} value={studentType} onChange={(e) => setStudentType(e.target.value)} placeholder={t('seatsPage.allTypes')} />
           </div>
         </div>
 
         {filtered.length === 0 ? (
           <div className="py-14 text-center text-[13.5px] text-gray-500">
             {spots.length === 0
-              ? 'No classes yet. Add your first class to start receiving applications.'
-              : 'No classes match that search.'}
+              ? t('seatsPage.noClassesYet')
+              : t('seatsPage.noClassesMatch')}
           </div>
         ) : (
           <div>
@@ -107,7 +108,7 @@ export default function Seats() {
                       {spot.level} <span className="text-gray-400 font-normal">· {spot.yearofstudy}</span>
                     </div>
                     <div className="text-[11.5px] text-gray-500 mt-0.5">
-                      {spot.studentType} · {available} of {spot.totalSpots} seats available
+                      {spot.studentType} · {t('seatsPage.seatsAvailable', { available, total: spot.totalSpots })}
                     </div>
                   </div>
                   <div className="flex items-center gap-3 flex-shrink-0">
@@ -116,7 +117,7 @@ export default function Seats() {
                         isOpen ? 'bg-[#E7F5EA] text-[#1E7A34]' : 'bg-[#FBEAE8] text-[#B10E1E]'
                       }`}
                     >
-                      {isOpen ? 'Open' : 'Closed'}
+                      {isOpen ? t('seatsPage.open') : t('seatsPage.closed')}
                     </span>
                     <Toggle
                       checked={isOpen}
@@ -126,7 +127,7 @@ export default function Seats() {
                     <button
                       onClick={() => setDeleteId(spot.id)}
                       className="w-8 h-8 rounded-full border border-gray-200 text-gray-500 hover:text-[#B10E1E] hover:border-[#B10E1E] flex items-center justify-center cursor-pointer"
-                      aria-label="Delete class"
+                      aria-label={t('seatsPage.deleteClassAria')}
                     >
                       <IoTrashOutline className="text-[15px]" />
                     </button>
@@ -140,9 +141,9 @@ export default function Seats() {
 
       <ConfirmDialog
         isOpen={!!deleteId}
-        title="Delete this class?"
-        message="Parents will no longer be able to apply to this class. This can't be undone."
-        confirmLabel="Delete"
+        title={t('seatsPage.deleteConfirmTitle')}
+        message={t('seatsPage.deleteConfirmMessage')}
+        confirmLabel={t('seatsPage.delete')}
         loading={deleting}
         onConfirm={confirmDelete}
         onCancel={() => setDeleteId(null)}

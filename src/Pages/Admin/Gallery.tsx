@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IoIosAdd } from 'react-icons/io';
 import { IoClose } from 'react-icons/io5';
 import Select from '../../Components/Select';
@@ -25,6 +26,7 @@ type FormState = { caption: string; category: string; imageUrl: File | null };
 const EMPTY_FORM: FormState = { caption: '', category: '', imageUrl: null };
 
 export default function Gallery() {
+  const { t } = useTranslation();
   const { user } = useUser();
 
   const { data, refetch } = useGetAllGalleryQuery(user?.schoolId ?? skipToken);
@@ -59,9 +61,9 @@ export default function Gallery() {
 
   const validateForm = () => {
     const newErrors: typeof errors = {};
-    if (!formData.caption.trim()) {newErrors.caption = 'A caption is required';}
-    if (!formData.category.trim()) {newErrors.category = 'Please select a category';}
-    if (!editing && !formData.imageUrl) {newErrors.imageUrl = 'Please choose an image';}
+    if (!formData.caption.trim()) {newErrors.caption = t('galleryPage.captionRequired');}
+    if (!formData.category.trim()) {newErrors.category = t('galleryPage.categoryRequired');}
+    if (!editing && !formData.imageUrl) {newErrors.imageUrl = t('galleryPage.imageRequired');}
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -124,13 +126,13 @@ export default function Gallery() {
     <>
       <div className="flex justify-between items-center pb-4 gap-3 flex-wrap">
         <p className="text-[13.5px] text-gray-500 max-w-md">
-          Photos of your school&apos;s facilities, shown to parents on your school&apos;s page.
+          {t('galleryPage.intro')}
         </p>
         <button
           onClick={openAddModal}
           className="flex items-center gap-1.5 border-none text-[13px] font-bold bg-gradient-to-r from-[#F09C00] to-[#FFB833] px-4 py-2.5 cursor-pointer text-white rounded-lg whitespace-nowrap transition-transform active:scale-[0.97]"
         >
-          <IoIosAdd className="text-lg" /> Add facility
+          <IoIosAdd className="text-lg" /> {t('galleryPage.addFacility')}
         </button>
       </div>
 
@@ -138,7 +140,7 @@ export default function Gallery() {
         <div className="bg-white border border-dashed border-gray-300 rounded-lg py-16 text-center">
           <MdOutlinePhotoLibrary className="text-3xl text-gray-300 mx-auto mb-2" />
           <p className="text-[13.5px] text-gray-500">
-            No facility photos yet. Add your first one to show parents what your school looks like.
+            {t('galleryPage.noPhotosYet')}
           </p>
         </div>
       ) : (
@@ -171,14 +173,14 @@ export default function Gallery() {
             <button
               onClick={() => setOpen(false)}
               className="absolute top-3 right-3 cursor-pointer text-gray-500 hover:text-gray-700"
-              aria-label="Close"
+              aria-label={t('galleryPage.close')}
             >
               <IoClose />
             </button>
 
             <div className="pb-5 text-center">
               <h1 className="font-bold font-family-playfair text-[21px] text-[#282C34]">
-                {editing ? 'Edit facility photo' : 'Add facility photo'}
+                {editing ? t('galleryPage.editPhoto') : t('galleryPage.addPhoto')}
               </h1>
             </div>
 
@@ -186,11 +188,11 @@ export default function Gallery() {
               <Select options={category} value={formData.category} onChange={handleSelectChange('category')} />
               {errors.category && <p className="text-red-500 text-sm">{errors.category}</p>}
 
-              <TextInput label="Caption" placeholder="e.g. Our new science lab" value={formData.caption} name="caption" onChange={handleChange} />
+              <TextInput label={t('galleryPage.caption')} placeholder={t('galleryPage.captionPlaceholder')} value={formData.caption} name="caption" onChange={handleChange} />
               {errors.caption && <p className="text-red-500 text-sm">{errors.caption}</p>}
 
               <TextInput
-                label={editing ? 'Replace photo (optional)' : 'Photo'}
+                label={editing ? t('galleryPage.replacePhoto') : t('galleryPage.photo')}
                 placeholder="imageUrl"
                 name="imageUrl"
                 type="file"
@@ -204,15 +206,15 @@ export default function Gallery() {
                 className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#F09C00] to-[#FFB833] text-white font-bold rounded-lg py-3 text-[14px] mt-4 cursor-pointer disabled:opacity-60 transition-transform active:scale-[0.98]"
               >
                 {isSaving && <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
-                {isSaving ? 'Saving…' : editing ? 'Save changes' : 'Add facility'}
+                {isSaving ? t('galleryPage.saving') : editing ? t('galleryPage.saveChanges') : t('galleryPage.addFacility')}
               </button>
             </form>
 
             {saveError && (
               <p className="text-red-500 text-[13px] font-family-poppins pt-3 text-center">
                 {'status' in (saveError as FetchBaseQueryError)
-                  ? (saveError as FetchBaseQueryError & { data: ErrorResponse }).data?.message || 'Something went wrong'
-                  : 'Something went wrong'}
+                  ? (saveError as FetchBaseQueryError & { data: ErrorResponse }).data?.message || t('galleryPage.somethingWentWrong')
+                  : t('galleryPage.somethingWentWrong')}
               </p>
             )}
           </div>
@@ -221,9 +223,9 @@ export default function Gallery() {
 
       <ConfirmDialog
         isOpen={!!deleteTarget}
-        title="Delete this photo?"
-        message="This removes it from your school's page for parents right away. This can't be undone."
-        confirmLabel="Delete"
+        title={t('galleryPage.deleteConfirmTitle')}
+        message={t('galleryPage.deleteConfirmMessage')}
+        confirmLabel={t('galleryPage.delete')}
         loading={deleting}
         onConfirm={confirmDelete}
         onCancel={() => setDeleteTarget(null)}

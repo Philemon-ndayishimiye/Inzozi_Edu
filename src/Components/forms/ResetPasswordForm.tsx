@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaUser } from 'react-icons/fa';
 import LoginInput from '../LoginInput';
 import { Link } from 'react-router-dom';
@@ -12,6 +13,7 @@ type ErrorResponse={
 }
 
 const ResetPasswordForm: React.FC = () => {
+  const { t } = useTranslation();
   const[ForgotPassword , {isError , error, isLoading}]=useForgotPasswordMutation();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -24,7 +26,7 @@ const ResetPasswordForm: React.FC = () => {
   const handleReset = async(e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
     if(!email){
-      setError('Email is required');
+      setError(t('resetRequest.emailRequired'));
       return;
     }
     setError('');
@@ -40,19 +42,19 @@ const ResetPasswordForm: React.FC = () => {
 
   return (
     <AuthLayout
-      title="Forgot password"
-      subtitle="You will get an OTP on the email that you provided."
+      title={t('resetRequest.title')}
+      subtitle={t('resetRequest.subtitle')}
       backTo="/login"
-      backLabel="Back to login"
+      backLabel={t('resetRequest.backToLogin')}
       footer={
         <div className="text-center space-y-3">
           <Link to="/login" className="block w-full border border-gray-300 rounded-lg py-2.5 text-[13.5px] font-semibold text-[#282C34]">
-            Return to log in
+            {t('resetRequest.returnToLogin')}
           </Link>
           <p className="text-[12.5px] text-gray-500">
-            Don&apos;t have an account?{' '}
+            {t('resetRequest.noAccount')}{' '}
             <Link to="/register" className="text-[#F09C00] font-bold">
-              Sign up
+              {t('resetRequest.signUp')}
             </Link>
           </p>
         </div>
@@ -60,11 +62,11 @@ const ResetPasswordForm: React.FC = () => {
     >
       <form onSubmit={handleReset}>
         <LoginInput
-          label="Email"
+          label={t('resetRequest.email')}
           name="email"
           type="email"
           icon={<FaUser />}
-          placeholder="Enter email"
+          placeholder={t('resetRequest.emailPlaceholder')}
           value={email}
           onChange={handleEmailChange}
           variant="default"
@@ -77,14 +79,14 @@ const ResetPasswordForm: React.FC = () => {
           className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] text-white font-bold rounded-lg py-3 text-[14.5px] mt-4 cursor-pointer disabled:opacity-60 transition-transform active:scale-[0.98]"
         >
           {isLoading && <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
-          {isLoading ? 'Sending…' : 'Get OTP'}
+          {isLoading ? t('resetRequest.sending') : t('resetRequest.getOtp')}
         </button>
 
         {isError && (
           <p className="text-red-500 text-[13px] font-family-poppins text-center pt-3">
             {'status' in (error as FetchBaseQueryError)
-              ? (error as FetchBaseQueryError & { data: ErrorResponse }).data?.message || 'Something went wrong'
-              : 'Something went wrong'}
+              ? (error as FetchBaseQueryError & { data: ErrorResponse }).data?.message || t('resetRequest.somethingWentWrong')
+              : t('resetRequest.somethingWentWrong')}
           </p>
         )}
       </form>

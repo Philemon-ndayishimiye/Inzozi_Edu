@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { useGetUsersQuery, useDeleteUserMutation, type RemoteUser } from '../../App/api/users/users';
 import Panel from '../../Components/dashboard/Panel';
 import Badge from '../../Components/dashboard/Badge';
@@ -13,13 +15,14 @@ const roleVariant = (roleName: string) => {
   return 'schoolManager' as const;
 };
 
-const roleLabel = (roleName: string) => {
-  if (roleName === 'AdmissionManager') {return 'Admission Manager';}
-  if (roleName === 'SchoolManager') {return 'School Manager';}
+const roleLabel = (t: TFunction, roleName: string) => {
+  if (roleName === 'AdmissionManager') {return t('usersPage.admissionManager');}
+  if (roleName === 'SchoolManager') {return t('usersPage.schoolManager');}
   return roleName;
 };
 
 export default function Users() {
+  const { t } = useTranslation();
   const { data, isLoading, refetch } = useGetUsersQuery();
   const [deleteUser, { isLoading: deleting }] = useDeleteUserMutation();
 
@@ -61,7 +64,7 @@ export default function Users() {
   return (
     <div className="space-y-4">
       <p className="text-[13.5px] text-gray-500 max-w-xl">
-        Everyone with an account on Inzozi — School Managers, Admission Managers, and Admins.
+        {t('usersPage.intro')}
       </p>
 
       <div className="flex flex-wrap gap-3">
@@ -73,7 +76,7 @@ export default function Users() {
               setSearch(e.target.value);
               setPage(1);
             }}
-            placeholder="Search by name, email, or school..."
+            placeholder={t('usersPage.searchPlaceholder')}
             className="w-full pl-9 pr-3.5 py-2.5 border border-gray-300 rounded-lg text-[13px] outline-none focus:border-[#F09C00]"
           />
         </div>
@@ -85,10 +88,10 @@ export default function Users() {
           }}
           className="border border-gray-300 rounded-lg px-3.5 py-2.5 text-[13px] outline-none focus:border-[#F09C00]"
         >
-          <option value="all">All roles</option>
+          <option value="all">{t('usersPage.allRoles')}</option>
           {roles.map((r) => (
             <option key={r} value={r}>
-              {roleLabel(r as string)}
+              {roleLabel(t, r as string)}
             </option>
           ))}
         </select>
@@ -96,19 +99,19 @@ export default function Users() {
 
       <Panel noBodyPadding>
         {isLoading ? (
-          <div className="py-14 text-center text-[13.5px] text-gray-500">Loading…</div>
+          <div className="py-14 text-center text-[13.5px] text-gray-500">{t('usersPage.loading')}</div>
         ) : filtered.length === 0 ? (
-          <div className="py-14 text-center text-[13.5px] text-gray-500">No users match that filter.</div>
+          <div className="py-14 text-center text-[13.5px] text-gray-500">{t('usersPage.noUsersMatch')}</div>
         ) : (
           <>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px]">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-4 py-2.5">Name</th>
-                    <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">Role</th>
-                    <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">Email</th>
-                    <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">School</th>
+                    <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-4 py-2.5">{t('usersPage.name')}</th>
+                    <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">{t('usersPage.role')}</th>
+                    <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">{t('usersPage.email')}</th>
+                    <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">{t('usersPage.school')}</th>
                     <th className="px-3 py-2.5" />
                   </tr>
                 </thead>
@@ -119,17 +122,17 @@ export default function Users() {
                         {u.firstName} {u.lastName}
                       </td>
                       <td className="px-3 py-3">
-                        <Badge variant={roleVariant(u.role?.name ?? '')}>{roleLabel(u.role?.name ?? '—')}</Badge>
+                        <Badge variant={roleVariant(u.role?.name ?? '')}>{roleLabel(t, u.role?.name ?? t('usersPage.noneValue'))}</Badge>
                       </td>
                       <td className="px-3 py-3 text-[13px] text-gray-600">{u.email}</td>
-                      <td className="px-3 py-3 text-[13px] text-gray-600">{u.School?.schoolName ?? '—'}</td>
+                      <td className="px-3 py-3 text-[13px] text-gray-600">{u.School?.schoolName ?? t('usersPage.noneValue')}</td>
                       <td className="px-3 py-3">
                         {u.role?.name !== 'Admin' && (
                           <button
                             onClick={() => setRemoveTarget(u)}
                             className="flex items-center gap-1.5 text-[11.5px] font-semibold text-[#B10E1E] cursor-pointer"
                           >
-                            <IoTrashOutline /> Remove
+                            <IoTrashOutline /> {t('usersPage.remove')}
                           </button>
                         )}
                       </td>
@@ -142,7 +145,7 @@ export default function Users() {
             {totalPages > 1 && (
               <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
                 <span className="text-[12px] text-gray-500">
-                  Page {currentPage} of {totalPages} · {filtered.length} users
+                  {t('usersPage.pageOf', { current: currentPage, total: totalPages, count: filtered.length })}
                 </span>
                 <div className="flex gap-2">
                   <button
@@ -168,9 +171,9 @@ export default function Users() {
 
       <ConfirmDialog
         isOpen={!!removeTarget}
-        title="Remove this account?"
-        message={`${removeTarget?.firstName ?? ''} ${removeTarget?.lastName ?? ''} will immediately lose access. This can't be undone.`}
-        confirmLabel="Remove"
+        title={t('usersPage.removeConfirmTitle')}
+        message={t('usersPage.removeConfirmMessage', { name: `${removeTarget?.firstName ?? ''} ${removeTarget?.lastName ?? ''}`.trim() })}
+        confirmLabel={t('usersPage.remove')}
         loading={deleting}
         onConfirm={handleRemove}
         onCancel={() => setRemoveTarget(null)}

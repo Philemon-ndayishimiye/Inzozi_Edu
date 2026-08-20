@@ -4,8 +4,10 @@ import { IoMdMenu } from 'react-icons/io';
 import { IoClose } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Language from './Language';
+import { SUPPORTED_LANGUAGES } from '../i18n';
 
 const classVariant ={
   defoult:'bg-[#0b4d7c]',
@@ -17,19 +19,11 @@ type Navigation={
 };
 
 export default function Navigation({variant='defoult'}:Navigation) {
-
-  const languages =[
-     {label:'English' , value:'English'},
-     {label:'Kinyarwanda' , value:'kinyarwanda'},
-     {label:'French' , value:'French'},
-  ];
+  const { t, i18n } = useTranslation();
   const [open, setIsOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
 
   const handleSelect = (value: string) => {
-    setSelectedLanguage(value);
-    const selected = languages.find((lang) => lang.value === value);
-    console.log('Selected Language:', selected?.label);
+    i18n.changeLanguage(value);
   };
 
   const handleClick = () => {
@@ -48,7 +42,7 @@ export default function Navigation({variant='defoult'}:Navigation) {
               inzozI
             </h1>
             <span className="m-0 text-[11px] leading-none bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] bg-clip-text text-transparent font-semibold max-sm:text-[8px]">
-              Smart Dreams. Bright Futures
+              {t('nav.tagline')}
             </span>
           </div>
         </div>
@@ -56,19 +50,19 @@ export default function Navigation({variant='defoult'}:Navigation) {
 
         <nav className="flex items-center gap-[32px] text-white max-sm:hidden">
           <Link to='/'><a className="text-[15px] font-family-poppins" href="#">
-            Home
+            {t('nav.home')}
           </a></Link>
           <a className="text-[15px] font-family-poppins" href="#howitWorks">
-            How It Works
+            {t('nav.howItWorks')}
           </a>
           <Link to='/track' className="text-[15px] font-family-poppins">
-            Track Application
+            {t('nav.trackApplication')}
           </Link>
-            <Language options={languages} value={selectedLanguage} variant='defoult' onChange={handleSelect} />
+            <Language options={SUPPORTED_LANGUAGES} value={i18n.resolvedLanguage} variant='defoult' onChange={handleSelect} />
         </nav>
         <div className="flex items-center text-white">
-         <Link to='/login' className="text-[15px] font-family-poppins"> 
-            Login
+         <Link to='/login' className="text-[15px] font-family-poppins">
+            {t('nav.login')}
           </Link>
 
          {/* <Link to='/login'> <div className='flex justify-center'>
@@ -101,14 +95,14 @@ export default function Navigation({variant='defoult'}:Navigation) {
                     inzozI
                   </h1>
                   <span className="m-0 text-[11px] leading-none bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] bg-clip-text text-transparent font-semibold max-sm:text-[8px]">
-                    Smart Dreams. Bright Futures
+                    {t('nav.tagline')}
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          <Language options={languages} variant='defoult' value={selectedLanguage} onChange={handleSelect} />
+          <Language options={SUPPORTED_LANGUAGES} variant='defoult' value={i18n.resolvedLanguage} onChange={handleSelect} />
         </div>
 
       </div>
@@ -116,21 +110,21 @@ export default function Navigation({variant='defoult'}:Navigation) {
   {open && (
     <div className="flex flex-col gap-3  h-[100vh]">
       <a className="text-[15px] pt-3 font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white " href="#">
-        Home
+        {t('nav.home')}
       </a>
       <a className="text-[15px] font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white" href="#">
-        How It Works
+        {t('nav.howItWorks')}
       </a>
       <Link to='/track' className="text-[15px] font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white">
-        Track Application
+        {t('nav.trackApplication')}
       </Link>
       <Link to='/login' className="text-[15px] font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white">
-        Login
+        {t('nav.login')}
       </Link>
     </div>
   )}
 </div>
-      
+
     </>
   );
 }

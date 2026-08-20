@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Input from '../Components/Input';
 import { Link } from 'react-router-dom';
  import { useNavigate } from 'react-router-dom';
@@ -12,7 +13,7 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type{ErrorResponse} from '../Pages/Login';
 
 export default function Registration() {
-
+  const { t } = useTranslation();
   const[Registration ,{ error , isError , isLoading}] = useRegistrationMutation();
 
    const navigate=useNavigate();
@@ -73,25 +74,24 @@ const handleSelectChange = (name: string) => (value: string) => {
 
   // First name
   if (!firstname || firstname.length < 2) {
-    errors.firstName = 'First name must be at least 2 characters';
+    errors.firstName = t('register.firstNameError');
   }
 
   // Last name
   if (!lastname || lastname.length < 2) {
-    errors.lastName = 'Last name must be at least 2 characters';
+    errors.lastName = t('register.lastNameError');
   }
 
   // Email
   if (!email || !email.includes('@')) {
-    errors.email = 'Please enter a valid email';
+    errors.email = t('register.emailError');
   }
 
   // Password
   if (!password) {
-    errors.password = 'Password is required';
+    errors.password = t('register.passwordRequired');
   } else if (!isStrongPassword(password)) {
-    errors.password =
-      'Password must be at least 8 characters and include uppercase, lowercase, number, and special character.';
+    errors.password = t('register.passwordWeak');
   }
 
   setFormError(errors);
@@ -146,13 +146,13 @@ const handleSelectChange = (name: string) => (value: string) => {
       <Navigation />
 
       <AuthLayout
-        title="Register as a School Manager"
-        subtitle="This step is quick and approved automatically — you'll register your school next, and that part goes to Inzozi Admin for review."
+        title={t('register.title')}
+        subtitle={t('register.subtitle')}
         footer={
           <p className="text-center text-[13px] text-gray-600">
-            Already have an account?{' '}
+            {t('register.alreadyHaveAccount')}{' '}
             <Link to="/login" className="text-[#F09C00] font-bold">
-              Log in
+              {t('register.logIn')}
             </Link>
           </p>
         }
@@ -160,16 +160,16 @@ const handleSelectChange = (name: string) => (value: string) => {
         <form onSubmit={handleCreate}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3">
             <div>
-              <Input label="First name" placeholder="First name" value={formData.firstName} onChange={handleInputChange} name="firstName" type="text" />
+              <Input label={t('register.firstName')} placeholder={t('register.firstName')} value={formData.firstName} onChange={handleInputChange} name="firstName" type="text" />
               {formError.firstName && <span className="text-red-500 text-[12px]">{formError.firstName}</span>}
             </div>
             <div>
-              <Input label="Last name" placeholder="Last name" value={formData.lastName} onChange={handleInputChange} name="lastName" type="text" />
+              <Input label={t('register.lastName')} placeholder={t('register.lastName')} value={formData.lastName} onChange={handleInputChange} name="lastName" type="text" />
               {formError.lastName && <span className="text-red-500 text-[12px]">{formError.lastName}</span>}
             </div>
           </div>
 
-          <Input label="Email" placeholder="Email" value={formData.email} onChange={handleInputChange} name="email" type="email" />
+          <Input label={t('register.email')} placeholder={t('register.email')} value={formData.email} onChange={handleInputChange} name="email" type="email" />
           {formError.email && <span className="text-red-500 text-[12px]">{formError.email}</span>}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3">
@@ -180,7 +180,7 @@ const handleSelectChange = (name: string) => (value: string) => {
             <Select options={genders} value={formData.gender} onChange={handleSelectChange('gender')} />
           </div>
 
-          <Input label="Password" placeholder="Password" value={formData.password} onChange={handleInputChange} name="password" type="password" />
+          <Input label={t('register.password')} placeholder={t('register.password')} value={formData.password} onChange={handleInputChange} name="password" type="password" />
           {formError.password && <span className="text-red-500 text-[12px]">{formError.password}</span>}
 
           <button
@@ -189,14 +189,14 @@ const handleSelectChange = (name: string) => (value: string) => {
             className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] text-white font-bold rounded-lg py-3 text-[14.5px] mt-4 cursor-pointer disabled:opacity-60 transition-transform active:scale-[0.98]"
           >
             {isLoading && <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
-            {isLoading ? 'Creating account…' : 'Create account & continue'}
+            {isLoading ? t('register.creatingAccount') : t('register.createAndContinue')}
           </button>
 
           {isError && (
             <p className="text-red-500 text-[13px] font-family-poppins text-center pt-3">
               {'status' in (error as FetchBaseQueryError)
-                ? (error as FetchBaseQueryError & { data: ErrorResponse }).data?.message || 'Something went wrong'
-                : 'Something went wrong'}
+                ? (error as FetchBaseQueryError & { data: ErrorResponse }).data?.message || t('register.somethingWentWrong')
+                : t('register.somethingWentWrong')}
             </p>
           )}
         </form>

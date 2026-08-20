@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { skipToken } from '@reduxjs/toolkit/query';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useUser } from '../../Hooks/useUser';
@@ -18,11 +19,12 @@ type ErrorResponse = { message?: string };
 const EMPTY_FORM = { firstName: '', lastName: '', email: '', password: '', gender: '', district: '' };
 
 export default function AdmissionManager() {
+  const { t } = useTranslation();
   const { user } = useUser();
   const { data } = useGetSchoolDetailsQuery(user?.schoolId ?? skipToken);
   const navigate = useNavigate();
   const schoolId = user?.schoolId ?? '';
-  const schoolName = data?.data.schoolName ?? 'your school';
+  const schoolName = data?.data.schoolName ?? t('admissionManagerPage.yourSchool');
 
   const { data: usersData, isLoading: loadingUsers, refetch } = useGetUsersQuery();
   const [createAdmissionManager, { isLoading: creating, error: createError }] = useCreateAdmissionManagerMutation();
@@ -81,30 +83,29 @@ export default function AdmissionManager() {
 
   const createErrorMessage =
     createError && 'status' in (createError as FetchBaseQueryError)
-      ? (createError as FetchBaseQueryError & { data: ErrorResponse }).data?.message || 'Failed to create account'
+      ? (createError as FetchBaseQueryError & { data: ErrorResponse }).data?.message || t('admissionManagerPage.failedToCreate')
       : createError
-        ? 'Failed to create account'
+        ? t('admissionManagerPage.failedToCreate')
         : '';
 
   return (
     <div className="space-y-5">
       <p className="text-[13.5px] text-gray-500 max-w-xl">
-        Give someone their own login to review and decide on applications for {schoolName}. If no Admission
-        Manager is assigned, applications are reviewed by you.
+        {t('admissionManagerPage.intro', { school: schoolName })}
       </p>
 
       {created && (
         <div className="flex items-center gap-2 bg-[#E7F5EA] border border-[#1E7A34]/30 text-[#1E7A34] rounded-lg px-4 py-3 text-[13px] font-semibold">
-          <IoCheckmarkCircle /> Admission Manager account created — they can log in with the email and password you set.
+          <IoCheckmarkCircle /> {t('admissionManagerPage.createdBanner')}
         </div>
       )}
 
-      <Panel title={`Admission Managers — ${schoolName}`} noBodyPadding>
+      <Panel title={t('admissionManagerPage.listTitle', { school: schoolName })} noBodyPadding>
         {loadingUsers ? (
-          <div className="text-center py-8 text-[13px] text-gray-500">Loading…</div>
+          <div className="text-center py-8 text-[13px] text-gray-500">{t('admissionManagerPage.loading')}</div>
         ) : admissionManagers.length === 0 ? (
           <div className="text-center py-8 text-[13px] text-gray-500 px-5">
-            No Admission Manager assigned yet — you&apos;re currently reviewing all applications yourself.
+            {t('admissionManagerPage.noneAssigned')}
           </div>
         ) : (
           <div className="divide-y divide-gray-100">
@@ -120,7 +121,7 @@ export default function AdmissionManager() {
                   onClick={() => setRevokeId(manager.id)}
                   className="flex items-center gap-1.5 text-[11.5px] font-semibold text-[#B10E1E] cursor-pointer"
                 >
-                  <IoTrashOutline /> Remove
+                  <IoTrashOutline /> {t('admissionManagerPage.remove')}
                 </button>
               </div>
             ))}
@@ -128,7 +129,7 @@ export default function AdmissionManager() {
         )}
       </Panel>
 
-      <Panel title="Add an Admission Manager">
+      <Panel title={t('admissionManagerPage.addTitle')}>
         <form onSubmit={handleCreate} className="space-y-1">
           {createErrorMessage && (
             <div className="mb-3 bg-[#FBEAE8] border border-[#B10E1E]/30 text-[#B10E1E] rounded-lg px-4 py-3 text-[13px] font-semibold">
@@ -136,15 +137,15 @@ export default function AdmissionManager() {
             </div>
           )}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-            <TextInput label="First name" name="firstName" placeholder="First name" value={form.firstName} onChange={handleChange} />
-            <TextInput label="Last name" name="lastName" placeholder="Last name" value={form.lastName} onChange={handleChange} />
+            <TextInput label={t('admissionManagerPage.firstName')} name="firstName" placeholder={t('admissionManagerPage.firstName')} value={form.firstName} onChange={handleChange} />
+            <TextInput label={t('admissionManagerPage.lastName')} name="lastName" placeholder={t('admissionManagerPage.lastName')} value={form.lastName} onChange={handleChange} />
           </div>
-          <TextInput label="Email address" name="email" type="email" placeholder="manager@email.com" value={form.email} onChange={handleChange} />
+          <TextInput label={t('admissionManagerPage.emailAddress')} name="email" type="email" placeholder="manager@email.com" value={form.email} onChange={handleChange} />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-            <TextInput label="Temporary password" name="password" type="password" placeholder="They can change this later" value={form.password} onChange={handleChange} />
-            <SelectInput label="Gender" name="gender" placeholder="Select gender" options={gender.map((g) => ({ value: g.value, label: g.label }))} value={form.gender} onChange={handleSelectChange} />
+            <TextInput label={t('admissionManagerPage.temporaryPassword')} name="password" type="password" placeholder={t('admissionManagerPage.temporaryPasswordHint')} value={form.password} onChange={handleChange} />
+            <SelectInput label={t('admissionManagerPage.gender')} name="gender" placeholder={t('admissionManagerPage.selectGender')} options={gender.map((g) => ({ value: g.value, label: g.label }))} value={form.gender} onChange={handleSelectChange} />
           </div>
-          <SelectInput label="District" name="district" placeholder="Select district" options={districts.filter((d) => d.value !== '------')} value={form.district} onChange={handleSelectChange} />
+          <SelectInput label={t('admissionManagerPage.district')} name="district" placeholder={t('admissionManagerPage.selectDistrict')} options={districts.filter((d) => d.value !== '------')} value={form.district} onChange={handleSelectChange} />
 
           <button
             type="submit"
@@ -152,7 +153,7 @@ export default function AdmissionManager() {
             className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-[#F09C00] to-[#FFB833] text-white font-bold text-[13px] px-5 py-2.5 rounded-lg cursor-pointer disabled:opacity-60 mt-3"
           >
             {creating && <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
-            {creating ? 'Creating…' : 'Create account'}
+            {creating ? t('admissionManagerPage.creating') : t('admissionManagerPage.createAccount')}
           </button>
         </form>
       </Panel>
@@ -161,14 +162,14 @@ export default function AdmissionManager() {
         onClick={() => navigate('/admissionManager/dashboard')}
         className="flex items-center gap-1.5 text-[13px] text-[#05416B] font-semibold cursor-pointer"
       >
-        <IoEyeOutline /> Preview the Admission Manager dashboard
+        <IoEyeOutline /> {t('admissionManagerPage.previewDashboard')}
       </button>
 
       <ConfirmDialog
         isOpen={!!revokeId}
-        title="Remove this Admission Manager?"
-        message="They'll immediately lose access to your school's applications. This can't be undone."
-        confirmLabel="Remove"
+        title={t('admissionManagerPage.removeConfirmTitle')}
+        message={t('admissionManagerPage.removeConfirmMessage')}
+        confirmLabel={t('admissionManagerPage.remove')}
         loading={deleting}
         onConfirm={handleRevoke}
         onCancel={() => setRevokeId(null)}

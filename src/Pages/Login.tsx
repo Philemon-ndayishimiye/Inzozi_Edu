@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import LoginInput from '../Components/LoginInput';
 import { FaRegUser } from 'react-icons/fa';
@@ -17,6 +18,7 @@ export type ErrorResponse={
 }
 
 export default function Login() {
+  const { t } = useTranslation();
   const{setUserFromLogin}=useUser();
   const[Login , {isLoading , isError ,error }] = useLoginMutation();
   const [formData, setFormData] = useState({
@@ -42,13 +44,13 @@ export default function Login() {
   const validateForm = () => {
     const newErrors: { email?: string; password?: string } = {};
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('auth.login.emailRequired');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Enter a valid email address';
+      newErrors.email = t('auth.login.emailInvalid');
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = t('auth.login.passwordRequired');
     }
     // } else if (formData.password.length >= 6) {
     //   newErrors.password = 'Password must be at least 6 characters';
@@ -103,13 +105,13 @@ const handleSubmit = async (e: React.FormEvent) => {
       <Navigation />
 
       <AuthLayout
-        title="Log in to your account"
-        subtitle="For School Managers, Admission Managers, and Inzozi Admins. Parents don't need an account — apply directly from a school's page."
+        title={t('auth.login.title')}
+        subtitle={t('auth.login.subtitle')}
         footer={
           <p className="text-center text-[13px] text-gray-600">
-            Don&apos;t have an account?{' '}
+            {t('auth.login.noAccount')}{' '}
             <Link to="/register" className="text-[#F09C00] font-bold">
-              Sign up
+              {t('auth.login.signUp')}
             </Link>
           </p>
         }
@@ -117,8 +119,8 @@ const handleSubmit = async (e: React.FormEvent) => {
         <form onSubmit={handleSubmit}>
           <LoginInput
             icon={<FaRegUser />}
-            label="Email"
-            placeholder="Email"
+            label={t('auth.login.email')}
+            placeholder={t('auth.login.email')}
             value={formData.email}
             name="email"
             type="email"
@@ -129,8 +131,8 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           <LoginInput
             icon={<RxLockClosed />}
-            label="Password"
-            placeholder="Password"
+            label={t('auth.login.password')}
+            placeholder={t('auth.login.password')}
             value={formData.password}
             name="password"
             type="password"
@@ -141,7 +143,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           <Link to="/reset">
             <p className="text-right text-[12.5px] py-2 text-[#F09C00] font-semibold cursor-pointer">
-              Forgot password?
+              {t('auth.login.forgotPassword')}
             </p>
           </Link>
 
@@ -151,14 +153,14 @@ const handleSubmit = async (e: React.FormEvent) => {
             className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] text-white font-bold rounded-lg py-3 text-[14.5px] mt-2 cursor-pointer disabled:opacity-60 transition-transform active:scale-[0.98]"
           >
             {isLoading && <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
-            {isLoading ? 'Logging in…' : 'Log in'}
+            {isLoading ? t('auth.login.loggingIn') : t('auth.login.logIn')}
           </button>
 
           {isError && (
             <p className="text-red-500 text-[13px] text-center font-family-poppins pt-3">
               {'status' in (error as FetchBaseQueryError)
-                ? (error as FetchBaseQueryError & { data: ErrorResponse }).data?.message || 'Invalid email or password'
-                : 'Invalid email or password'}
+                ? (error as FetchBaseQueryError & { data: ErrorResponse }).data?.message || t('auth.login.invalidCredentials')
+                : t('auth.login.invalidCredentials')}
             </p>
           )}
         </form>

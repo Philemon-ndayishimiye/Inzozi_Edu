@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { IoArrowBack, IoDocumentTextOutline, IoOpenOutline } from 'react-icons/io5';
 import { getApplication, saveApplication } from '../../Helper/applicationsStore';
 import { useGetPendingApplicationsQuery, useApproveApplicationMutation, useRejectApplicationMutation } from '../../App/api/students/students';
@@ -15,6 +16,7 @@ type ApplicationDetailViewProps = {
 };
 
 export default function ApplicationDetailView({ referenceCode, backTo, backLabel }: ApplicationDetailViewProps) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { data: pendingData, isFetching } = useGetPendingApplicationsQuery();
   const [approveApplication, { isLoading: approving }] = useApproveApplicationMutation();
@@ -32,10 +34,10 @@ export default function ApplicationDetailView({ referenceCode, backTo, backLabel
     return (
       <div className="text-center py-16">
         {isFetching ? (
-          <p className="text-[14px] text-gray-500">Loading…</p>
+          <p className="text-[14px] text-gray-500">{t('table.loading')}</p>
         ) : (
           <>
-            <p className="text-[14px] text-gray-600 mb-4">We couldn&apos;t find that application.</p>
+            <p className="text-[14px] text-gray-600 mb-4">{t('applicationDetail.notFound')}</p>
             <button onClick={() => navigate(backTo)} className="text-[#05416B] font-semibold text-[13.5px] cursor-pointer">
               ← {backLabel}
             </button>
@@ -71,7 +73,7 @@ export default function ApplicationDetailView({ referenceCode, backTo, backLabel
           <IoArrowBack /> {backLabel}
         </button>
         <Badge variant={application.status === 'submitted' ? 'pending' : application.status}>
-          {application.status === 'submitted' ? 'Pending' : application.status}
+          {application.status === 'submitted' ? t('status.pending') : application.status}
         </Badge>
       </div>
 
@@ -82,30 +84,30 @@ export default function ApplicationDetailView({ referenceCode, backTo, backLabel
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <div className="lg:col-span-2 space-y-5">
-          <Panel title="Student & parent details">
+          <Panel title={t('applicationDetail.studentAndParentDetails')}>
             <div className="divide-y divide-gray-100 -mx-5">
               {[
-                ['Student name', application.studentName],
-                ['Gender', application.gender],
-                ['Date of birth', application.dateOfBirth],
-                ['Student type', application.studentType],
-                ['Class applying for', [application.level, application.yearofstudy].filter(Boolean).join(' · ')],
-                ['Parent / guardian', [application.fatherName, application.motherName].filter(Boolean).join(' / ')],
-                ['Phone', application.guardianPhone],
-                ['Email', application.guardianEmail],
-                ['Submitted', new Date(application.submittedAt).toLocaleString()],
+                [t('applicationDetail.studentName'), application.studentName],
+                [t('applicationDetail.gender'), application.gender],
+                [t('applicationDetail.dateOfBirth'), application.dateOfBirth],
+                [t('applicationDetail.studentType'), application.studentType],
+                [t('applicationDetail.classApplyingFor'), [application.level, application.yearofstudy].filter(Boolean).join(' · ')],
+                [t('applicationDetail.parentGuardian'), [application.fatherName, application.motherName].filter(Boolean).join(' / ')],
+                [t('applicationDetail.phone'), application.guardianPhone],
+                [t('applicationDetail.email'), application.guardianEmail],
+                [t('applicationDetail.submitted'), new Date(application.submittedAt).toLocaleString()],
               ].map(([k, v]) => (
                 <div key={k} className="flex justify-between gap-4 px-5 py-2.5 text-[13.5px]">
                   <span className="text-gray-500">{k}</span>
-                  <span className="font-semibold text-[#282C34] text-right">{v || '—'}</span>
+                  <span className="font-semibold text-[#282C34] text-right">{v || t('applicationDetail.noneValue')}</span>
                 </div>
               ))}
             </div>
           </Panel>
 
-          <Panel title="Uploaded documents">
+          <Panel title={t('applicationDetail.uploadedDocuments')}>
             {application.documents.length === 0 ? (
-              <p className="text-[13px] text-gray-500">No documents recorded.</p>
+              <p className="text-[13px] text-gray-500">{t('applicationDetail.noDocumentsRecorded')}</p>
             ) : (
               <div className="space-y-2">
                 {application.documents.map((doc) => {
@@ -150,13 +152,16 @@ export default function ApplicationDetailView({ referenceCode, backTo, backLabel
               rejecting={rejecting}
             />
           ) : (
-            <Panel title="Decision">
+            <Panel title={t('applicationDetail.decision')}>
               <p className="text-[13px] text-gray-600">
-                This application was <b>{application.status}</b>
-                {application.decidedAt ? ` on ${new Date(application.decidedAt).toLocaleDateString()}` : ''}.
+                {t('applicationDetail.wasStatus', { status: application.status })}
+                {application.decidedAt
+                  ? t('applicationDetail.onDate', { date: new Date(application.decidedAt).toLocaleDateString() })
+                  : ''}
+                .
               </p>
               {application.decisionReason && (
-                <p className="text-[12.5px] text-gray-500 mt-2">Reason: {application.decisionReason}</p>
+                <p className="text-[12.5px] text-gray-500 mt-2">{t('applicationDetail.reason', { reason: application.decisionReason })}</p>
               )}
             </Panel>
           )}

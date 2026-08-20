@@ -1,9 +1,10 @@
 import logo from '../assets/logo 2.png';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import profile from '../assets/profile.png';
 
 import Language from './Language';
+import { SUPPORTED_LANGUAGES } from '../i18n';
 
 const classVariant = {
   defoult: 'bg-[#0b4d7c]',
@@ -15,18 +16,10 @@ type Navigation = {
 };
 
 export default function AuthNav({ variant = 'defoult' }: Navigation) {
-  const languages = [
-    { label: 'English', value: 'English' },
-    { label: 'Kinyarwanda', value: 'kinyarwanda' },
-    { label: 'French', value: 'French' },
-  ];
-
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const { t, i18n } = useTranslation();
 
   const handleSelect = (value: string) => {
-    setSelectedLanguage(value);
-    const selected = languages.find((lang) => lang.value === value);
-    console.log('Selected Language:', selected?.label);
+    i18n.changeLanguage(value);
   };
   return (
     <div
@@ -42,7 +35,7 @@ export default function AuthNav({ variant = 'defoult' }: Navigation) {
               inzozI
             </h1>
             <span className="m-0 text-[11px] leading-none bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] bg-clip-text text-transparent font-semibold max-sm:text-[8px]">
-              Smart Dreams. Bright Futures
+              {t('nav.tagline')}
             </span>
           </div>
         </div>
@@ -52,15 +45,15 @@ export default function AuthNav({ variant = 'defoult' }: Navigation) {
         <nav className="flex items-center gap-[32px] text-white max-sm:hidden">
           <Link to="/">
             <a className="text-[15px] font-family-poppins" href="#">
-              Home
+              {t('nav.home')}
             </a>
           </Link>
           <a className="text-[15px] font-family-poppins" href="#">
-            How It Works
+            {t('nav.howItWorks')}
           </a>
           <Language
-            options={languages}
-            value={selectedLanguage}
+            options={SUPPORTED_LANGUAGES}
+            value={i18n.resolvedLanguage}
             variant="defoult"
             onChange={handleSelect}
           />

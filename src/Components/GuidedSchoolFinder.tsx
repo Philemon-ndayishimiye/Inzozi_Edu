@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { IoArrowForward, IoCheckmarkCircle } from 'react-icons/io5';
 import LocationFilter from './LocationFilter';
 import { Levels, StudentType } from '../Types/Seats';
 
-const STEPS = [
-  { id: 1, label: 'Where' },
-  { id: 2, label: 'Level' },
-  { id: 3, label: 'Newcomer or transfer' },
-] as const;
-
 export default function GuidedSchoolFinder() {
+  const { t } = useTranslation();
+  const STEPS = [
+    { id: 1, label: t('guidedFinder.stepWhere') },
+    { id: 2, label: t('guidedFinder.stepLevel') },
+    { id: 3, label: t('guidedFinder.stepNewcomer') },
+  ] as const;
   const [, setSearchParams] = useSearchParams();
 
   const [province, setProvince] = useState('');
@@ -38,11 +39,10 @@ export default function GuidedSchoolFinder() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-7">
           <h2 className="font-bold text-2xl sm:text-[28px] text-[#282C34] font-family-playfair">
-            Not sure which school? We&apos;ll help you find one.
+            {t('guidedFinder.title')}
           </h2>
           <p className="text-[#6B7280] text-[14px] sm:text-[15px] pt-2 font-family-poppins max-w-xl mx-auto">
-            Tell us three things about your child and we&apos;ll show every school with an open spot that matches —
-            no need to already know a school&apos;s name.
+            {t('guidedFinder.subtitle')}
           </p>
         </div>
 
@@ -71,7 +71,7 @@ export default function GuidedSchoolFinder() {
 
         <div className="bg-[#F9FAFB] border border-gray-200 rounded-2xl p-5 sm:p-7 grid grid-cols-1 sm:grid-cols-3 gap-5">
           <div>
-            <div className="text-[12.5px] font-bold text-[#282C34] font-family-poppins mb-2">1. Where do you live?</div>
+            <div className="text-[12.5px] font-bold text-[#282C34] font-family-poppins mb-2">{t('guidedFinder.whereDoYouLive')}</div>
             <LocationFilter
               province={province}
               district={district}
@@ -84,13 +84,13 @@ export default function GuidedSchoolFinder() {
           </div>
 
           <div>
-            <div className="text-[12.5px] font-bold text-[#282C34] font-family-poppins mb-2">2. What level are they joining?</div>
+            <div className="text-[12.5px] font-bold text-[#282C34] font-family-poppins mb-2">{t('guidedFinder.whatLevel')}</div>
             <select
               value={level}
               onChange={(e) => setLevel(e.target.value)}
               className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-[13.5px] text-[#282C34] font-family-poppins outline-none focus:border-[#F09C00] focus:ring-2 focus:ring-[#FFB833]/30"
             >
-              <option value="">Select a level</option>
+              <option value="">{t('guidedFinder.selectLevel')}</option>
               {Levels.map((l) => (
                 <option key={l.value} value={l.value}>{l.label}</option>
               ))}
@@ -98,15 +98,15 @@ export default function GuidedSchoolFinder() {
           </div>
 
           <div>
-            <div className="text-[12.5px] font-bold text-[#282C34] font-family-poppins mb-2">3. New student or transferring?</div>
+            <div className="text-[12.5px] font-bold text-[#282C34] font-family-poppins mb-2">{t('guidedFinder.newOrTransfer')}</div>
             <select
               value={studentType}
               onChange={(e) => setStudentType(e.target.value)}
               className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-[13.5px] text-[#282C34] font-family-poppins outline-none focus:border-[#F09C00] focus:ring-2 focus:ring-[#FFB833]/30"
             >
-              <option value="">Select one</option>
+              <option value="">{t('guidedFinder.selectOne')}</option>
               {StudentType.map((s) => (
-                <option key={s.value} value={s.value}>{s.label === 'newcomer' ? 'Newcomer' : 'Transferring schools'}</option>
+                <option key={s.value} value={s.value}>{s.label === 'newcomer' ? t('guidedFinder.newcomer') : t('guidedFinder.transferring')}</option>
               ))}
             </select>
           </div>
@@ -118,7 +118,7 @@ export default function GuidedSchoolFinder() {
             disabled={!canSearch}
             className="flex items-center gap-2 bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] text-white font-bold text-[14px] px-7 py-3 rounded-lg cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-transform active:scale-[0.98]"
           >
-            Find matching schools <IoArrowForward />
+            {t('guidedFinder.findMatchingSchools')} <IoArrowForward />
           </button>
         </div>
       </div>

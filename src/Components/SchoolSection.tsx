@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useSearchSchoolsQuery, type SearchSchoolResult } from '../App/api/school/school';
 import SchoolCard from './SchoolCard';
 import SchoolCriteriaFilter from './SchoolCriteriaFilter';
@@ -21,6 +22,7 @@ function SchoolCardSkeleton() {
 }
 
 export default function SchoolSection() {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const schoolName = searchParams.get('q') ?? '';
@@ -73,7 +75,7 @@ export default function SchoolSection() {
 
   const total = data?.data.total ?? 0;
   const totalPages = data?.data.totalPages ?? 1;
-  const locationLabel = [district, province].filter(Boolean).join(', ') || 'All of Rwanda';
+  const locationLabel = [district, province].filter(Boolean).join(', ') || t('schoolSection.allOfRwanda');
   const hasFilters = Boolean(schoolName || province || district || category || type || level || studentType);
 
   return (
@@ -81,15 +83,15 @@ export default function SchoolSection() {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
         <div>
           <h1 className="font-bold text-2xl sm:text-[30px] text-[#282C34] font-family-playfair">
-            Featured Schools
+            {t('schoolSection.title')}
           </h1>
           <p className="text-[#6B7280] text-[15px] sm:text-[16px] py-1 font-family-poppins">
-            Discover quality education opportunities across Rwanda
+            {t('schoolSection.subtitle')}
           </p>
         </div>
         {!isLoading && !isError && (
           <span className="text-[13px] font-family-poppins text-[#05416B] font-semibold">
-            {total} school{total === 1 ? '' : 's'} · {locationLabel}
+            {t('schoolSection.schoolsCount', { count: total })} · {locationLabel}
           </span>
         )}
       </div>
@@ -108,7 +110,7 @@ export default function SchoolSection() {
 
       {isError && (
         <div className="text-center py-16 text-[#6B7280] font-family-poppins">
-          We couldn&apos;t load schools right now. Please refresh the page or try again shortly.
+          {t('schoolSection.loadError')}
         </div>
       )}
 
@@ -123,10 +125,10 @@ export default function SchoolSection() {
       {!isLoading && !isError && schools.length === 0 && (
         <div className="text-center py-16 px-4">
           <p className="text-[#282C34] font-semibold font-family-poppins mb-1">
-            No schools match that search yet
+            {t('schoolSection.noResultsTitle')}
           </p>
           <p className="text-[#6B7280] text-[13.5px] font-family-poppins">
-            Try a different name, or widen your location filter{hasFilters ? '.' : ' — more schools are added regularly.'}
+            {hasFilters ? t('schoolSection.noResultsWithFilter') : t('schoolSection.noResultsNoFilter')}
           </p>
         </div>
       )}
@@ -154,7 +156,7 @@ export default function SchoolSection() {
                 disabled={isFetching}
                 className="border border-[#05416B] text-[#05416B] font-semibold text-[13px] px-6 py-2.5 rounded-lg cursor-pointer disabled:opacity-60"
               >
-                {isFetching ? 'Loading…' : 'Load more schools'}
+                {isFetching ? t('schoolSection.loadingMore') : t('schoolSection.loadMore')}
               </button>
             </div>
           )}

@@ -1,17 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { ApplicationRecord, ApplicationStatus } from '../../Helper/applicationsStore';
 import Panel from './Panel';
 import Badge from './Badge';
 
 type FilterTab = 'all' | ApplicationStatus;
-
-const TABS: { id: FilterTab; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'submitted', label: 'Pending' },
-  { id: 'approved', label: 'Approved' },
-  { id: 'rejected', label: 'Rejected' },
-];
 
 type ApplicationsTableProps = {
   applications: ApplicationRecord[];
@@ -20,9 +14,17 @@ type ApplicationsTableProps = {
 };
 
 export default function ApplicationsTable({ applications, detailBasePath, emptyMessage }: ApplicationsTableProps) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [tab, setTab] = useState<FilterTab>('all');
+
+  const TABS: { id: FilterTab; label: string }[] = [
+    { id: 'all', label: t('applicationsTable.all') },
+    { id: 'submitted', label: t('applicationsTable.pending') },
+    { id: 'approved', label: t('applicationsTable.approved') },
+    { id: 'rejected', label: t('applicationsTable.rejected') },
+  ];
 
   const counts = {
     all: applications.length,
@@ -41,15 +43,15 @@ export default function ApplicationsTable({ applications, detailBasePath, emptyM
   return (
     <Panel noBodyPadding>
       <div className="flex gap-2 px-4 pt-4 flex-wrap">
-        {TABS.map((t) => (
+        {TABS.map((tab_) => (
           <button
-            key={t.id}
-            onClick={() => setTab(t.id)}
+            key={tab_.id}
+            onClick={() => setTab(tab_.id)}
             className={`px-3.5 py-1.5 rounded-full text-[12px] font-semibold border cursor-pointer ${
-              tab === t.id ? 'bg-[#05416B] border-[#05416B] text-white' : 'bg-white border-gray-300 text-gray-600'
+              tab === tab_.id ? 'bg-[#05416B] border-[#05416B] text-white' : 'bg-white border-gray-300 text-gray-600'
             }`}
           >
-            {t.label} ({counts[t.id]})
+            {tab_.label} ({counts[tab_.id]})
           </button>
         ))}
       </div>
@@ -58,24 +60,24 @@ export default function ApplicationsTable({ applications, detailBasePath, emptyM
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by student or guardian email..."
+          placeholder={t('applicationsTable.searchPlaceholder')}
           className="w-full sm:max-w-sm border border-gray-300 rounded-lg px-3.5 py-2 text-[13px] outline-none focus:border-[#F09C00]"
         />
       </div>
 
       {filtered.length === 0 ? (
         <div className="py-14 text-center text-[13.5px] text-gray-500 px-4">
-          {applications.length === 0 ? emptyMessage : 'No applications match that filter.'}
+          {applications.length === 0 ? emptyMessage : t('applicationsTable.noApplicationsMatch')}
         </div>
       ) : (
         <div className="overflow-x-auto mt-3">
           <table className="w-full min-w-[560px]">
             <thead>
               <tr className="border-t border-b border-gray-200">
-                <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-4 py-2.5">Student</th>
-                <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">Class</th>
-                <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">Submitted</th>
-                <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">Status</th>
+                <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-4 py-2.5">{t('table.student')}</th>
+                <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">{t('table.class')}</th>
+                <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">{t('table.submitted')}</th>
+                <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">{t('table.status')}</th>
                 <th className="px-3 py-2.5" />
               </tr>
             </thead>
@@ -92,7 +94,7 @@ export default function ApplicationsTable({ applications, detailBasePath, emptyM
                   </td>
                   <td className="px-3 py-3">
                     <Badge variant={app.status === 'submitted' ? 'pending' : app.status}>
-                      {app.status === 'submitted' ? 'Pending' : app.status}
+                      {app.status === 'submitted' ? t('status.pending') : app.status}
                     </Badge>
                   </td>
                   <td className="px-3 py-3">
@@ -100,7 +102,7 @@ export default function ApplicationsTable({ applications, detailBasePath, emptyM
                       onClick={() => navigate(`${detailBasePath}/${app.referenceCode}`)}
                       className="border border-gray-300 rounded-full px-3.5 py-1.5 text-[11.5px] font-semibold cursor-pointer hover:border-[#05416B] hover:text-[#05416B]"
                     >
-                      {app.status === 'submitted' ? 'Review' : 'View'}
+                      {app.status === 'submitted' ? t('applicationsTable.review') : t('applicationsTable.view')}
                     </button>
                   </td>
                 </tr>

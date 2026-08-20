@@ -1,30 +1,33 @@
 import { Outlet, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { MdOutlineEventSeat } from 'react-icons/md';
 import DashboardShell from '../../Components/dashboard/DashboardShell';
 
-const NAV_ITEMS = [
-  { to: '/admissionManager/dashboard', label: 'Applications', icon: <IoDocumentTextOutline /> },
-  { to: '/admissionManager/seats', label: 'Classes & Spots', icon: <MdOutlineEventSeat /> },
-];
-
-const TITLES: Record<string, string> = {
-  '/admissionManager/seats': 'Classes & Spots',
-  '/admissionManager/addSeats': 'Add a class',
-};
-
 export default function AdmissionManagerPage() {
+  const { t } = useTranslation();
   const { pathname } = useLocation();
+
+  const NAV_ITEMS = [
+    { to: '/admissionManager/dashboard', label: t('dashboard.navApplications'), icon: <IoDocumentTextOutline /> },
+    { to: '/admissionManager/seats', label: t('dashboard.navClassesSpots'), icon: <MdOutlineEventSeat /> },
+  ];
+
+  const TITLES: Record<string, string> = {
+    '/admissionManager/seats': t('dashboard.navClassesSpots'),
+    '/admissionManager/addSeats': t('dashboard.titleAddClass'),
+  };
+
   const title = pathname.includes('/application/')
-    ? 'Application review'
-    : (TITLES[pathname] ?? 'Applications to review');
+    ? t('dashboard.titleApplicationReview')
+    : (TITLES[pathname] ?? t('dashboard.titleApplicationsToReview'));
 
   return (
     <DashboardShell
-      roleLabel="Admission Manager"
-      roleContext="Preview"
+      roleLabel={t('dashboard.roleAdmissionManager')}
+      roleContext={t('dashboard.preview')}
       navItems={NAV_ITEMS}
-      pageCrumb="Admission Manager"
+      pageCrumb={t('dashboard.roleAdmissionManager')}
       pageTitle={title}
     >
       <Outlet />

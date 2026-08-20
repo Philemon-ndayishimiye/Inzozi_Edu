@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Navigation from '../Components/Navigation';
 import Footer from '../Components/Footer';
 import {
@@ -12,6 +13,7 @@ import {
 import { useLazyTrackApplicationQuery, type TrackApplicationResult } from '../App/api/students/students';
 
 export default function TrackApplication() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const initialRef = searchParams.get('ref') ?? '';
   const [code, setCode] = useState(initialRef);
@@ -42,17 +44,17 @@ export default function TrackApplication() {
       <div className="pt-[110px] pb-16 px-5 sm:px-8 bg-gradient-to-b from-white to-[#CFDCEA] min-h-[75vh]">
         <div className="max-w-lg mx-auto">
           <h1 className="text-[22px] sm:text-[26px] font-bold text-[#282C34] font-family-playfair mb-1">
-            Application status
+            {t('trackApplication.title')}
           </h1>
           <p className="text-[#6B7280] text-[13.5px] font-family-poppins mb-6">
-            Enter the tracking code you received when you applied.
+            {t('trackApplication.subtitle')}
           </p>
 
           <form onSubmit={handleSearch} className="flex gap-2 mb-2">
             <input
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="Enter your tracking code"
+              placeholder={t('trackApplication.placeholder')}
               className="flex-1 min-w-0 border border-gray-300 rounded-lg px-4 py-2.5 text-[13.5px] font-mono uppercase outline-none focus:border-[#F09C00] focus:ring-2 focus:ring-[#FFB833]/30 bg-white"
             />
             <button
@@ -60,20 +62,20 @@ export default function TrackApplication() {
               disabled={isFetching}
               className="flex items-center gap-1.5 bg-gradient-to-r from-[#F09C00] to-[#FFB833] text-white font-bold px-4 rounded-lg text-[13.5px] cursor-pointer disabled:opacity-60"
             >
-              <IoSearchOutline /> {isFetching ? 'Checking...' : 'Check'}
+              <IoSearchOutline /> {isFetching ? t('trackApplication.checking') : t('trackApplication.check')}
             </button>
           </form>
           <p className="text-[11.5px] text-[#9CA3AF] font-family-poppins mb-6">
-            Your tracking code was sent to your email when you applied.
+            {t('trackApplication.hint')}
           </p>
 
           {searched && !isFetching && !record && (
             <div className="bg-white border border-gray-200 rounded-xl p-6 text-center">
               <p className="font-semibold text-[#282C34] font-family-poppins mb-1">
-                We couldn&apos;t find that application
+                {t('trackApplication.notFoundTitle')}
               </p>
               <p className="text-[#6B7280] text-[13px] font-family-poppins">
-                Double check the tracking code from your confirmation email and try again.
+                {t('trackApplication.notFoundBody')}
               </p>
             </div>
           )}
@@ -81,23 +83,23 @@ export default function TrackApplication() {
           {record && (
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <p className="text-[13px] text-[#6B7280] font-family-poppins mb-1">
-                Tracking code <span className="font-mono text-[#282C34]">{record.trackingCode}</span>
+                {t('trackApplication.trackingCode')} <span className="font-mono text-[#282C34]">{record.trackingCode}</span>
               </p>
               <h2 className="text-[17px] font-bold text-[#282C34] font-family-playfair mb-1">
                 {record.schoolName}
               </h2>
               <p className="text-[13px] text-[#6B7280] font-family-poppins mb-6">
                 {record.firstName} {record.lastName}
-                {record.level ? ` · Applying for ${record.level}` : ''}
+                {record.level ? ` · ${t('trackApplication.applyingFor', { level: record.level })}` : ''}
               </p>
 
               {record.status === 'pending' && (
                 <div className="bg-[#FFF3E0] border border-[#F09C00]/40 rounded-lg px-4 py-3 mb-6 flex gap-2.5">
                   <IoTimeOutline className="text-lg text-[#F09C00] flex-shrink-0 mt-0.5" />
                   <div>
-                    <b className="block text-[13.5px] text-[#5c4a10]">Under review</b>
+                    <b className="block text-[13.5px] text-[#5c4a10]">{t('trackApplication.underReview')}</b>
                     <span className="text-[12.5px] text-[#6B4A0A] font-family-poppins">
-                      The admission team is reviewing this application now.
+                      {t('trackApplication.underReviewBody')}
                     </span>
                   </div>
                 </div>
@@ -106,9 +108,9 @@ export default function TrackApplication() {
                 <div className="bg-[#E7F5EA] border border-[#1E7A34]/40 rounded-lg px-4 py-3 mb-6 flex gap-2.5">
                   <IoCheckmarkCircleOutline className="text-lg text-[#1E7A34] flex-shrink-0 mt-0.5" />
                   <div>
-                    <b className="block text-[13.5px] text-[#1E7A34]">Congratulations — approved!</b>
+                    <b className="block text-[13.5px] text-[#1E7A34]">{t('trackApplication.approved')}</b>
                     <span className="text-[12.5px] text-[#1E7A34]/80 font-family-poppins">
-                      {record.schoolName} has admitted {record.firstName}. Check your email for next steps.
+                      {t('trackApplication.approvedBody', { school: record.schoolName, name: record.firstName })}
                     </span>
                   </div>
                 </div>
@@ -117,9 +119,9 @@ export default function TrackApplication() {
                 <div className="bg-[#FBEAE8] border border-[#B10E1E]/40 rounded-lg px-4 py-3 mb-6 flex gap-2.5">
                   <IoCloseCircleOutline className="text-lg text-[#B10E1E] flex-shrink-0 mt-0.5" />
                   <div>
-                    <b className="block text-[13.5px] text-[#B10E1E]">Not admitted this time</b>
+                    <b className="block text-[13.5px] text-[#B10E1E]">{t('trackApplication.rejected')}</b>
                     <span className="text-[12.5px] text-[#B10E1E]/85 font-family-poppins">
-                      {record.rejectedReason || 'The school did not share a specific reason.'}
+                      {record.rejectedReason || t('trackApplication.rejectedBodyFallback')}
                     </span>
                   </div>
                 </div>
@@ -131,8 +133,8 @@ export default function TrackApplication() {
                     <IoDownloadOutline className="text-[#05416B]" />
                   </div>
                   <div>
-                    <b className="block text-[13.5px] text-[#282C34]">Application submitted</b>
-                    <span className="text-[12px] text-[#6B7280]">Received by {record.schoolName}</span>
+                    <b className="block text-[13.5px] text-[#282C34]">{t('trackApplication.applicationSubmitted')}</b>
+                    <span className="text-[12px] text-[#6B7280]">{t('trackApplication.receivedBy', { school: record.schoolName })}</span>
                     <span className="block font-mono text-[11px] text-gray-400 mt-0.5">
                       {new Date(record.submittedAt).toLocaleString()}
                     </span>
@@ -147,8 +149,8 @@ export default function TrackApplication() {
                     <IoTimeOutline className={record.status === 'pending' ? 'text-white' : 'text-[#05416B]'} />
                   </div>
                   <div>
-                    <b className="block text-[13.5px] text-[#282C34]">Under review</b>
-                    <span className="text-[12px] text-[#6B7280]">Admission team checked documents</span>
+                    <b className="block text-[13.5px] text-[#282C34]">{t('trackApplication.underReview')}</b>
+                    <span className="text-[12px] text-[#6B7280]">{t('trackApplication.documentsChecked')}</span>
                   </div>
                 </div>
                 <div className={`flex gap-3 ${isDecided ? '' : 'opacity-50'}`}>
@@ -170,11 +172,11 @@ export default function TrackApplication() {
                     )}
                   </div>
                   <div>
-                    <b className="block text-[13.5px] text-[#282C34]">Decision sent</b>
+                    <b className="block text-[13.5px] text-[#282C34]">{t('trackApplication.decisionSent')}</b>
                     <span className="text-[12px] text-[#6B7280]">
                       {isDecided && record.decidedAt
                         ? new Date(record.decidedAt).toLocaleString()
-                        : 'You\'ll be notified by email'}
+                        : t('trackApplication.notifiedByEmail')}
                     </span>
                   </div>
                 </div>

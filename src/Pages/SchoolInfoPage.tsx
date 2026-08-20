@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navigation from '../Components/Navigation';
 import Footer from '../Components/Footer';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useGetProfileQuery, useGetSchoolDetailsQuery } from '../App/api/school/school';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useGetAllSpotsQuery } from '../App/api/spots/spot';
@@ -15,6 +15,7 @@ const SchoolInfoPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { data, isLoading: profileLoading } = useGetProfileQuery(id ?? skipToken);
   const { data: informations, isLoading: infoLoading } = useGetSchoolDetailsQuery(id ?? skipToken);
   const { data: spots } = useGetAllSpotsQuery(id ?? skipToken);
@@ -23,9 +24,23 @@ const SchoolInfoPage: React.FC = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
+  // Level/studentType the parent already picked while searching - carried
+  // over via the URL so they don't have to re-scan the whole spot list to
+  // find the class they were originally looking for.
+  const wantedLevel = searchParams.get('level') ?? '';
+  const wantedStudentType = searchParams.get('studentType') ?? '';
+  const [showAllSpots, setShowAllSpots] = useState(false);
+
   const profile = data?.data.profiles?.[0];
   const images = gallery?.data.images ?? [];
-  const spotList = spots?.data.spots ?? [];
+  const allSpotList = spots?.data.spots ?? [];
+  const matchingSpotList = allSpotList.filter(
+    (s) =>
+      (!wantedLevel || s.level === wantedLevel) &&
+      (!wantedStudentType || s.studentType === wantedStudentType),
+  );
+  const hasSpotFilter = Boolean((wantedLevel || wantedStudentType) && matchingSpotList.length > 0);
+  const spotList = hasSpotFilter && !showAllSpots ? matchingSpotList : allSpotList;
   const openSpotCount = spotList.filter(
     (s) => Number(s.totalSpots) - Number(s.occupiedSpots ?? 0) > 0,
   ).length;
@@ -177,6 +192,19 @@ const SchoolInfoPage: React.FC = () => {
                 </span>
               )}
             </div>
+            {hasSpotFilter && (
+              <div className="flex items-center flex-wrap gap-2 mb-3 text-[12px] font-family-poppins">
+                <span className="text-[#6B7280]">
+                  Showing {showAllSpots ? 'all classes' : `matches for ${[wantedLevel, wantedStudentType].filter(Boolean).join(' · ')}`}
+                </span>
+                <button
+                  onClick={() => setShowAllSpots((v) => !v)}
+                  className="text-[#05416B] font-semibold underline cursor-pointer"
+                >
+                  {showAllSpots ? 'Show only my search' : 'Show all classes'}
+                </button>
+              </div>
+            )}
             {spotList.length === 0 ? (
               <p className="text-[13.5px] text-[#6B7280] font-family-poppins">
                 This school hasn&apos;t published open spots yet. Check back soon.

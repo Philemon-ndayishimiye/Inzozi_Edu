@@ -8,16 +8,29 @@ type CustomSchool = {
   image: string;
   title: string;
   location: string;
+  // The level/studentType the parent already picked while searching - carried
+  // through so the school page can pre-filter its spot list instead of
+  // making them re-specify the same thing again.
+  level?: string;
+  studentType?: string;
 };
 
-export default function SchoolCard({ id, image, title, location }: CustomSchool) {
+export default function SchoolCard({ id, image, title, location, level, studentType }: CustomSchool) {
   const navigate = useNavigate();
   const initial = title?.trim().charAt(0).toUpperCase() || '?';
+
+  const buildLink = (hash = '') => {
+    const params = new URLSearchParams();
+    if (level) {params.set('level', level);}
+    if (studentType) {params.set('studentType', studentType);}
+    const query = params.toString();
+    return `/viewSchool/${id}${query ? `?${query}` : ''}${hash}`;
+  };
 
   return (
     <div className="w-full h-full flex flex-col cursor-pointer transform hover:scale-[1.01] duration-200 rounded-lg bg-white shadow-sm hover:shadow-md border border-gray-100 overflow-hidden">
       <div
-        onClick={() => navigate(`/viewSchool/${id}`)}
+        onClick={() => navigate(buildLink())}
         className="relative w-full h-[190px] sm:h-[210px] flex justify-center items-center bg-gradient-to-r from-[#05416B] to-[#0867AA]"
       >
         {image ? (
@@ -34,7 +47,7 @@ export default function SchoolCard({ id, image, title, location }: CustomSchool)
 
       <div className="flex-1 flex flex-col px-4 pt-4 pb-4">
         <h1
-          onClick={() => navigate(`/viewSchool/${id}`)}
+          onClick={() => navigate(buildLink())}
           className="font-bold text-[18px] sm:text-[20px] font-family-playfair text-[#282C34] leading-snug"
         >
           {title}
@@ -50,7 +63,7 @@ export default function SchoolCard({ id, image, title, location }: CustomSchool)
           <button
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/viewSchool/${id}`);
+              navigate(buildLink());
             }}
             className="flex-1 flex items-center justify-center gap-1.5 border-[1.5px] border-[#05416B] text-[#05416B] font-bold text-[12.5px] sm:text-[13px] rounded-lg py-2.5 cursor-pointer transition-colors hover:bg-[#CFDCEA]/40 active:scale-[0.97]"
           >
@@ -59,7 +72,7 @@ export default function SchoolCard({ id, image, title, location }: CustomSchool)
           <button
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/viewSchool/${id}#spots`);
+              navigate(buildLink('#spots'));
             }}
             className="flex-1 flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#F09C00] to-[#FFB833] text-white font-bold text-[12.5px] sm:text-[13px] rounded-lg py-2.5 cursor-pointer shadow-sm transition-transform active:scale-[0.97]"
           >

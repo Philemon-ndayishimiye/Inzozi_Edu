@@ -5,9 +5,11 @@ import { SelectInput } from '../../Components/seats/SelectInput';
 import {Levels, StudentType, MinimumGrade} from '../../Types/Seats';
 import {Button} from '../../Components/seats/AddSeats';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRegisterSpotMutation } from '../../App/api/spots/spot';
+import { useGetSchoolDetailsQuery } from '../../App/api/school/school';
 import { useUser } from '../../Hooks/useUser';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 interface ErrorState {
   level: string;
@@ -51,6 +53,15 @@ export default function AddSeats() {
   const navigate =useNavigate();
   const{user}=useUser();
   const[registerSpot, {isLoading: submitting}]=useRegisterSpotMutation();
+  const { data: schoolDetails } = useGetSchoolDetailsQuery(user?.schoolId ?? skipToken);
+  const schoolLevels = schoolDetails?.data.schoolLevel;
+  // Only offer levels the school is actually registered for, if any are set -
+  // publishing a spot for an unlisted level (e.g. Nursery on a Primary-only
+  // school) previously slipped through with no validation.
+  const availableLevelOptions =
+    schoolLevels && schoolLevels.length > 0
+      ? Levels.filter((l) => schoolLevels.includes(l.value))
+      : Levels;
     // handle select 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   const { name, value } = event.target;
@@ -137,6 +148,15 @@ const handleAdmissionChange = (
 
 
 
+
+// Keeps the default level in sync with what this school actually offers,
+// once its levels have loaded (avoids defaulting to a level it doesn't run).
+useEffect(() => {
+  if (availableLevelOptions.length > 0 && !availableLevelOptions.some((l) => l.value === formData.level)) {
+    setFormData((prev) => ({ ...prev, level: availableLevelOptions[0].value }));
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [schoolLevels]);
 
 const [errors, setErrors] = useState<ErrorState>({
   level: '',
@@ -234,7 +254,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
             <div>
                 <form action="" onSubmit={createSeats} className='px-10'>
                     <div className='flex gap-13'>
-                     <SelectInput options={Levels} label=' Level' placeholder='Select Level' name='level' value={formData.level} onChange={handleSelectChange} />
+                     <SelectInput options={availableLevelOptions} label=' Level' placeholder='Select Level' name='level' value={formData.level} onChange={handleSelectChange} />
                      {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.level}</span>
                      )}

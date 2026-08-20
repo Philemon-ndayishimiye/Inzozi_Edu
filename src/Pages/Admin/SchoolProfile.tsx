@@ -49,10 +49,20 @@ const handleSelectChange = (e:React.ChangeEvent<HTMLSelectElement>)=> {
   setSchoolInfo((prev) => ({ ...prev, [name]: value }));
 };
 
+// Multi-select handler for levels - a school can offer several (e.g. Nursery + Primary)
+const handleLevelToggle = (level: string) => {
+  setSchoolInfo((prev) => ({
+    ...prev,
+    schoolLevel: prev.schoolLevel.includes(level)
+      ? prev.schoolLevel.filter((l) => l !== level)
+      : [...prev.schoolLevel, level],
+  }));
+};
+
   const[schoolInfo , setSchoolInfo]=useState<SchoolInformation>({
   schoolName:schoolDetails?.data.schoolName || '',
   schoolCode:schoolDetails?.data.schoolCode || '',
-  schoolLevel:schoolDetails?.data.schoolLevel || '',
+  schoolLevel:schoolDetails?.data.schoolLevel || [],
   schoolCategory:schoolDetails?.data.schoolCategory || '',
   schoolType: schoolDetails?.data.schoolType || '',
   province:schoolDetails?.data.province || '',
@@ -74,7 +84,7 @@ const handleSelectChange = (e:React.ChangeEvent<HTMLSelectElement>)=> {
       ...prev,
       schoolName: schoolDetails.data.schoolName || prev.schoolName,
       schoolCode: schoolDetails.data.schoolCode || prev.schoolCode,
-      schoolLevel: schoolDetails.data.schoolLevel || prev.schoolLevel,
+      schoolLevel: schoolDetails.data.schoolLevel && schoolDetails.data.schoolLevel.length > 0 ? schoolDetails.data.schoolLevel : prev.schoolLevel,
       schoolCategory: schoolDetails.data.schoolCategory || prev.schoolCategory,
       schoolType: schoolDetails.data.schoolType || prev.schoolType,
       province: schoolDetails.data.province || prev.province,
@@ -225,7 +235,7 @@ const handleSelectChange = (e:React.ChangeEvent<HTMLSelectElement>)=> {
                         </div>
                           <div className='pt-2'>
                             <h1 className='text-gray-400 font-semibold text-[14px]'>Levels</h1>
-                            <h3 className='font-semibold text-[16px]'>{schoolDetails?.data.schoolLevel ?schoolDetails.data.schoolLevel :'Not Specified'}</h3>
+                            <h3 className='font-semibold text-[16px]'>{schoolDetails?.data.schoolLevel && schoolDetails.data.schoolLevel.length > 0 ? schoolDetails.data.schoolLevel.join(', ') : 'Not Specified'}</h3>
                         </div>
 
 
@@ -345,11 +355,31 @@ const handleSelectChange = (e:React.ChangeEvent<HTMLSelectElement>)=> {
 
            <div className='pt-3 grid grid-cols-1 sm:grid-cols-2 gap-4'>
              <SelectInput options={categ} label='Category' onChange={handleSelectChange} name='schoolCategory' value={schoolInfo.schoolCategory}/>
-             <SelectInput options={Levels} label='Level' name='schoolLevel' value={schoolInfo.schoolLevel} onChange={handleSelectChange}/>
+             <SelectInput options={schoolType} label='Type' placeholder='e.g., mixed' name='schoolType' value={schoolInfo.schoolType} onChange={handleSelectChange}/>
            </div>
 
            <div className='pt-3'>
-             <SelectInput options={schoolType} label='Type' placeholder='e.g., mixed' name='schoolType' value={schoolInfo.schoolType} onChange={handleSelectChange}/>
+             <h1 className='text-gray-500 font-semibold text-[14px] pb-2'>Levels offered</h1>
+             <div className='flex flex-wrap gap-3'>
+               {Levels.map((level) => (
+                 <label
+                   key={level.value}
+                   className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer text-[13.5px] font-family-poppins ${
+                     schoolInfo.schoolLevel.includes(level.value)
+                       ? 'border-[#05416B] bg-[#CFDCEA]/40 text-[#05416B] font-semibold'
+                       : 'border-gray-300 text-gray-600'
+                   }`}
+                 >
+                   <input
+                     type='checkbox'
+                     className='accent-[#05416B]'
+                     checked={schoolInfo.schoolLevel.includes(level.value)}
+                     onChange={() => handleLevelToggle(level.value)}
+                   />
+                   {level.label}
+                 </label>
+               ))}
+             </div>
            </div>
 
            <div className='py-5'><h1 className='text-primary-color font-bold font-family-playfair text-[17px]'>Location Details</h1></div>

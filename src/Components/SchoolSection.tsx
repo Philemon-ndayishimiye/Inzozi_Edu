@@ -141,6 +141,8 @@ export default function SchoolSection() {
                 title={school.schoolName}
                 location={school.district}
                 image={school.profile?.profilePhoto ?? ''}
+                level={level || undefined}
+                studentType={studentType || undefined}
               />
             ))}
           </div>

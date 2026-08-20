@@ -18,7 +18,7 @@ export interface schooldetail{
   schoolName: string;
   schoolCode: string;
   schoolCategory: string; // e.g. "REB"
-  schoolLevel: string; // e.g. "Primary"
+  schoolLevel: string[] | null; // e.g. ["Primary", "Nursery"]
   schoolType: string; // e.g. "Mixed"
   province: string;
   district: string;
@@ -78,7 +78,7 @@ export interface SearchSchoolResult {
   schoolName: string;
   schoolCode: string;
   schoolCategory: string | null;
-  schoolLevel: string | null;
+  schoolLevel: string[] | null;
   schoolType: string | null;
   province: string | null;
   district: string;

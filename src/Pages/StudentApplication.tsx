@@ -6,7 +6,6 @@ import Navigation from '../Components/Navigation';
 import Footer from '../Components/Footer';
 import { TextInput } from '../Components/seats/InputSeats';
 import { SelectInput } from '../Components/seats/SelectInput';
-import { StudentType } from '../Types/Seats';
 import LocationCascade, { type LocationValue } from '../Components/LocationCascade';
 import { useGetSchoolDetailsQuery } from '../App/api/school/school';
 import { useGetAllSpotsQuery } from '../App/api/spots/spot';
@@ -35,7 +34,6 @@ type FormState = {
   lastName: string;
   gender: string;
   nationality: string;
-  studentType: string;
   dateOfBirth: string;
   fatherName: string;
   motherName: string;
@@ -49,7 +47,6 @@ const INITIAL_FORM: FormState = {
   lastName: '',
   gender: '',
   nationality: 'Rwandan',
-  studentType: '',
   dateOfBirth: '',
   fatherName: '',
   motherName: '',
@@ -60,12 +57,29 @@ const INITIAL_FORM: FormState = {
 // Local key -> exact multipart field name the backend expects.
 type DocKey = 'passportPhoto' | 'previousReport' | 'resultSlip' | 'mitationLetter';
 
-const DOC_FIELDS: { key: DocKey; label: string; hint: string; required: boolean }[] = [
-  { key: 'passportPhoto', label: 'Passport-style photo', hint: 'Recent photo of the student', required: true },
-  { key: 'previousReport', label: 'Previous report card', hint: 'Most recent academic report', required: true },
-  { key: 'resultSlip', label: 'Result slip', hint: 'Latest exam or promotion result', required: true },
-  { key: 'mitationLetter', label: 'Mutation letter', hint: 'Only if transferring schools', required: false },
-];
+// previousReport/resultSlip/mitationLetter requirements depend on whether the
+// child is a newcomer (no prior school to report from - the promotion result
+// slip is what proves readiness) or a transfer (the previous school's report
+// card and mutation letter matter more than a fresh result slip).
+function getDocFields(studentType: string): { key: DocKey; label: string; hint: string; required: boolean }[] {
+  const isTransfer = studentType === 'transfer';
+  return [
+    { key: 'passportPhoto', label: 'Passport-style photo', hint: 'Recent photo of the student', required: true },
+    {
+      key: 'previousReport',
+      label: 'Previous report card',
+      hint: 'Most recent academic report',
+      required: isTransfer,
+    },
+    {
+      key: 'resultSlip',
+      label: 'Result slip',
+      hint: isTransfer ? 'Latest exam or promotion result (if available)' : 'Latest exam or promotion result',
+      required: !isTransfer,
+    },
+    { key: 'mitationLetter', label: 'Mutation letter', hint: 'Only if transferring schools', required: isTransfer },
+  ];
+}
 
 function formatSize(bytes: number) {
   if (bytes < 1024 * 1024) {
@@ -157,7 +171,7 @@ export default function StudentApplication() {
 
   const validateStep1 = () => {
     const required: (keyof FormState)[] = [
-      'firstName', 'lastName', 'gender', 'nationality', 'studentType',
+      'firstName', 'lastName', 'gender', 'nationality',
       'dateOfBirth', 'fatherName', 'motherName', 'guardianPhone', 'guardianEmail',
     ];
     const next: Record<string, string> = {};
@@ -178,7 +192,7 @@ export default function StudentApplication() {
 
   const validateStep2 = () => {
     const next: Record<string, string> = {};
-    DOC_FIELDS.filter((f) => f.required).forEach(({ key }) => {
+    getDocFields(selectedSpot?.studentType ?? '').filter((f) => f.required).forEach(({ key }) => {
       if (!docs[key]) {next[key] = 'Required';}
     });
     setErrors(next);
@@ -216,7 +230,7 @@ export default function StudentApplication() {
     body.append('lastName', form.lastName);
     body.append('gender', form.gender);
     body.append('DOB', form.dateOfBirth);
-    body.append('studentType', form.studentType);
+    body.append('studentType', selectedSpot.studentType);
     body.append('fathersNames', form.fatherName);
     body.append('mothersNames', form.motherName);
     body.append('representerEmail', form.guardianEmail);
@@ -227,7 +241,8 @@ export default function StudentApplication() {
     body.append('sector', location.sector ?? '');
     body.append('cell', location.cell ?? '');
     body.append('village', location.village ?? '');
-    DOC_FIELDS.forEach(({ key }) => {
+    const docFields = getDocFields(selectedSpot.studentType);
+    docFields.forEach(({ key }) => {
       const file = docs[key];
       if (file) {body.append(key, file);}
     });
@@ -236,7 +251,7 @@ export default function StudentApplication() {
       const response = await applyStudent(body).unwrap();
       const student = response.data;
 
-      const documents: StoredDocument[] = DOC_FIELDS
+      const documents: StoredDocument[] = docFields
         .filter(({ key }) => docs[key])
         .map(({ key, label }) => ({ label, fileName: docs[key]!.name, size: docs[key]!.size }));
 
@@ -247,7 +262,7 @@ export default function StudentApplication() {
         studentName: `${form.firstName} ${form.lastName}`.trim(),
         gender: form.gender,
         dateOfBirth: form.dateOfBirth,
-        studentType: form.studentType,
+        studentType: selectedSpot.studentType,
         fatherName: form.fatherName,
         motherName: form.motherName,
         guardianEmail: form.guardianEmail,
@@ -325,6 +340,15 @@ export default function StudentApplication() {
                   This information goes straight to {schoolName ?? 'the'} admission team.
                 </p>
 
+                {selectedSpot && (
+                  <div className="mb-4 bg-[#CFDCEA]/40 border border-[#05416B]/20 rounded-lg px-4 py-2.5 text-[12.5px] text-[#05416B] font-family-poppins">
+                    Applying for <b>{selectedSpot.level}</b> · <b>{selectedSpot.studentType}</b> · {selectedSpot.yearofstudy}
+                    <span className="block text-[11px] text-[#6B7280] mt-0.5">
+                      Already set from the class you picked - no need to re-enter it.
+                    </span>
+                  </div>
+                )}
+
                 <h3 className="font-bold text-[15px] text-[#282C34] mb-3 font-family-poppins">
                   Student information
                 </h3>
@@ -334,7 +358,6 @@ export default function StudentApplication() {
                   <TextInput label="Middle name" name="middleName" placeholder="Optional" value={form.middleName} onChange={handleInput} />
                   <SelectInput label="Gender *" name="gender" placeholder="Select gender" options={GENDER_OPTIONS} value={form.gender} onChange={handleInput} />
                   <TextInput label="Nationality *" name="nationality" placeholder="e.g. Rwandan" value={form.nationality} onChange={handleInput} />
-                  <SelectInput label="Student type *" name="studentType" placeholder="Select type" options={StudentType} value={form.studentType} onChange={handleInput} />
                   <TextInput label="Date of birth *" name="dateOfBirth" type="date" value={form.dateOfBirth} onChange={handleInput} />
                 </div>
 
@@ -374,7 +397,7 @@ export default function StudentApplication() {
                 </p>
 
                 <div className="space-y-3">
-                  {DOC_FIELDS.map(({ key, label, hint, required }) => {
+                  {getDocFields(selectedSpot?.studentType ?? '').map(({ key, label, hint, required }) => {
                     const file = docs[key];
                     return (
                       <label

@@ -1,11 +1,9 @@
 // import { FaUser } from 'react-icons/fa6';
 import logo from '../assets/logo 2.png';
-import { CiSearch } from 'react-icons/ci';
 import { IoMdMenu } from 'react-icons/io';
 import { IoClose } from 'react-icons/io5';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import type { KeyboardEvent } from 'react';
 
 import Language from './Language';
 
@@ -27,19 +25,6 @@ export default function Navigation({variant='defoult'}:Navigation) {
   ];
   const [open, setIsOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('English');
-  const [query, setQuery] = useState('');
-  const navigate = useNavigate();
-
-  const runSearch = () => {
-    const q = query.trim();
-    if (!q) {return;}
-    navigate(`/?q=${encodeURIComponent(q)}`);
-    setIsOpen(false);
-  };
-
-  const handleSearchKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {runSearch();}
-  };
 
   const handleSelect = (value: string) => {
     setSelectedLanguage(value);
@@ -69,16 +54,6 @@ export default function Navigation({variant='defoult'}:Navigation) {
         </div>
         </Link>
 
-        <div className="flex justify-center items-center gap-2 py-4 rounded-xl mt-2 bg-white w-[259px] h-[25px] max-sm:hidden">
-          <input
-            className=" w-[80%] h-[25px]  px-2 focus:outline-none text-[#6B7280] font-family-poppins text-[13px]"
-            placeholder="Search School"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleSearchKeyDown}
-          />
-          <CiSearch className="text-[#6B7280] text-xl cursor-pointer" onClick={runSearch} />
-        </div>
         <nav className="flex items-center gap-[32px] text-white max-sm:hidden">
           <Link to='/'><a className="text-[15px] font-family-poppins" href="#">
             Home
@@ -86,6 +61,9 @@ export default function Navigation({variant='defoult'}:Navigation) {
           <a className="text-[15px] font-family-poppins" href="#howitWorks">
             How It Works
           </a>
+          <Link to='/track' className="text-[15px] font-family-poppins">
+            Track Application
+          </Link>
             <Language options={languages} value={selectedLanguage} variant='defoult' onChange={handleSelect} />
         </nav>
         <div className="flex items-center text-white">
@@ -133,18 +111,6 @@ export default function Navigation({variant='defoult'}:Navigation) {
           <Language options={languages} variant='defoult' value={selectedLanguage} onChange={handleSelect} />
         </div>
 
-        <div className="flex justify-center items-center">
-          <div className="flex justify-center items-center gap-2 py-4 rounded-xl mt-2 bg-white w-[269px] h-[25px] ">
-            <input
-              className=" w-[80%] h-[25px]  px-2 focus:outline-none text-[#6B7280] font-family-poppins text-[13px]"
-              placeholder="Search School"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={handleSearchKeyDown}
-            />
-            <CiSearch className="text-[#6B7280] text-xl cursor-pointer" onClick={runSearch} />
-          </div>
-        </div>
       </div>
 <div className="max-sm:block max-md:hidden max-lg:hidden max-xl:hidden max-2xl:hidden">
   {open && (
@@ -155,9 +121,12 @@ export default function Navigation({variant='defoult'}:Navigation) {
       <a className="text-[15px] font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white" href="#">
         How It Works
       </a>
-      <a className="text-[15px] font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white" href="#">
+      <Link to='/track' className="text-[15px] font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white">
+        Track Application
+      </Link>
+      <Link to='/login' className="text-[15px] font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white">
         Login
-      </a>
+      </Link>
     </div>
   )}
 </div>

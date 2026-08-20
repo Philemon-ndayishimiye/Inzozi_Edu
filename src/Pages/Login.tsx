@@ -9,6 +9,7 @@ import Footer from '../Components/Footer';
 import AuthLayout from '../Components/AuthLayout';
 import {useLoginMutation} from '../App/api/Auth/auth';
 import { useUser } from '../Hooks/useUser';
+import { getRoleDestination } from '../Helper/roleRedirect';
 
 
 export type ErrorResponse={
@@ -78,26 +79,16 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       // Use the user info directly from response
       const roleName = response?.data?.user?.roleName;
-      const schoolStatus= response?.data?.schoolStatus;
+      const schoolStatus = response?.data?.schoolStatus;
+      const mustChangePassword = response?.data?.user?.mustChangePassword;
 
-
-      console.log(roleName);
-      console.log(schoolStatus);
-
-       if (roleName === 'Admin') {
-        navigate('/superAdmin/dashboard');
-      }
-      else if( schoolStatus === 'not_registered'){
-            navigate('/schoolManager');
-      }
-       else if( schoolStatus === 'pending'){
-            navigate('/pending');
-      }
-       else if( schoolStatus === 'approved'){
-            navigate('/schoolAdmin/dashboard');
-      }
-       else {
-        navigate('/login');
+      // One-time obligation: only true until an Admission Manager sets their
+      // own password for the first time after their account is created —
+      // never shown again on subsequent logins once that's done.
+      if (mustChangePassword) {
+        navigate('/must-change-password');
+      } else {
+        navigate(getRoleDestination(roleName, schoolStatus));
       }
     } catch (err) {
       console.error('Login failed:', err);

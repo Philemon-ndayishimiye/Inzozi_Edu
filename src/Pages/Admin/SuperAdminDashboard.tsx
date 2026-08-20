@@ -50,7 +50,7 @@ export default function SuperAdminDashboard() {
                   <tr key={school.id} className="border-b border-gray-100 last:border-0">
                     <td className="px-5 py-3">
                       <div className="font-semibold text-[13px] text-[#282C34]">{school.schoolName}</div>
-                      <div className="text-[11px] text-gray-400">{school.SchoolManager.email}</div>
+                      <div className="text-[11px] text-gray-400">{school.SchoolManager?.email ?? 'Account deleted'}</div>
                     </td>
                     <td className="px-3 py-3 text-[13px]">{school.district}</td>
                     <td className="px-3 py-3">

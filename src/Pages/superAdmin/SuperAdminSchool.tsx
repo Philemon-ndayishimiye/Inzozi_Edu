@@ -87,7 +87,9 @@ export default function SuperAdminSchool() {
                     </td>
                     <td className="px-3 py-3 text-[13px]">{school.district}</td>
                     <td className="px-3 py-3 text-[13px]">
-                      {school.SchoolManager.firstName} {school.SchoolManager.lastName}
+                      {school.SchoolManager
+                        ? `${school.SchoolManager.firstName} ${school.SchoolManager.lastName}`
+                        : <span className="text-gray-400 italic">Account deleted</span>}
                     </td>
                     <td className="px-3 py-3">
                       <Badge variant={school.status === 'approved' ? 'approved' : school.status === 'pending' ? 'pending' : 'rejected'}>

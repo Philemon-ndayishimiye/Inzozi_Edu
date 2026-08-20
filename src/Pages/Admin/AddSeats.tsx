@@ -169,7 +169,7 @@ const validateFields = (): ErrorState => {
 };
 
 const handleCancel=()=>{
-  navigate('/schoolAdmin/seats');
+  navigate('../seats');
 };
 
 const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -215,7 +215,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
     // 4️⃣ Call backend
     await registerSpot({ data: payload, id: user?.schoolId ?? '' }).unwrap();
     console.log('Submitted successfully:', payload);
-    navigate('/schoolAdmin/seats');
+    navigate('../seats');
     
     
   } catch (error) {

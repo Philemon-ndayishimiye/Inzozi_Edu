@@ -11,15 +11,16 @@ import LocationCascade, { type LocationValue } from '../Components/LocationCasca
 import { useGetSchoolDetailsQuery } from '../App/api/school/school';
 import { useGetAllSpotsQuery } from '../App/api/spots/spot';
 import { useApplyStudentMutation } from '../App/api/students/students';
-import { IoArrowBack, IoCheckmarkCircle, IoWarningOutline } from 'react-icons/io5';
+import { IoArrowBack, IoCheckmarkCircle, IoWarningOutline, IoPersonOutline, IoAttachOutline } from 'react-icons/io5';
 import { saveApplication, type StoredDocument } from '../Helper/applicationsStore';
+import type { ReactNode } from 'react';
 
 type StepId = 1 | 2 | 3;
 
-const STEPS: { id: StepId; label: string; icon: string }[] = [
-  { id: 1, label: 'Student & guardian', icon: '👤' },
-  { id: 2, label: 'Documents', icon: '📎' },
-  { id: 3, label: 'Review', icon: '✅' },
+const STEPS: { id: StepId; label: string; icon: ReactNode }[] = [
+  { id: 1, label: 'Student & guardian', icon: <IoPersonOutline /> },
+  { id: 2, label: 'Documents', icon: <IoAttachOutline /> },
+  { id: 3, label: 'Review', icon: <IoCheckmarkCircle /> },
 ];
 
 const GENDER_OPTIONS = [
@@ -240,7 +241,7 @@ export default function StudentApplication() {
         .map(({ key, label }) => ({ label, fileName: docs[key]!.name, size: docs[key]!.size }));
 
       const record = {
-        referenceCode: student.id,
+        referenceCode: student.trackingCode ?? student.id,
         schoolId: schoolId ?? '',
         schoolName: schoolName ?? '',
         studentName: `${form.firstName} ${form.lastName}`.trim(),
@@ -258,9 +259,9 @@ export default function StudentApplication() {
         status: 'submitted' as const,
         submittedAt: new Date().toISOString(),
       };
-      // No track-by-reference endpoint exists on the backend, so this local
-      // cache is what lets the parent revisit /track on this same device.
-      // The real submission above is what the school now sees.
+      // Local cache lets the parent revisit /track instantly on this same
+      // device; the real lookup by trackingCode against the backend is what
+      // makes /track work from any device.
       saveApplication(record);
 
       navigate('/application/confirmation', { state: record });
@@ -389,7 +390,7 @@ export default function StudentApplication() {
                         <input type="file" accept="image/*,.pdf" className="hidden" onChange={handleFile(key)} />
                         {file ? (
                           <div className="flex items-center gap-3">
-                            <span className="text-xl">📄</span>
+                            <IoAttachOutline className="text-xl text-[#05416B] flex-shrink-0" />
                             <div className="min-w-0">
                               <div className="font-semibold text-[13.5px] text-[#05416B] truncate font-family-poppins">
                                 {file.name}

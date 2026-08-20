@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Navigation from '../Components/Navigation';
 import Footer from '../Components/Footer';
 import { FaRegCheckCircle } from 'react-icons/fa';
+import { IoDownloadOutline, IoMailOutline, IoSearchOutline } from 'react-icons/io5';
 
 type ConfirmationState = {
   referenceCode: string;
@@ -56,7 +57,7 @@ export default function ApplicationConfirmation() {
 
           <div className="bg-white border-[1.5px] border-dashed border-gray-300 rounded-xl p-5 mb-7 text-left sm:text-center">
             <div className="font-mono text-[10.5px] uppercase tracking-wide text-[#6B7280] mb-1">
-              Your reference code
+              Your tracking code
             </div>
             <div className="font-mono text-[15px] sm:text-[17px] font-bold text-[#05416B] break-all">
               {state.referenceCode}
@@ -68,24 +69,24 @@ export default function ApplicationConfirmation() {
               What happens next
             </h3>
             <div className="flex gap-3 py-2 text-[13.5px] font-family-poppins">
-              <span>📥</span>
+              <IoDownloadOutline className="text-lg text-[#05416B] flex-shrink-0 mt-0.5" />
               <div>
                 <b className="block text-[#282C34]">Admission team reviews it</b>
                 <span className="text-[#6B7280] text-[12.5px]">Usually within 5–7 days</span>
               </div>
             </div>
             <div className="flex gap-3 py-2 text-[13.5px] font-family-poppins">
-              <span>✉️</span>
+              <IoMailOutline className="text-lg text-[#05416B] flex-shrink-0 mt-0.5" />
               <div>
                 <b className="block text-[#282C34]">You get an email decision</b>
                 <span className="text-[#6B7280] text-[12.5px]">Sent to {state.guardianEmail}</span>
               </div>
             </div>
             <div className="flex gap-3 py-2 text-[13.5px] font-family-poppins">
-              <span>🔍</span>
+              <IoSearchOutline className="text-lg text-[#05416B] flex-shrink-0 mt-0.5" />
               <div>
                 <b className="block text-[#282C34]">Check status anytime</b>
-                <span className="text-[#6B7280] text-[12.5px]">Use your reference code — no account needed</span>
+                <span className="text-[#6B7280] text-[12.5px]">Use your tracking code — no account needed</span>
               </div>
             </div>
           </div>

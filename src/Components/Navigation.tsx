@@ -3,8 +3,9 @@ import logo from '../assets/logo 2.png';
 import { CiSearch } from 'react-icons/ci';
 import { IoMdMenu } from 'react-icons/io';
 import { IoClose } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import type { KeyboardEvent } from 'react';
 
 import Language from './Language';
 
@@ -26,6 +27,19 @@ export default function Navigation({variant='defoult'}:Navigation) {
   ];
   const [open, setIsOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+
+  const runSearch = () => {
+    const q = query.trim();
+    if (!q) {return;}
+    navigate(`/?q=${encodeURIComponent(q)}`);
+    setIsOpen(false);
+  };
+
+  const handleSearchKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {runSearch();}
+  };
 
   const handleSelect = (value: string) => {
     setSelectedLanguage(value);
@@ -59,8 +73,11 @@ export default function Navigation({variant='defoult'}:Navigation) {
           <input
             className=" w-[80%] h-[25px]  px-2 focus:outline-none text-[#6B7280] font-family-poppins text-[13px]"
             placeholder="Search School"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleSearchKeyDown}
           />
-          <CiSearch className="text-[#6B7280] text-xl cursor-pointer" />
+          <CiSearch className="text-[#6B7280] text-xl cursor-pointer" onClick={runSearch} />
         </div>
         <nav className="flex items-center gap-[32px] text-white max-sm:hidden">
           <Link to='/'><a className="text-[15px] font-family-poppins" href="#">
@@ -121,8 +138,11 @@ export default function Navigation({variant='defoult'}:Navigation) {
             <input
               className=" w-[80%] h-[25px]  px-2 focus:outline-none text-[#6B7280] font-family-poppins text-[13px]"
               placeholder="Search School"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
             />
-            <CiSearch className="text-[#6B7280] text-xl cursor-pointer" />
+            <CiSearch className="text-[#6B7280] text-xl cursor-pointer" onClick={runSearch} />
           </div>
         </div>
       </div>

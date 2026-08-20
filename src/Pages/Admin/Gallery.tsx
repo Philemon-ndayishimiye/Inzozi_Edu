@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IoIosAdd } from 'react-icons/io';
+import { IoClose } from 'react-icons/io5';
 import Select from '../../Components/Select';
 import { TextInput } from '../../Components/seats/InputSeats';
 import { category, categoryLabels } from '../../Types/Category';
@@ -172,7 +173,7 @@ export default function Gallery() {
               className="absolute top-3 right-3 cursor-pointer text-gray-500 hover:text-gray-700"
               aria-label="Close"
             >
-              ✕
+              <IoClose />
             </button>
 
             <div className="pb-5 text-center">

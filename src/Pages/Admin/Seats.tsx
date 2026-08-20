@@ -70,7 +70,7 @@ export default function Seats() {
           parents can apply for immediately.
         </p>
         <button
-          onClick={() => navigate('/schoolAdmin/addSeats')}
+          onClick={() => navigate('../addSeats')}
           className="flex items-center gap-1.5 bg-gradient-to-r from-[#F09C00] to-[#FFB833] text-white font-bold text-[13px] px-4 py-2.5 rounded-lg cursor-pointer whitespace-nowrap"
         >
           <IoAddCircleOutline className="text-base" /> Add class

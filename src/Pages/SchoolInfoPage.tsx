@@ -8,7 +8,7 @@ import { useGetAllSpotsQuery } from '../App/api/spots/spot';
 import { useGetAllGalleryQuery } from '../App/api/gallery/Gallery';
 import { categoryLabels } from '../Types/Category';
 import SpotRow from '../Components/seats/SpotRow';
-import { IoArrowBack, IoInformationCircleOutline } from 'react-icons/io5';
+import { IoArrowBack, IoInformationCircleOutline, IoClose } from 'react-icons/io5';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 
 const SchoolInfoPage: React.FC = () => {
@@ -267,7 +267,7 @@ const SchoolInfoPage: React.FC = () => {
             className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 border border-white/25 text-white flex items-center justify-center cursor-pointer"
             aria-label="Close"
           >
-            ✕
+            <IoClose />
           </button>
           <img
             src={images[lightboxIndex].imageUrl}

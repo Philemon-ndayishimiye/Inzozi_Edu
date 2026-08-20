@@ -2,6 +2,7 @@ import { apiSlice } from '../EntryApi';
 import type{SchoolsResponse} from '../../../Types/SchoolResponse';
 import type{SchoolInformation} from '../../../Types/schoolProfile';
 import type{PaginatedSchoolResponse} from '../../../Types/GetSchools';
+import type{AllSeats} from '../spots/spot';
 
 export type SchoolManager = {
   id: string;
@@ -57,6 +58,60 @@ export interface RegisterSchoolResponse {
   schoolId: string
 }
 
+export interface SearchSchoolsParams {
+  schoolName?: string;
+  district?: string;
+  schoolType?: string;
+  schoolLevel?: string;
+  schoolCategory?: string;
+  yearOfStudy?: string;
+  academicYear?: string;
+  combination?: string;
+  studentType?: string;
+  minAvailableSpots?: number;
+  page?: number;
+  limit?: number;
+}
+
+export interface SearchSchoolResult {
+  id: string;
+  schoolName: string;
+  schoolCode: string;
+  schoolCategory: string | null;
+  schoolLevel: string | null;
+  schoolType: string | null;
+  province: string | null;
+  district: string;
+  sector: string | null;
+  cell: string | null;
+  village: string | null;
+  email: string;
+  telephone: string | null;
+  status: string;
+  spots: AllSeats[];
+  profile: {
+    profilePhoto: string | null;
+    mission: string | null;
+    vision: string | null;
+    description: string | null;
+    foundedYear: number | null;
+  } | null;
+}
+
+export interface SearchSchoolsData {
+  schools: SearchSchoolResult[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface SearchSchoolsResponse {
+  data: SearchSchoolsData;
+  message: string;
+  success: boolean;
+}
+
 // Define the individual profile structure
 interface Profile {
   id: string;
@@ -109,6 +164,19 @@ export const SchoolsApi = apiSlice.injectEndpoints({
         url: '/schools/approved',
         method: 'GET',
       }),
+    }),
+
+    searchSchools: builder.query<SearchSchoolsResponse, SearchSchoolsParams>({
+      query: (params) => {
+        const query = new URLSearchParams();
+        Object.entries(params).forEach(([key, value]) => {
+          if (value !== undefined && value !== '') {query.set(key, String(value));}
+        });
+        return {
+          url: `/schools/search?${query.toString()}`,
+          method: 'GET',
+        };
+      },
     }),
 
        getProfile: builder.query<ProfileResponse, string>({
@@ -173,4 +241,4 @@ export const SchoolsApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useRegisterSchoolMutation , useGetSchoolDetailsQuery , useGetAllSchoolsQuery , useGetSchoolByIdQuery , useApproveSchoolMutation , useRejectSchoolMutation , useDeleteSchoolMutation, useUpdateProfileMutation , useGetProfileQuery, useUpdateSchoolInfoMutation , useGetAllApprovedSchoolQuery} = SchoolsApi;
+export const { useRegisterSchoolMutation , useGetSchoolDetailsQuery , useGetAllSchoolsQuery , useGetSchoolByIdQuery , useApproveSchoolMutation , useRejectSchoolMutation , useDeleteSchoolMutation, useUpdateProfileMutation , useGetProfileQuery, useUpdateSchoolInfoMutation , useGetAllApprovedSchoolQuery, useSearchSchoolsQuery} = SchoolsApi;

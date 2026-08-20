@@ -1,8 +1,11 @@
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useGetAllApprovedSchoolQuery } from '../App/api/school/school';
+import { useSearchSchoolsQuery, type SearchSchoolResult } from '../App/api/school/school';
 import SchoolCard from './SchoolCard';
+import SchoolCriteriaFilter from './SchoolCriteriaFilter';
 import { provinceForDistrict } from '../Types/location';
+
+const PAGE_SIZE = 12;
 
 function SchoolCardSkeleton() {
   return (
@@ -18,29 +21,60 @@ function SchoolCardSkeleton() {
 }
 
 export default function SchoolSection() {
-  const { data, isLoading, isError } = useGetAllApprovedSchoolQuery();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const q = searchParams.get('q')?.trim().toLowerCase() ?? '';
+  const schoolName = searchParams.get('q') ?? '';
   const province = searchParams.get('province') ?? '';
   const district = searchParams.get('district') ?? '';
+  const category = searchParams.get('category') ?? '';
+  const type = searchParams.get('type') ?? '';
+  const level = searchParams.get('level') ?? '';
+  const studentType = searchParams.get('studentType') ?? '';
 
-  const schools = data?.data.schools ?? [];
+  const setParam = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (value) {params.set(key, value);} else {params.delete(key);}
+    setSearchParams(params, { replace: true });
+  };
 
-  const filtered = useMemo(
-    () =>
-      schools.filter((school) => {
-        const matchesQuery = !q || school.schoolName.toLowerCase().includes(q);
-        const matchesDistrict = !district || school.district === district;
-        const matchesProvince = !province || provinceForDistrict(school.district) === province;
-        return matchesQuery && matchesDistrict && matchesProvince;
-      }),
+  const [page, setPage] = useState(1);
+  const [accumulated, setAccumulated] = useState<SearchSchoolResult[]>([]);
+
+  // Reset pagination whenever the search criteria change, so old results
+  // from a different search don't stay mixed in.
+  useEffect(() => {
+    setPage(1);
+    setAccumulated([]);
+  }, [schoolName, province, district, category, type, level, studentType]);
+
+  const { data, isLoading, isFetching, isError } = useSearchSchoolsQuery({
+    schoolName: schoolName || undefined,
+    district: district || undefined,
+    schoolCategory: category || undefined,
+    schoolType: type || undefined,
+    schoolLevel: level || undefined,
+    studentType: studentType || undefined,
+    page,
+    limit: PAGE_SIZE,
+  });
+
+  useEffect(() => {
+    if (!data) {return;}
+    setAccumulated((prev) => (page === 1 ? data.data.schools : [...prev, ...data.data.schools]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, q, province, district],
-  );
+  }, [data]);
 
+  // Province has no direct backend filter (only district does) - applied
+  // client-side to the already-paginated, already-server-filtered results,
+  // not the whole table.
+  const schools = province
+    ? accumulated.filter((s) => provinceForDistrict(s.district) === province)
+    : accumulated;
+
+  const total = data?.data.total ?? 0;
+  const totalPages = data?.data.totalPages ?? 1;
   const locationLabel = [district, province].filter(Boolean).join(', ') || 'All of Rwanda';
-  const hasFilters = Boolean(q || province || district);
+  const hasFilters = Boolean(schoolName || province || district || category || type || level || studentType);
 
   return (
     <div id="schools" className="bg-gradient-to-r from-[#FFFFFF] to-[#CFDCEA] py-[40px] px-6 sm:px-[40px] lg:px-[80px] scroll-mt-20">
@@ -55,10 +89,22 @@ export default function SchoolSection() {
         </div>
         {!isLoading && !isError && (
           <span className="text-[13px] font-family-poppins text-[#05416B] font-semibold">
-            {filtered.length} school{filtered.length === 1 ? '' : 's'} · {locationLabel}
+            {total} school{total === 1 ? '' : 's'} · {locationLabel}
           </span>
         )}
       </div>
+
+      <SchoolCriteriaFilter
+        category={category}
+        type={type}
+        level={level}
+        studentType={studentType}
+        onCategoryChange={(v) => setParam('category', v)}
+        onTypeChange={(v) => setParam('type', v)}
+        onLevelChange={(v) => setParam('level', v)}
+        onStudentTypeChange={(v) => setParam('studentType', v)}
+        className="mb-5"
+      />
 
       {isError && (
         <div className="text-center py-16 text-[#6B7280] font-family-poppins">
@@ -74,7 +120,7 @@ export default function SchoolSection() {
         </div>
       )}
 
-      {!isLoading && !isError && filtered.length === 0 && (
+      {!isLoading && !isError && schools.length === 0 && (
         <div className="text-center py-16 px-4">
           <p className="text-[#282C34] font-semibold font-family-poppins mb-1">
             No schools match that search yet
@@ -85,18 +131,32 @@ export default function SchoolSection() {
         </div>
       )}
 
-      {!isLoading && !isError && filtered.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filtered.map((school) => (
-            <SchoolCard
-              id={school.id}
-              key={school.id}
-              title={school.schoolName}
-              location={school.district}
-              image={school.profilePhoto}
-            />
-          ))}
-        </div>
+      {!isLoading && !isError && schools.length > 0 && (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {schools.map((school) => (
+              <SchoolCard
+                id={school.id}
+                key={school.id}
+                title={school.schoolName}
+                location={school.district}
+                image={school.profile?.profilePhoto ?? ''}
+              />
+            ))}
+          </div>
+
+          {page < totalPages && (
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={() => setPage((p) => p + 1)}
+                disabled={isFetching}
+                className="border border-[#05416B] text-[#05416B] font-semibold text-[13px] px-6 py-2.5 rounded-lg cursor-pointer disabled:opacity-60"
+              >
+                {isFetching ? 'Loading…' : 'Load more schools'}
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

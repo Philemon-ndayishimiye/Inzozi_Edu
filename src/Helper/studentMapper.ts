@@ -32,7 +32,7 @@ export function mapStudentToApplicationRecord(student: StudentRecord, schoolName
     // The backend calls the not-yet-decided state "pending"; the rest of
     // this app calls it "submitted" (chosen before this endpoint existed).
     status: student.status === 'pending' ? 'submitted' : student.status,
-    decisionReason: student.rejectionReason ?? undefined,
+    decisionReason: student.rejectedReason ?? undefined,
     submittedAt: student.createdAt ?? new Date().toISOString(),
   };
 }

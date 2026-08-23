@@ -1,4 +1,5 @@
 
+import { useTranslation } from 'react-i18next';
 import Works from './Works';
 import { FiUserPlus } from 'react-icons/fi';
 import { RiSchoolFill } from 'react-icons/ri';
@@ -6,107 +7,108 @@ import { FaRegFileAlt } from 'react-icons/fa';
 import { WiDirectionRight } from 'react-icons/wi';
 import { LuCircleCheckBig } from 'react-icons/lu';
 export default function HowItWorks() {
+  const { t } = useTranslation();
   return (
     <div className="py-[90px] bg-gradient-to-r from-[#FFFFFF] to-[#CFDCEA]">
       <h1 className="text-[#282C34] text-[40px] text-center font-bold font-family-playfair max-sm:text-[40px]">
-        How It Works
+        {t('howItWorks.title')}
       </h1>
       <p className="text-[#6B7280] text-[20px] py-3 text-center mb-[30px] font-family-poppins max-sm:text-[18px]" >
-        Simple steps to connect schools and families across Rwanda
+        {t('howItWorks.subtitle')}
       </p>
 
       <div className="flex justify-between px-[120px] py-[40px] max-sm:flex-col max-sm:px-[30px]">
         <div>
           <h1 className="text-[#1672b4] text-[30px] font-medium text-center py-5">
-            For Parents
+            {t('howItWorks.forParents')}
           </h1>
 
           <Works
             icon={<FiUserPlus />}
-            step="Step 1"
-            description=" with your family details and preferences"
+            step={t('howItWorks.step', { n: 1 })}
+            description={t('howItWorks.p1Desc')}
             variant="defolt"
-            title="Visit Our sites"
+            title={t('howItWorks.p1Title')}
           />
           <Works
             icon={<RiSchoolFill />}
-            step="Step 2"
-            description="Explore schools that match your criteria and location"
+            step={t('howItWorks.step', { n: 2 })}
+            description={t('howItWorks.p2Desc')}
             variant="defolt"
-            title="Browse School"
+            title={t('howItWorks.p2Title')}
           />
           <Works
             icon={<FaRegFileAlt />}
-            step="Step 3"
-            description="Apply to multiple schools with a single application"
+            step={t('howItWorks.step', { n: 3 })}
+            description={t('howItWorks.p3Desc')}
             variant="defolt"
-            title="Submit Application"
+            title={t('howItWorks.p3Title')}
           />
           <Works
             icon={<LuCircleCheckBig />}
-            step="Step 4"
-            description="Monitor status and communicate with schools"
+            step={t('howItWorks.step', { n: 4 })}
+            description={t('howItWorks.p4Desc')}
             variant="defolt"
-            title="Track Progreess"
+            title={t('howItWorks.p4Title')}
           />
         </div>
         <div>
             <h1 className="text-black text-[30px] font-medium text-center py-5">
-            For Schools
+            {t('howItWorks.forSchools')}
           </h1>
 
           <Works
             icon={<RiSchoolFill />}
-            step="Step 1"
-            description="Create your school profile with programs and facilities"
+            step={t('howItWorks.step', { n: 1 })}
+            description={t('howItWorks.s1Desc')}
             variant="primary"
-            title="Register School"
+            title={t('howItWorks.s1Title')}
           />
           <Works
             icon={< FaRegFileAlt/>}
-            step="Step 2"
-            description="Define admission criteria and application requirements"
+            step={t('howItWorks.step', { n: 2 })}
+            description={t('howItWorks.s2Desc')}
             variant="primary"
-            title="Set Requirements"
+            title={t('howItWorks.s2Title')}
           />
           <Works
             icon={<FiUserPlus />}
-            step="Step 3"
-            description="Manage incoming applications through your dashboard"
+            step={t('howItWorks.step', { n: 3 })}
+            description={t('howItWorks.s3Desc')}
             variant="primary"
-            title="Review Application"
+            title={t('howItWorks.s3Title')}
           />
           <Works
             icon={<LuCircleCheckBig />}
-            step="Step 4"
-            description="Send acceptance letters and manage enrollment"
+            step={t('howItWorks.step', { n: 4 })}
+            description={t('howItWorks.s4Desc')}
             variant="primary"
-            title="Accept Student"
+            title={t('howItWorks.s4Title')}
           />
         </div>
       </div>
       <div className='mx-auto w-[1000px] h-[240px] bg-[#053F69] rounded-xl max-sm:w-[350px] max-sm:h-[255px]'>
-         <h1 className='text-center text-white text-[32px] py-3 font-family-playfair max-sm:text-[27px]'>Connect. Apply. Grow</h1>
-         <p className='text-[16px] text-[#6B7280] mb-[30px] text-center font-family-poppins max-sm:text-[14px]'>Inzozi bridges the gap between educational institutions and families, creating opportunities for every child in Rwanda.</p>
+         <h1 className='text-center text-white text-[32px] py-3 font-family-playfair max-sm:text-[27px]'>{t('howItWorks.connectTitle')}</h1>
+         <p className='text-[16px] text-[#6B7280] mb-[30px] text-center font-family-poppins max-sm:text-[14px]'>{t('howItWorks.connectBody')}</p>
 
          <div className='flex justify-center items-center'>
             <div>
                 <Works variant='secondly' icon={<RiSchoolFill/>}/>
-                <h1 className='text-[#6B7280]'>Schools</h1>
+                <h1 className='text-[#6B7280]'>{t('howItWorks.schools')}</h1>
             </div>
             <div>
                 <WiDirectionRight className='text-3xl text-white'/>
             </div>
             <div>
                 <div className='rounded-[50%] bg-gradient-to-b  w-[48px] h-[48px] flex justify-center items-center text-3xl  text-white from-slate-700 to-slate-500'>I</div>
-                <h1 className='text-[#6B7280] pt-5'>Inzozi</h1>
+                <h1 className='text-[#6B7280] pt-5'>{t('howItWorks.brand')}</h1>
             </div>
             <div>
                 <WiDirectionRight className='text-3xl text-white'/>
             </div>
               <div>
                 <Works variant='secondly' icon={<FiUserPlus/>}/>
-                <h1 className='text-[#6B7280]'>Families</h1>
+                <h1 className='text-[#6B7280]'>{t('howItWorks.families')}</h1>
             </div>
          </div>
 

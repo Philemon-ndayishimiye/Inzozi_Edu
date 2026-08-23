@@ -1,33 +1,35 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { HiTrendingUp } from 'react-icons/hi';
 import { FaSchool, FaUsers, FaMapMarkerAlt, FaAward } from 'react-icons/fa';
 import StatisticCard from './cards/StatisticCard';
 
 const TrustedBySection: React.FC = () => {
+  const { t } = useTranslation();
   const statistics = [
     {
       icon: <FaSchool />,
       value: '200+',
-      label: 'Quality Schools',
-      subtitle: 'Verified & trusted',
+      label: t('trustedBy.stat1Label'),
+      subtitle: t('trustedBy.stat1Sub'),
     },
     {
       icon: <FaUsers />,
       value: '8,500+',
-      label: 'Happy Families',
-      subtitle: 'Successfully placed',
+      label: t('trustedBy.stat2Label'),
+      subtitle: t('trustedBy.stat2Sub'),
     },
     {
       icon: <FaMapMarkerAlt />,
       value: '30',
-      label: 'Districts',
-      subtitle: 'Complete coverage',
+      label: t('trustedBy.stat3Label'),
+      subtitle: t('trustedBy.stat3Sub'),
     },
     {
       icon: <FaAward />,
       value: '99%',
-      label: 'Success Rate',
-      subtitle: 'Satisfaction guaranteed',
+      label: t('trustedBy.stat4Label'),
+      subtitle: t('trustedBy.stat4Sub'),
     },
   ];
 
@@ -48,21 +50,21 @@ const TrustedBySection: React.FC = () => {
                 <HiTrendingUp className="w-5 h-5 text-white" />
               </div>
               <span className="text-white font-semibold text-sm">
-                Growing Every Day
+                {t('trustedBy.growingEveryDay')}
               </span>
             </div>
           </div>
 
           <h2 className="text-[30px] font-bold text-white mb-4 font-family-playfair">
-            Trusted by Families and Schools
+            {t('trustedBy.title')}
           </h2>
-          
+
           <h3 className="text-2xl md:text-3xl font-semibold text-white/90 mb-6 font-family-playfair">
-            Across Rwanda font-family-playfair
+            {t('trustedBy.subtitle')}
           </h3>
 
           <p className="text-white/80 text-lg max-w-3xl mx-auto leading-relaxed">
-            Join thousands of families who have found their perfect school match through our platform. Your child's educational journey starts here.
+            {t('trustedBy.body')}
           </p>
         </div>
 
@@ -88,7 +90,7 @@ const TrustedBySection: React.FC = () => {
               <div className="w-4 h-4 bg-gradient-to-br from-[#F87171] to-[#DC2626] rounded-full" style={{opacity: '0.8'}}></div>
             </div>
             <span className="text-white font-semibold text-sm">
-              Join our growing community today!
+              {t('trustedBy.joinCommunity')}
             </span>
           </div>
         </div>

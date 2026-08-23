@@ -1,23 +1,25 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaUser, FaClipboardList, FaChartLine } from 'react-icons/fa';
 import FeatureCard from './cards/FeatureCard';
 
 const SchoolOwnerSection: React.FC = () => {
+  const { t } = useTranslation();
   const features = [
     {
       icon: <FaUser className="w-5 h-5" />,
-      title: 'Create your School Profile',
-      description: 'Easily register your school online, add details like location, programs, and contact information to increase visibility.',
+      title: t('schoolOwner.f1Title'),
+      description: t('schoolOwner.f1Desc'),
     },
     {
       icon: <FaClipboardList className="w-5 h-5" />,
-      title: 'Receive & Track Applications',
-      description: 'Submit applications to multiple schools with our streamlined process. Upload documents once and apply everywhere.',
+      title: t('schoolOwner.f2Title'),
+      description: t('schoolOwner.f2Desc'),
     },
     {
       icon: <FaChartLine className="w-5 h-5" />,
-      title: 'Connect with Parents',
-      description: 'Send updates, respond to inquiries, and keep parents informed. Build trust through direct communication.',
+      title: t('schoolOwner.f3Title'),
+      description: t('schoolOwner.f3Desc'),
     },
   ];
 
@@ -26,11 +28,11 @@ const SchoolOwnerSection: React.FC = () => {
       <div className="md:px-[80px]">
         <div className="text-center mb-12">
           <h2 className="text-[30px] font-bold mb-4 font-family-playfair">
-            <span className="text-[#223D60]">You own </span>
-            <span className="text-[#E69500]">a School?</span>
+            <span className="text-[#223D60]">{t('schoolOwner.titleLine1')} </span>
+            <span className="text-[#E69500]">{t('schoolOwner.titleLine2')}</span>
           </h2>
           <p className="text-[#223D60] text-lg max-w-2xl mx-auto">
-            Grow your school faster with Inzozi—reach more parents, manage applications effortlessly, and build your reputation online.
+            {t('schoolOwner.subtitle')}
           </p>
         </div>
 
@@ -64,13 +66,13 @@ const SchoolOwnerSection: React.FC = () => {
         <div className="text-center mt-12">
           <div className="bg-opacity-10 rounded-xl p-8 w-full mx-auto backdrop-blur-sm">
             <h3 className="text-[#223D60] text-xl font-semibold mb-2">
-              Join thousands of families already using Inzozi
+              {t('schoolOwner.ctaTitle')}
             </h3>
             <p className="text-[#223D60] mb-6">
-              Make informed decisions about your child's education with comprehensive school data and seamless application management.
+              {t('schoolOwner.ctaBody')}
             </p>
             <button className="bg-gradient-to-r from-[#053f69] to-[#cad9e9] hover:from-[#E69500] hover:to-[#E69500] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg transform hover:scale-105 active:scale-95">
-              Continue As  Owner
+              {t('schoolOwner.ctaButton')}
             </button>
           </div>
         </div>

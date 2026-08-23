@@ -1,50 +1,52 @@
 import React from 'react';
-import { 
-  FaShieldAlt, 
-  FaBolt, 
-  FaGlobe, 
-  FaComments, 
-  FaChartBar, 
+import { useTranslation } from 'react-i18next';
+import {
+  FaShieldAlt,
+  FaBolt,
+  FaGlobe,
+  FaComments,
+  FaChartBar,
   FaLock,
 } from 'react-icons/fa';
 import FeatureBenefitCard from './cards/FeatureBenefitCard';
 
 const PowerfulFeaturesSection: React.FC = () => {
+  const { t } = useTranslation();
   const features = [
     {
       icon: <FaShieldAlt className="w-7 h-7" />,
-      title: 'Secure Platform',
-      description: 'Enterprise-grade security protecting sensitive student and school data with end-to-end encryption.',
+      title: t('powerfulFeatures.f1Title'),
+      description: t('powerfulFeatures.f1Desc'),
       iconGradient: 'bg-gradient-to-br from-[#05416B] to-[#60A5FA]',
     },
     {
       icon: <FaBolt className="w-7 h-7" />,
-      title: 'Lightning Fast',
-      description: 'Optimized performance ensures quick application processing and seamless user experience.',
+      title: t('powerfulFeatures.f2Title'),
+      description: t('powerfulFeatures.f2Desc'),
       iconGradient: 'bg-gradient-to-br from-[#05416B] to-[#60A5FA]',
     },
     {
       icon: <FaGlobe className="w-7 h-7" />,
-      title: 'Multi-Language Support',
-      description: 'Available in Kinyarwanda and English to serve all Rwandan communities.',
+      title: t('powerfulFeatures.f3Title'),
+      description: t('powerfulFeatures.f3Desc'),
       iconGradient: 'bg-gradient-to-br from-[#05416B] to-[#60A5FA]',
     },
     {
       icon: <FaComments className="w-7 h-7" />,
-      title: 'Real-time Communication',
-      description: 'Instant messaging between schools and parents for quick updates and clarifications.',
+      title: t('powerfulFeatures.f4Title'),
+      description: t('powerfulFeatures.f4Desc'),
       iconGradient: 'bg-gradient-to-br from-[#05416B] to-[#60A5FA]',
     },
     {
       icon: <FaChartBar className="w-7 h-7" />,
-      title: 'Comprehensive Analytics',
-      description: 'Detailed insights and reports to help schools.',
+      title: t('powerfulFeatures.f5Title'),
+      description: t('powerfulFeatures.f5Desc'),
       iconGradient: 'bg-gradient-to-br from-[#05416B] to-[#60A5FA]',
     },
     {
       icon: <FaLock className="w-7 h-7" />,
-      title: 'Privacy First',
-      description: 'GDPR-compliant privacy controls ensuring your personal information remains protected.',
+      title: t('powerfulFeatures.f6Title'),
+      description: t('powerfulFeatures.f6Desc'),
       iconGradient: 'bg-gradient-to-br from-[#05416B] to-[#60A5FA]',
     },
   ];
@@ -54,11 +56,11 @@ const PowerfulFeaturesSection: React.FC = () => {
       <div className="md:px-[80px]">
         <div className="text-center mb-16">
           <h2 className="text-[30px] font-bold mb-6 text-gray-800 font-family-playfair">
-            Powerful Features
+            {t('powerfulFeatures.title')}
           </h2>
-          
+
           <p className="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
-            Everything you need to modernize education management in Rwanda
+            {t('powerfulFeatures.subtitle')}
           </p>
         </div>
 

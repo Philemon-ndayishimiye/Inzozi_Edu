@@ -13,15 +13,16 @@ import { IoArrowBack, IoInformationCircleOutline, IoClose } from 'react-icons/io
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 
 const SchoolInfoPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { data, isLoading: profileLoading } = useGetProfileQuery(id ?? skipToken);
+  const lang = i18n.language !== 'en' ? i18n.language : undefined;
+  const { data, isLoading: profileLoading } = useGetProfileQuery(id ? { id, lang } : skipToken);
   const { data: informations, isLoading: infoLoading } = useGetSchoolDetailsQuery(id ?? skipToken);
-  const { data: spots } = useGetAllSpotsQuery(id ?? skipToken);
-  const { data: gallery } = useGetAllGalleryQuery(id ?? skipToken);
+  const { data: spots } = useGetAllSpotsQuery(id ? { id, lang } : skipToken);
+  const { data: gallery } = useGetAllGalleryQuery(id ? { schoolId: id, lang } : skipToken);
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');

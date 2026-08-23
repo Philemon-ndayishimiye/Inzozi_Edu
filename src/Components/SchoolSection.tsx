@@ -22,7 +22,7 @@ function SchoolCardSkeleton() {
 }
 
 export default function SchoolSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const schoolName = searchParams.get('q') ?? '';
@@ -47,7 +47,7 @@ export default function SchoolSection() {
   useEffect(() => {
     setPage(1);
     setAccumulated([]);
-  }, [schoolName, province, district, category, type, level, studentType]);
+  }, [schoolName, province, district, category, type, level, studentType, i18n.language]);
 
   const { data, isLoading, isFetching, isError } = useSearchSchoolsQuery({
     schoolName: schoolName || undefined,
@@ -58,6 +58,7 @@ export default function SchoolSection() {
     studentType: studentType || undefined,
     page,
     limit: PAGE_SIZE,
+    lang: i18n.language !== 'en' ? i18n.language : undefined,
   });
 
   useEffect(() => {

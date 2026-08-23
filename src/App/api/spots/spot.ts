@@ -66,11 +66,14 @@ UpdateSpot: builder.mutation<SeatAvailability, { schoolId: string, spotId: strin
   }),
 }),
 
-getAllSpots: builder.query<SeatsApiResponse, string>({
-      query: (id) => ({
-        url: `/schools/${id}/spots`,
-        method: 'GET',
-      }),
+getAllSpots: builder.query<SeatsApiResponse, { id: string; lang?: string } | string>({
+      query: (arg) => {
+        const { id, lang } = typeof arg === 'string' ? { id: arg, lang: undefined } : arg;
+        return {
+          url: `/schools/${id}/spots${lang ? `?lang=${lang}` : ''}`,
+          method: 'GET',
+        };
+      },
  }),
 
   }),

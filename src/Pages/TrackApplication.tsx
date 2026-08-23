@@ -13,16 +13,17 @@ import {
 import { useLazyTrackApplicationQuery, type TrackApplicationResult } from '../App/api/students/students';
 
 export default function TrackApplication() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
   const initialRef = searchParams.get('ref') ?? '';
   const [code, setCode] = useState(initialRef);
   const [trigger, { data, isFetching }] = useLazyTrackApplicationQuery();
   const [searched, setSearched] = useState(false);
+  const lang = i18n.language !== 'en' ? i18n.language : undefined;
 
   useEffect(() => {
     if (initialRef) {
-      trigger(initialRef);
+      trigger({ code: initialRef, lang });
       setSearched(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -31,7 +32,7 @@ export default function TrackApplication() {
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     if (!code.trim()) {return;}
-    trigger(code.trim());
+    trigger({ code: code.trim(), lang });
     setSearched(true);
   };
 

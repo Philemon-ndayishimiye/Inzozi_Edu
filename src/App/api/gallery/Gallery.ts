@@ -59,11 +59,14 @@ export const GalleryApi = apiSlice.injectEndpoints({
       }),
     }),
 
-   getAllGallery:builder.query<getGalleryResponse , string>({
-    query:(schoolId)=>({
-        url: `/schools/${schoolId}/gallery`,
+   getAllGallery:builder.query<getGalleryResponse , { schoolId: string; lang?: string } | string>({
+    query:(arg)=>{
+      const { schoolId, lang } = typeof arg === 'string' ? { schoolId: arg, lang: undefined } : arg;
+      return {
+        url: `/schools/${schoolId}/gallery${lang ? `?lang=${lang}` : ''}`,
         method:'GET',
-    }),
+      };
+    },
    }),
   // response and arguments
    DeleteGallery:builder.mutation<DeleteGalleryResponse , {schoolId:string , id:string}>({

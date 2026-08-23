@@ -108,9 +108,9 @@ export const StudentsApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    trackApplication: builder.query<TrackApplicationResponse, string>({
-      query: (trackingCode) => ({
-        url: `/students/track/${trackingCode}`,
+    trackApplication: builder.query<TrackApplicationResponse, { code: string; lang?: string }>({
+      query: ({ code, lang }) => ({
+        url: `/students/track/${code}${lang ? `?lang=${lang}` : ''}`,
         method: 'GET',
       }),
     }),

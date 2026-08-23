@@ -71,6 +71,9 @@ export interface SearchSchoolsParams {
   minAvailableSpots?: number;
   page?: number;
   limit?: number;
+  // Current UI language ('rw'/'fr') - the backend machine-translates dynamic
+  // fields (mission/vision/description) into this before responding.
+  lang?: string;
 }
 
 export interface SearchSchoolResult {
@@ -179,11 +182,14 @@ export const SchoolsApi = apiSlice.injectEndpoints({
       },
     }),
 
-       getProfile: builder.query<ProfileResponse, string>({
-      query: (id) => ({
-        url: `/schools/${id}/profile`,
-        method: 'GET',
-      }),
+       getProfile: builder.query<ProfileResponse, { id: string; lang?: string } | string>({
+      query: (arg) => {
+        const { id, lang } = typeof arg === 'string' ? { id: arg, lang: undefined } : arg;
+        return {
+          url: `/schools/${id}/profile${lang ? `?lang=${lang}` : ''}`,
+          method: 'GET',
+        };
+      },
     }),
 
       getAllSchools: builder.query<SchoolsResponse, void>({

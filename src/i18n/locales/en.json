@@ -43,10 +43,10 @@
     "press": "Press",
     "contact": "Contact",
     "stayUpdated": "Stay Updated",
-    "newsletterText": "Get the latest news and updates about Inzozi's features and Rwanda's education sector.",
+    "newsletterText": "Get the latest news and updates about Inzoziedu's features and Rwanda's education sector.",
     "emailPlaceholder": "Enter your Email",
     "subscribe": "Subscribe",
-    "copyright": "© {{year}} Inzozi. All rights reserved.",
+    "copyright": "© {{year}} Inzoziedu. All rights reserved.",
     "location": "Kigali, Rwanda"
   },
   "hero": {
@@ -124,7 +124,7 @@
     "applyForChild": "Apply For a Child",
     "district": "District",
     "freeToApplyBold": "You only pay tuition after your child is admitted.",
-    "freeToApplyRest": "Applying and having your application reviewed through Inzozi is completely free.",
+    "freeToApplyRest": "Applying and having your application reviewed through Inzoziedu is completely free.",
     "photosAndFacilities": "Photos & facilities",
     "photosCount_one": "{{count}} photo",
     "photosCount_other": "{{count}} photos",
@@ -246,7 +246,7 @@
   "auth": {
     "login": {
       "title": "Log in to your account",
-      "subtitle": "For School Managers, Admission Managers, and Inzozi Admins. Parents don't need an account — apply directly from a school's page.",
+      "subtitle": "For School Managers, Admission Managers, and Inzoziedu Admins. Parents don't need an account — apply directly from a school's page.",
       "noAccount": "Don't have an account?",
       "signUp": "Sign up",
       "email": "Email",
@@ -280,7 +280,7 @@
   },
   "register": {
     "title": "Register as a School Manager",
-    "subtitle": "This step is quick and approved automatically — you'll register your school next, and that part goes to Inzozi Admin for review.",
+    "subtitle": "This step is quick and approved automatically — you'll register your school next, and that part goes to Inzoziedu Admin for review.",
     "alreadyHaveAccount": "Already have an account?",
     "logIn": "Log in",
     "firstName": "First name",
@@ -298,13 +298,13 @@
   },
   "schoolRegister": {
     "title": "Register your school",
-    "subtitle": "Submit your school's details and legal documents. An Inzozi Admin will review this before your school goes live — usually within 2–3 business days.",
+    "subtitle": "Submit your school's details and legal documents. An Inzoziedu Admin will review this before your school goes live — usually within 2–3 business days.",
     "schoolCode": "School Code",
     "schoolName": "School Name",
     "schoolEmail": "Email",
     "certificate": "Certificate",
     "certificateLabel": "Legal registration certificate",
-    "certificateHint": "Required so Inzozi Admin can verify your school is legally recognized.",
+    "certificateHint": "Required so Inzoziedu Admin can verify your school is legally recognized.",
     "registering": "Registering…",
     "submitForReview": "Submit for review",
     "failedToRegister": "Failed to register school",
@@ -363,7 +363,7 @@
   },
   "pending": {
     "title": "Your school is under review",
-    "subtitle": "We've received your registration and documents. Inzozi Admin will verify everything before your school goes live to parents.",
+    "subtitle": "We've received your registration and documents. Inzoziedu Admin will verify everything before your school goes live to parents.",
     "step1Title": "Registration submitted",
     "step1Body": "Your school details and documents were received",
     "step2Title": "Under review by Admin",
@@ -385,7 +385,7 @@
     "logOutConfirmTitle": "Log out?",
     "logOutConfirmMessage": "You'll need to log in again to get back to your dashboard.",
     "roleSchoolManager": "School Manager",
-    "roleInzoziAdmin": "Inzozi Admin",
+    "roleInzoziAdmin": "Inzoziedu Admin",
     "roleAdmissionManager": "Admission Manager",
     "platformControl": "Platform control",
     "preview": "Preview",
@@ -428,7 +428,7 @@
     "openClasses": "Open classes",
     "spotsOpen": "Spots currently open",
     "applicationsThisMonth": "Applications this month",
-    "submittedViaInzozi": "Submitted via Inzozi",
+    "submittedViaInzozi": "Submitted via Inzoziedu",
     "pendingReview": "Pending review",
     "awaitingDecision": "Awaiting a decision",
     "admissionManager": "Admission Manager",
@@ -482,7 +482,7 @@
     "confirmRejection": "Confirm rejection"
   },
   "applicationsPage": {
-    "schoolManagerIntro": "Applications submitted by parents through Inzozi for your school.",
+    "schoolManagerIntro": "Applications submitted by parents through Inzoziedu for your school.",
     "loadingApplications": "Loading applications…",
     "schoolManagerEmpty": "No applications yet. Applications submitted for your open classes will appear here.",
     "backToApplications": "Back to applications",
@@ -679,7 +679,7 @@
     "review": "Review"
   },
   "allSchoolsPage": {
-    "intro": "Browse and manage every school registered on Inzozi.",
+    "intro": "Browse and manage every school registered on Inzoziedu.",
     "all": "All",
     "active": "Active",
     "pending": "Pending",
@@ -718,7 +718,7 @@
     "noneValue": "—"
   },
   "usersPage": {
-    "intro": "Everyone with an account on Inzozi — School Managers, Admission Managers, and Admins.",
+    "intro": "Everyone with an account on Inzoziedu — School Managers, Admission Managers, and Admins.",
     "searchPlaceholder": "Search by name, email, or school...",
     "allRoles": "All roles",
     "loading": "Loading…",
@@ -745,7 +745,7 @@
     "deeperAnalyticsNote": "Deeper analytics — application volume over time, seat utilization, traffic — need application and visit-tracking endpoints that don't exist on the backend yet. Once those ship, this page can chart real trends instead of estimates."
   },
   "superAdminSettingsPage": {
-    "intro": "Platform-wide settings for the Inzozi Admin portal.",
+    "intro": "Platform-wide settings for the Inzoziedu Admin portal.",
     "nothingYet": "Nothing configurable here yet — settings like notification preferences and platform defaults will land here once they're defined."
   },
   "confirmDialog": {
@@ -755,7 +755,7 @@
   },
   "whyChoose": {
     "title": "Why Choose",
-    "brand": "Inzozi",
+    "brand": "Inzoziedu",
     "subtitle": "We're not just a directory – we're your trusted partner in finding the perfect educational journey for your child.",
     "f1Title": "Smart Discovery",
     "f1Desc": "AI-powered search that learns your preferences and finds schools that truly match your needs.",
@@ -781,7 +781,7 @@
     "f2Desc": "Complete your school applications online with our streamlined process. Upload documents once and apply everywhere.",
     "f3Title": "Track Your Child's Admission",
     "f3Desc": "Monitor application status in real-time with updates, and communicate directly with school administrators.",
-    "ctaTitle": "Join thousands of families already using Inzozi",
+    "ctaTitle": "Join thousands of families already using Inzoziedu",
     "ctaBody": "Make informed decisions about your child's education with comprehensive school data and seamless application management.",
     "ctaButton": "Continue As a Parent"
   },
@@ -804,14 +804,14 @@
   "schoolOwner": {
     "titleLine1": "You own",
     "titleLine2": "a School?",
-    "subtitle": "Grow your school faster with Inzozi—reach more parents, manage applications effortlessly, and build your reputation online.",
+    "subtitle": "Grow your school faster with Inzoziedu—reach more parents, manage applications effortlessly, and build your reputation online.",
     "f1Title": "Create your School Profile",
     "f1Desc": "Easily register your school online, add details like location, programs, and contact information to increase visibility.",
     "f2Title": "Receive & Track Applications",
     "f2Desc": "Submit applications to multiple schools with our streamlined process. Upload documents once and apply everywhere.",
     "f3Title": "Connect with Parents",
     "f3Desc": "Send updates, respond to inquiries, and keep parents informed. Build trust through direct communication.",
-    "ctaTitle": "Join thousands of families already using Inzozi",
+    "ctaTitle": "Join thousands of families already using Inzoziedu",
     "ctaBody": "Make informed decisions about your child's education with comprehensive school data and seamless application management.",
     "ctaButton": "Continue As Owner"
   },
@@ -838,16 +838,16 @@
     "s4Title": "Accept Student",
     "s4Desc": "Send acceptance letters and manage enrollment",
     "connectTitle": "Connect. Apply. Grow",
-    "connectBody": "Inzozi bridges the gap between educational institutions and families, creating opportunities for every child in Rwanda.",
+    "connectBody": "Inzoziedu bridges the gap between educational institutions and families, creating opportunities for every child in Rwanda.",
     "schools": "Schools",
-    "brand": "Inzozi",
+    "brand": "Inzoziedu",
     "families": "Families"
   },
   "resourcesSupport": {
     "title": "Resources & Support",
-    "subtitle": "Everything you need to make the most of Inzozi's platform",
+    "subtitle": "Everything you need to make the most of Inzoziedu's platform",
     "r1Title": "Getting Started Guide",
-    "r1Desc": "Comprehensive guide to help parents and schools get started with Inzozi.",
+    "r1Desc": "Comprehensive guide to help parents and schools get started with Inzoziedu.",
     "r1Label": "GUIDE",
     "r2Title": "Video Tutorials",
     "r2Desc": "Step-by-step video walkthroughs for all platform features.",
@@ -889,8 +889,8 @@
     "joinCommunity": "Join our growing community today!"
   },
   "schoolPage": {
-    "title": "Welcome to your Inzozi account!",
-    "subtitle": "Inzozi helps you manage applications and showcase your school. Start simplifying your work and improving your school's visibility by registering it in a few simple steps.",
+    "title": "Welcome to your Inzoziedu account!",
+    "subtitle": "Inzoziedu helps you manage applications and showcase your school. Start simplifying your work and improving your school's visibility by registering it in a few simple steps.",
     "registerNewSchool": "Register new school"
   },
   "logoutMenu": {

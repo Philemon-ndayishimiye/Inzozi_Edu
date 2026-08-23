@@ -17,10 +17,10 @@
     "howItWorks": "Uko bikorwa",
     "trackApplication": "Kurikirana Ubusabe",
     "login": "Injira",
-    "tagline": "Inzozi Nziza. Ejo Hazaza Heza"
+    "tagline": "Inzoziedu Nziza. Ejo Hazaza Heza"
   },
   "footer": {
-    "tagline": "Inzozi Nziza. Ejo Hazaza Heza",
+    "tagline": "Inzoziedu Nziza. Ejo Hazaza Heza",
     "description": "Duhuza amashuri n'imiryango mu Rwanda hifashishijwe ikoranabuhanga rigezweho. Duteza imbere uburezi bwiza kuri buri mwana.",
     "legal": "Amategeko",
     "privacyPolicy": "Politiki y'ibanga",
@@ -43,10 +43,10 @@
     "press": "Itangazamakuru",
     "contact": "Twandikire",
     "stayUpdated": "Menya amakuru mashya",
-    "newsletterText": "Habwa amakuru mashya ku biranga Inzozi n'umurima w'uburezi mu Rwanda.",
+    "newsletterText": "Habwa amakuru mashya ku biranga Inzoziedu n'umurima w'uburezi mu Rwanda.",
     "emailPlaceholder": "Andika email yawe",
     "subscribe": "Iyandikishe",
-    "copyright": "© {{year}} Inzozi. Uburenganzira bwose burabitswe.",
+    "copyright": "© {{year}} Inzoziedu. Uburenganzira bwose burabitswe.",
     "location": "Kigali, u Rwanda"
   },
   "hero": {
@@ -124,7 +124,7 @@
     "applyForChild": "Andikisha Umwana",
     "district": "Akarere",
     "freeToApplyBold": "Wishyura amashuri gusa nyuma yo kwemererwa umwana wawe.",
-    "freeToApplyRest": "Kwiyandikisha no gusuzumirwa ubusabe binyuze kuri Inzozi ni ubuntu rwose.",
+    "freeToApplyRest": "Kwiyandikisha no gusuzumirwa ubusabe binyuze kuri Inzoziedu ni ubuntu rwose.",
     "photosAndFacilities": "Amafoto & ibikoresho",
     "photosCount_one": "ifoto {{count}}",
     "photosCount_other": "amafoto {{count}}",
@@ -246,7 +246,7 @@
   "auth": {
     "login": {
       "title": "Injira kuri konti yawe",
-      "subtitle": "Ku Bayobozi b'Amashuri, Abayobozi b'Ubwiyandikishe, n'Abayobozi ba Inzozi. Ababyeyi ntibakeneye konti — bandikisha bakoresheje urupapuro rw'ishuri.",
+      "subtitle": "Ku Bayobozi b'Amashuri, Abayobozi b'Ubwiyandikishe, n'Abayobozi ba Inzoziedu. Ababyeyi ntibakeneye konti — bandikisha bakoresheje urupapuro rw'ishuri.",
       "noAccount": "Ntufite konti?",
       "signUp": "Iyandikishe",
       "email": "Email",
@@ -280,7 +280,7 @@
   },
   "register": {
     "title": "Iyandikishe nk'Umuyobozi w'Ishuri",
-    "subtitle": "Iyi ntambwe ni ngufi kandi yemerwa mu buryo bwikora — hanyuma uzandikisha ishuri ryawe, na ryo rijya ku Muyobozi wa Inzozi kugira ngo arisuzume.",
+    "subtitle": "Iyi ntambwe ni ngufi kandi yemerwa mu buryo bwikora — hanyuma uzandikisha ishuri ryawe, na ryo rijya ku Muyobozi wa Inzoziedu kugira ngo arisuzume.",
     "alreadyHaveAccount": "Usanzwe ufite konti?",
     "logIn": "Injira",
     "firstName": "Izina ry'idini",
@@ -298,13 +298,13 @@
   },
   "schoolRegister": {
     "title": "Andikisha ishuri ryawe",
-    "subtitle": "Ohereza amakuru y'ishuri ryawe n'inyandiko z'ubuyobozi. Umuyobozi wa Inzozi azasuzuma ibi mbere yuko ishuri ryawe ritangira gukoreshwa — akenshi bimara iminsi 2-3 y'akazi.",
+    "subtitle": "Ohereza amakuru y'ishuri ryawe n'inyandiko z'ubuyobozi. Umuyobozi wa Inzoziedu azasuzuma ibi mbere yuko ishuri ryawe ritangira gukoreshwa — akenshi bimara iminsi 2-3 y'akazi.",
     "schoolCode": "Kode y'ishuri",
     "schoolName": "Izina ry'ishuri",
     "schoolEmail": "Email",
     "certificate": "Icyemezo",
     "certificateLabel": "Icyemezo cy'ubwiyandikishe cy'amategeko",
-    "certificateHint": "Birakenewe kugira ngo Umuyobozi wa Inzozi yemeze ko ishuri ryawe ryemewe n'amategeko.",
+    "certificateHint": "Birakenewe kugira ngo Umuyobozi wa Inzoziedu yemeze ko ishuri ryawe ryemewe n'amategeko.",
     "registering": "Turimo kwandikisha…",
     "submitForReview": "Ohereza gusuzumwa",
     "failedToRegister": "Byanze kwandikisha ishuri",
@@ -363,7 +363,7 @@
   },
   "pending": {
     "title": "Ishuri ryawe riri gusuzumwa",
-    "subtitle": "Twakiriye ubwiyandikishe bwawe n'inyandiko zawe. Umuyobozi wa Inzozi azasuzuma byose mbere yuko ishuri ryawe ritangira kugaragara ku babyeyi.",
+    "subtitle": "Twakiriye ubwiyandikishe bwawe n'inyandiko zawe. Umuyobozi wa Inzoziedu azasuzuma byose mbere yuko ishuri ryawe ritangira kugaragara ku babyeyi.",
     "step1Title": "Ubwiyandikishe bwoherejwe",
     "step1Body": "Amakuru y'ishuri ryawe n'inyandiko byakiriwe",
     "step2Title": "Birimo gusuzumwa n'Umuyobozi",
@@ -385,7 +385,7 @@
     "logOutConfirmTitle": "Gusohoka?",
     "logOutConfirmMessage": "Uzasaba kongera kwinjira kugira ngo ugaruke kuri dashboard yawe.",
     "roleSchoolManager": "Umuyobozi w'Ishuri",
-    "roleInzoziAdmin": "Umuyobozi wa Inzozi",
+    "roleInzoziAdmin": "Umuyobozi wa Inzoziedu",
     "roleAdmissionManager": "Umuyobozi w'Ubwiyandikishe",
     "platformControl": "Kuyobora urubuga",
     "preview": "Kureba mbere",
@@ -428,7 +428,7 @@
     "openClasses": "Amashuri afunguye",
     "spotsOpen": "Imyanya ifunguye ubu",
     "applicationsThisMonth": "Ubusabe muri uku kwezi",
-    "submittedViaInzozi": "Byoherejwe binyuze kuri Inzozi",
+    "submittedViaInzozi": "Byoherejwe binyuze kuri Inzoziedu",
     "pendingReview": "Bitegereje gusuzumwa",
     "awaitingDecision": "Bitegereje icyemezo",
     "admissionManager": "Umuyobozi w'Ubwiyandikishe",
@@ -482,7 +482,7 @@
     "confirmRejection": "Emeza ko wanze"
   },
   "applicationsPage": {
-    "schoolManagerIntro": "Ubusabe bwoherejwe n'ababyeyi binyuze kuri Inzozi ku ishuri ryawe.",
+    "schoolManagerIntro": "Ubusabe bwoherejwe n'ababyeyi binyuze kuri Inzoziedu ku ishuri ryawe.",
     "loadingApplications": "Turimo gutegura ubusabe…",
     "schoolManagerEmpty": "Nta busabe burahaba. Ubusabe bwoherejwe ku byiciro byawe bifunguye buzagaragara hano.",
     "backToApplications": "Subira ku busabe",
@@ -679,7 +679,7 @@
     "review": "Suzuma"
   },
   "allSchoolsPage": {
-    "intro": "Reba kandi ucunge amashuri yose yanditse kuri Inzozi.",
+    "intro": "Reba kandi ucunge amashuri yose yanditse kuri Inzoziedu.",
     "all": "Byose",
     "active": "Akora",
     "pending": "Bitegereje",
@@ -718,7 +718,7 @@
     "noneValue": "—"
   },
   "usersPage": {
-    "intro": "Buri wese ufite konti kuri Inzozi — Abayobozi b'Amashuri, Abayobozi b'Ubwiyandikishe, n'Abayobozi.",
+    "intro": "Buri wese ufite konti kuri Inzoziedu — Abayobozi b'Amashuri, Abayobozi b'Ubwiyandikishe, n'Abayobozi.",
     "searchPlaceholder": "Shakisha ukurikije izina, email, cyangwa ishuri...",
     "allRoles": "Inshingano zose",
     "loading": "Turimo gutegura…",
@@ -745,7 +745,7 @@
     "deeperAnalyticsNote": "Isesengura ryimbitse — umubare w'ubusabe mu gihe, ikoreshwa ry'imyanya, abasura — bikeneye ubusabe n'ibikoresho byo gukurikirana abasura bitarahaba kuri backend. Igihe ibi bizaba bihari, uru rupapuro ruzashobora kwerekana ibigenda nyabyo aho kuba amasunika gusa."
   },
   "superAdminSettingsPage": {
-    "intro": "Igenamiterere ry'urubuga rwose ku Muyobozi wa Inzozi.",
+    "intro": "Igenamiterere ry'urubuga rwose ku Muyobozi wa Inzoziedu.",
     "nothingYet": "Nta kintu gishobora guhindurwa hano ubu — igenamiterere nk'ibyifuzo by'amatangazo n'ibisanzwe by'urubuga bizaza hano igihe bizaba byarateganyijwe."
   },
   "confirmDialog": {
@@ -755,7 +755,7 @@
   },
   "whyChoose": {
     "title": "Kuki Uhitamo",
-    "brand": "Inzozi",
+    "brand": "Inzoziedu",
     "subtitle": "Ntabwo turi urutonde gusa – turi umufatanyabikorwa wawe wizewe wo kubona urugendo rw'uburezi rukwiye umwana wawe.",
     "f1Title": "Gushakisha Byubwenge",
     "f1Desc": "Gushakisha bikoresha ubwenge bw'ubukorikori bwiga ibyifuzo byawe kandi bukagusanga amashuri ahuye n'ibyo ukeneye.",
@@ -781,7 +781,7 @@
     "f2Desc": "Uzuza ubusabe bw'amashuri kuri interineti binyuze mu buryo bwacu bworoheje. Ohereza inyandiko rimwe kandi usabe ahantu hose.",
     "f3Title": "Kurikirana Ubwiyandikishe bw'Umwana Wawe",
     "f3Desc": "Kurikirana uko ubusabe bugeze mu gihe nyacyo hamwe n'amakuru mashya, kandi uvugane ako kanya n'abayobozi b'amashuri.",
-    "ctaTitle": "Injira mu miryango ibihumbi isanzwe ikoresha Inzozi",
+    "ctaTitle": "Injira mu miryango ibihumbi isanzwe ikoresha Inzoziedu",
     "ctaBody": "Fata ibyemezo bifite ishingiro ku burezi bw'umwana wawe hifashishijwe amakuru arambuye y'amashuri no gucunga ubusabe byoroshye.",
     "ctaButton": "Komeza nk'Umubyeyi"
   },
@@ -804,14 +804,14 @@
   "schoolOwner": {
     "titleLine1": "Ufite",
     "titleLine2": "Ishuri?",
-    "subtitle": "Kuza ishuri ryawe vuba na Inzozi—gera ku babyeyi benshi, cunga ubusabe byoroshye, kandi wubake izina ryawe kuri interineti.",
+    "subtitle": "Kuza ishuri ryawe vuba na Inzoziedu—gera ku babyeyi benshi, cunga ubusabe byoroshye, kandi wubake izina ryawe kuri interineti.",
     "f1Title": "Kora Umwirondoro w'Ishuri Ryawe",
     "f1Desc": "Andikisha ishuri ryawe byoroshye kuri interineti, wongeremo amakuru nk'aho riherereye, porogaramu, n'uburyo bwo kuvugana kugira ngo rimenyekane cyane.",
     "f2Title": "Kwakira no Gukurikirana Ubusabe",
     "f2Desc": "Kwakira ubusabe uhereye ku mashuri menshi binyuze mu buryo bwacu bworoheje. Ohereza inyandiko rimwe kandi busabwe ahantu hose.",
     "f3Title": "Vugana n'Ababyeyi",
     "f3Desc": "Ohereza amakuru mashya, subiza ibibazo, kandi ukomeze kumenyesha ababyeyi. Ubaka icyizere hifashishijwe kuvugana ako kanya.",
-    "ctaTitle": "Injira mu miryango ibihumbi isanzwe ikoresha Inzozi",
+    "ctaTitle": "Injira mu miryango ibihumbi isanzwe ikoresha Inzoziedu",
     "ctaBody": "Fata ibyemezo bifite ishingiro ku burezi bw'umwana wawe hifashishijwe amakuru arambuye y'amashuri no gucunga ubusabe byoroshye.",
     "ctaButton": "Komeza nk'Uwo Ufite Ishuri"
   },
@@ -838,16 +838,16 @@
     "s4Title": "Emeza Umunyeshuri",
     "s4Desc": "Ohereza inyandiko z'ukwemerwa kandi ucunge ukwiyandikisha",
     "connectTitle": "Huza. Saba. Kura",
-    "connectBody": "Inzozi ihuza icyuho kiri hagati y'ibigo by'uburezi n'imiryango, ikarema amahirwe ku mwana wese mu Rwanda.",
+    "connectBody": "Inzoziedu ihuza icyuho kiri hagati y'ibigo by'uburezi n'imiryango, ikarema amahirwe ku mwana wese mu Rwanda.",
     "schools": "Amashuri",
-    "brand": "Inzozi",
+    "brand": "Inzoziedu",
     "families": "Imiryango"
   },
   "resourcesSupport": {
     "title": "Ibikoresho n'Ubufasha",
-    "subtitle": "Ibyo ukeneye byose kugira ngo ukoreshe neza urubuga rwa Inzozi",
+    "subtitle": "Ibyo ukeneye byose kugira ngo ukoreshe neza urubuga rwa Inzoziedu",
     "r1Title": "Umuyoboro wo Gutangira",
-    "r1Desc": "Umuyoboro urambuye ufasha ababyeyi n'amashuri gutangira gukoresha Inzozi.",
+    "r1Desc": "Umuyoboro urambuye ufasha ababyeyi n'amashuri gutangira gukoresha Inzoziedu.",
     "r1Label": "UMUYOBORO",
     "r2Title": "Amashusho y'Amasomo",
     "r2Desc": "Amashusho asobanura intambwe ku ntambwe ibiranga urubuga rwose.",
@@ -889,8 +889,8 @@
     "joinCommunity": "Injira mu muryango wacu ukura buri munsi!"
   },
   "schoolPage": {
-    "title": "Murakaza neza kuri konti yawe ya Inzozi!",
-    "subtitle": "Inzozi igufasha gucunga ubusabe no kwerekana ishuri ryawe. Tangira koroshya akazi kawe kandi wongere kumenyekana kw'ishuri ryawe wandikisha mu ntambwe nke.",
+    "title": "Murakaza neza kuri konti yawe ya Inzoziedu!",
+    "subtitle": "Inzoziedu igufasha gucunga ubusabe no kwerekana ishuri ryawe. Tangira koroshya akazi kawe kandi wongere kumenyekana kw'ishuri ryawe wandikisha mu ntambwe nke.",
     "registerNewSchool": "Andikisha ishuri rishya"
   },
   "logoutMenu": {

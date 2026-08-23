@@ -18,7 +18,7 @@ export default function Footer() {
 
             <div className="flex flex-col gap-0">
               <h1 className="m-0 font-bold text-[25px] text-[#F09C00] leading-none">
-                inzozI
+                inzoziEdu
               </h1>
               <span className="m-0 text-[11px] text-[#FFB833] leading-none">
                 {t('footer.tagline')}

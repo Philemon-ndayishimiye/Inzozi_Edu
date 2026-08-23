@@ -22,7 +22,7 @@ export default function SuccessPage() {
                   </div>
                   <div className="flex flex-col gap-0">
                     <h1 className="m-0 font-bold text-[18px] leading-none bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] bg-clip-text text-transparent max-sm:text-[12px]">
-                      inzozI
+                      inzoziEdu
                     </h1>
                     <span className="m-0 text-[11px] leading-none bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] bg-clip-text text-transparent font-semibold max-sm:text-[6px]">
                       {t('nav.tagline')}

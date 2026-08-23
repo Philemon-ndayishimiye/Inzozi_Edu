@@ -121,7 +121,7 @@ const ResourcesSupportSection: React.FC = () => {
                   </div>
                   <div>
                     <div className="text-white font-medium text-sm">{t('resourcesSupport.emailSupport')}</div>
-                    <div className="text-gray-400 text-xs">support@inzozi.rw</div>
+                    <div className="text-gray-400 text-xs">support@inzoziedu.rw</div>
                   </div>
                 </div>
 

@@ -43,10 +43,10 @@
     "press": "Presse",
     "contact": "Contact",
     "stayUpdated": "Restez informé",
-    "newsletterText": "Recevez les dernières nouvelles sur les fonctionnalités d'Inzozi et le secteur de l'éducation au Rwanda.",
+    "newsletterText": "Recevez les dernières nouvelles sur les fonctionnalités d'Inzoziedu et le secteur de l'éducation au Rwanda.",
     "emailPlaceholder": "Entrez votre email",
     "subscribe": "S'abonner",
-    "copyright": "© {{year}} Inzozi. Tous droits réservés.",
+    "copyright": "© {{year}} Inzoziedu. Tous droits réservés.",
     "location": "Kigali, Rwanda"
   },
   "hero": {
@@ -124,7 +124,7 @@
     "applyForChild": "Inscrire un enfant",
     "district": "District",
     "freeToApplyBold": "Vous ne payez les frais de scolarité qu'après l'admission de votre enfant.",
-    "freeToApplyRest": "Postuler et faire examiner votre candidature via Inzozi est entièrement gratuit.",
+    "freeToApplyRest": "Postuler et faire examiner votre candidature via Inzoziedu est entièrement gratuit.",
     "photosAndFacilities": "Photos et installations",
     "photosCount_one": "{{count}} photo",
     "photosCount_other": "{{count}} photos",
@@ -246,7 +246,7 @@
   "auth": {
     "login": {
       "title": "Connectez-vous à votre compte",
-      "subtitle": "Pour les Directeurs d'école, Responsables des admissions et Administrateurs Inzozi. Les parents n'ont pas besoin de compte — postulez directement depuis la page d'une école.",
+      "subtitle": "Pour les Directeurs d'école, Responsables des admissions et Administrateurs Inzoziedu. Les parents n'ont pas besoin de compte — postulez directement depuis la page d'une école.",
       "noAccount": "Vous n'avez pas de compte ?",
       "signUp": "Inscrivez-vous",
       "email": "Email",
@@ -280,7 +280,7 @@
   },
   "register": {
     "title": "S'inscrire en tant que Directeur d'école",
-    "subtitle": "Cette étape est rapide et approuvée automatiquement — vous enregistrerez ensuite votre école, et cette partie sera examinée par l'Administrateur Inzozi.",
+    "subtitle": "Cette étape est rapide et approuvée automatiquement — vous enregistrerez ensuite votre école, et cette partie sera examinée par l'Administrateur Inzoziedu.",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
     "logIn": "Se connecter",
     "firstName": "Prénom",
@@ -298,13 +298,13 @@
   },
   "schoolRegister": {
     "title": "Enregistrez votre école",
-    "subtitle": "Soumettez les informations et documents légaux de votre école. Un Administrateur Inzozi les examinera avant que votre école ne soit mise en ligne — généralement sous 2 à 3 jours ouvrables.",
+    "subtitle": "Soumettez les informations et documents légaux de votre école. Un Administrateur Inzoziedu les examinera avant que votre école ne soit mise en ligne — généralement sous 2 à 3 jours ouvrables.",
     "schoolCode": "Code de l'école",
     "schoolName": "Nom de l'école",
     "schoolEmail": "Email",
     "certificate": "Certificat",
     "certificateLabel": "Certificat d'enregistrement légal",
-    "certificateHint": "Requis pour que l'Administrateur Inzozi puisse vérifier que votre école est légalement reconnue.",
+    "certificateHint": "Requis pour que l'Administrateur Inzoziedu puisse vérifier que votre école est légalement reconnue.",
     "registering": "Enregistrement en cours…",
     "submitForReview": "Soumettre pour examen",
     "failedToRegister": "Échec de l'enregistrement de l'école",
@@ -363,7 +363,7 @@
   },
   "pending": {
     "title": "Votre école est en cours d'examen",
-    "subtitle": "Nous avons reçu votre inscription et vos documents. L'Administrateur Inzozi vérifiera tout avant que votre école ne soit visible aux parents.",
+    "subtitle": "Nous avons reçu votre inscription et vos documents. L'Administrateur Inzoziedu vérifiera tout avant que votre école ne soit visible aux parents.",
     "step1Title": "Inscription soumise",
     "step1Body": "Les détails et documents de votre école ont été reçus",
     "step2Title": "En cours d'examen par l'Administrateur",
@@ -385,7 +385,7 @@
     "logOutConfirmTitle": "Se déconnecter ?",
     "logOutConfirmMessage": "Vous devrez vous reconnecter pour accéder à votre tableau de bord.",
     "roleSchoolManager": "Directeur d'école",
-    "roleInzoziAdmin": "Administrateur Inzozi",
+    "roleInzoziAdmin": "Administrateur Inzoziedu",
     "roleAdmissionManager": "Responsable des admissions",
     "platformControl": "Contrôle de la plateforme",
     "preview": "Aperçu",
@@ -428,7 +428,7 @@
     "openClasses": "Classes ouvertes",
     "spotsOpen": "Places actuellement ouvertes",
     "applicationsThisMonth": "Candidatures ce mois-ci",
-    "submittedViaInzozi": "Soumises via Inzozi",
+    "submittedViaInzozi": "Soumises via Inzoziedu",
     "pendingReview": "En attente d'examen",
     "awaitingDecision": "En attente d'une décision",
     "admissionManager": "Responsable des admissions",
@@ -482,7 +482,7 @@
     "confirmRejection": "Confirmer le rejet"
   },
   "applicationsPage": {
-    "schoolManagerIntro": "Candidatures soumises par les parents via Inzozi pour votre école.",
+    "schoolManagerIntro": "Candidatures soumises par les parents via Inzoziedu pour votre école.",
     "loadingApplications": "Chargement des candidatures…",
     "schoolManagerEmpty": "Aucune candidature pour l'instant. Les candidatures soumises pour vos classes ouvertes apparaîtront ici.",
     "backToApplications": "Retour aux candidatures",
@@ -679,7 +679,7 @@
     "review": "Examiner"
   },
   "allSchoolsPage": {
-    "intro": "Parcourez et gérez toutes les écoles enregistrées sur Inzozi.",
+    "intro": "Parcourez et gérez toutes les écoles enregistrées sur Inzoziedu.",
     "all": "Toutes",
     "active": "Actives",
     "pending": "En attente",
@@ -718,7 +718,7 @@
     "noneValue": "—"
   },
   "usersPage": {
-    "intro": "Tous ceux qui ont un compte sur Inzozi — Directeurs d'école, Responsables des admissions et Administrateurs.",
+    "intro": "Tous ceux qui ont un compte sur Inzoziedu — Directeurs d'école, Responsables des admissions et Administrateurs.",
     "searchPlaceholder": "Rechercher par nom, email ou école...",
     "allRoles": "Tous les rôles",
     "loading": "Chargement…",
@@ -745,7 +745,7 @@
     "deeperAnalyticsNote": "Des analyses plus approfondies — volume de candidatures dans le temps, utilisation des places, trafic — nécessitent des points de terminaison de suivi des candidatures et des visites qui n'existent pas encore côté serveur. Une fois disponibles, cette page pourra afficher de vraies tendances plutôt que des estimations."
   },
   "superAdminSettingsPage": {
-    "intro": "Paramètres à l'échelle de la plateforme pour le portail Administrateur Inzozi.",
+    "intro": "Paramètres à l'échelle de la plateforme pour le portail Administrateur Inzoziedu.",
     "nothingYet": "Rien n'est configurable ici pour l'instant — des paramètres comme les préférences de notification et les valeurs par défaut de la plateforme arriveront ici une fois définis."
   },
   "confirmDialog": {
@@ -755,7 +755,7 @@
   },
   "whyChoose": {
     "title": "Pourquoi choisir",
-    "brand": "Inzozi",
+    "brand": "Inzoziedu",
     "subtitle": "Nous ne sommes pas seulement un annuaire – nous sommes votre partenaire de confiance pour trouver le parcours éducatif parfait pour votre enfant.",
     "f1Title": "Découverte intelligente",
     "f1Desc": "Une recherche alimentée par l'IA qui apprend vos préférences et trouve des écoles qui correspondent vraiment à vos besoins.",
@@ -781,7 +781,7 @@
     "f2Desc": "Complétez vos candidatures scolaires en ligne grâce à notre processus simplifié. Téléversez les documents une fois et postulez partout.",
     "f3Title": "Suivez l'admission de votre enfant",
     "f3Desc": "Suivez le statut de la candidature en temps réel avec des mises à jour, et communiquez directement avec les administrateurs de l'école.",
-    "ctaTitle": "Rejoignez des milliers de familles qui utilisent déjà Inzozi",
+    "ctaTitle": "Rejoignez des milliers de familles qui utilisent déjà Inzoziedu",
     "ctaBody": "Prenez des décisions éclairées sur l'éducation de votre enfant grâce à des données scolaires complètes et une gestion des candidatures fluide.",
     "ctaButton": "Continuer en tant que parent"
   },
@@ -804,14 +804,14 @@
   "schoolOwner": {
     "titleLine1": "Vous possédez",
     "titleLine2": "une école ?",
-    "subtitle": "Développez votre école plus rapidement avec Inzozi — touchez plus de parents, gérez les candidatures sans effort et bâtissez votre réputation en ligne.",
+    "subtitle": "Développez votre école plus rapidement avec Inzoziedu — touchez plus de parents, gérez les candidatures sans effort et bâtissez votre réputation en ligne.",
     "f1Title": "Créez le profil de votre école",
     "f1Desc": "Enregistrez facilement votre école en ligne, ajoutez des détails comme la localisation, les programmes et les coordonnées pour augmenter votre visibilité.",
     "f2Title": "Recevez et suivez les candidatures",
     "f2Desc": "Recevez des candidatures grâce à notre processus simplifié. Téléversez les documents une fois et gérez tout au même endroit.",
     "f3Title": "Connectez-vous avec les parents",
     "f3Desc": "Envoyez des mises à jour, répondez aux demandes et tenez les parents informés. Bâtissez la confiance par une communication directe.",
-    "ctaTitle": "Rejoignez des milliers de familles qui utilisent déjà Inzozi",
+    "ctaTitle": "Rejoignez des milliers de familles qui utilisent déjà Inzoziedu",
     "ctaBody": "Prenez des décisions éclairées sur l'éducation de votre enfant grâce à des données scolaires complètes et une gestion des candidatures fluide.",
     "ctaButton": "Continuer en tant que propriétaire"
   },
@@ -838,16 +838,16 @@
     "s4Title": "Acceptez l'élève",
     "s4Desc": "Envoyez les lettres d'acceptation et gérez l'inscription",
     "connectTitle": "Connectez. Postulez. Grandissez",
-    "connectBody": "Inzozi comble le fossé entre les établissements scolaires et les familles, créant des opportunités pour chaque enfant au Rwanda.",
+    "connectBody": "Inzoziedu comble le fossé entre les établissements scolaires et les familles, créant des opportunités pour chaque enfant au Rwanda.",
     "schools": "Écoles",
-    "brand": "Inzozi",
+    "brand": "Inzoziedu",
     "families": "Familles"
   },
   "resourcesSupport": {
     "title": "Ressources et support",
-    "subtitle": "Tout ce dont vous avez besoin pour tirer le meilleur parti de la plateforme Inzozi",
+    "subtitle": "Tout ce dont vous avez besoin pour tirer le meilleur parti de la plateforme Inzoziedu",
     "r1Title": "Guide de démarrage",
-    "r1Desc": "Guide complet pour aider parents et écoles à démarrer avec Inzozi.",
+    "r1Desc": "Guide complet pour aider parents et écoles à démarrer avec Inzoziedu.",
     "r1Label": "GUIDE",
     "r2Title": "Tutoriels vidéo",
     "r2Desc": "Tutoriels vidéo étape par étape pour toutes les fonctionnalités de la plateforme.",
@@ -889,8 +889,8 @@
     "joinCommunity": "Rejoignez notre communauté grandissante dès aujourd'hui !"
   },
   "schoolPage": {
-    "title": "Bienvenue sur votre compte Inzozi !",
-    "subtitle": "Inzozi vous aide à gérer les candidatures et à mettre en valeur votre école. Simplifiez votre travail et améliorez la visibilité de votre école en l'enregistrant en quelques étapes simples.",
+    "title": "Bienvenue sur votre compte Inzoziedu !",
+    "subtitle": "Inzoziedu vous aide à gérer les candidatures et à mettre en valeur votre école. Simplifiez votre travail et améliorez la visibilité de votre école en l'enregistrant en quelques étapes simples.",
     "registerNewSchool": "Enregistrer une nouvelle école"
   },
   "logoutMenu": {

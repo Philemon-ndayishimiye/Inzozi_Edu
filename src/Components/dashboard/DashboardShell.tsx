@@ -54,7 +54,7 @@ export default function DashboardShell({
     <div className="flex flex-col h-full bg-[#05416B] text-white w-64 flex-shrink-0">
       <div className="flex items-center gap-2 px-5 pt-6 pb-5">
         <img src="/images/school.png" alt="" className="w-7 h-7 rounded-full object-cover" onError={(e) => (e.currentTarget.style.display = 'none')} />
-        <span className="font-family-playfair font-bold text-[17px]">Inzozi</span>
+        <span className="font-family-playfair font-bold text-[17px]">Inzoziedu</span>
       </div>
 
       <div className="mx-4 mb-5 bg-white/10 rounded-xl px-3 py-3">

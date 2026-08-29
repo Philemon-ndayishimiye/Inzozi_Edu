@@ -23,7 +23,7 @@ export default function ApplicationConfirmation() {
     return (
       <div>
         <Navigation />
-        <div className="pt-[110px] pb-20 px-6 text-center bg-gradient-to-b from-white to-[#CFDCEA] min-h-[70vh]">
+        <div className="pt-[110px] pb-19 px-6 text-center bg-gradient-to-b from-white to-[#CFDCEA] min-h-[70vh]">
           <h1 className="text-[22px] font-bold text-[#282C34] font-family-playfair mb-2">
             {t('applicationConfirmation.noApplicationTitle')}
           </h1>

@@ -5,6 +5,7 @@ export type StudentLevel = 'Nursery' | 'Primary' | 'O-level' | 'A-level';
 
 export interface StudentRecord {
   id: string;
+  trackingCode?: string;
   firstName: string;
   middleName?: string | null;
   lastName: string;
@@ -30,9 +31,32 @@ export interface StudentRecord {
   previousReport?: string | null;
   mitationLetter?: string | null;
   babyeyiDocument?: string | null;
-  rejectionReason?: string | null;
+  rejectedReason?: string | null;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface TrackApplicationResult {
+  id: string;
+  trackingCode: string;
+  status: StudentStatus;
+  firstName: string;
+  lastName: string;
+  level: StudentLevel;
+  yearOfStudy: string;
+  studentType: 'newcomer' | 'transfer';
+  representerEmail: string;
+  schoolName: string | null;
+  rejectedReason: string | null;
+  babyeyiDocument: string | null;
+  submittedAt: string;
+  decidedAt: string | null;
+}
+
+export interface TrackApplicationResponse {
+  data: TrackApplicationResult;
+  message: string;
+  success: boolean;
 }
 
 export interface StudentResponse {
@@ -80,7 +104,14 @@ export const StudentsApi = apiSlice.injectEndpoints({
       query: ({ studentId, rejectionReason }) => ({
         url: `/students/${studentId}/reject`,
         method: 'PUT',
-        body: { rejectionReason },
+        body: { reason: rejectionReason },
+      }),
+    }),
+
+    trackApplication: builder.query<TrackApplicationResponse, { code: string; lang?: string }>({
+      query: ({ code, lang }) => ({
+        url: `/students/track/${code}${lang ? `?lang=${lang}` : ''}`,
+        method: 'GET',
       }),
     }),
   }),
@@ -91,4 +122,5 @@ export const {
   useGetPendingApplicationsQuery,
   useApproveApplicationMutation,
   useRejectApplicationMutation,
+  useLazyTrackApplicationQuery,
 } = StudentsApi;

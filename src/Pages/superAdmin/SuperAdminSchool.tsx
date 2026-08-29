@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { useGetAllSchoolsQuery } from '../../App/api/school/school';
 import Panel from '../../Components/dashboard/Panel';
@@ -7,15 +8,16 @@ import Badge from '../../Components/dashboard/Badge';
 
 type FilterTab = 'all' | 'approved' | 'pending' | 'rejected';
 
-const TABS: { id: FilterTab; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'approved', label: 'Active' },
-  { id: 'pending', label: 'Pending' },
-  { id: 'rejected', label: 'Rejected' },
-];
-
 export default function SuperAdminSchool() {
+  const { t } = useTranslation();
   const { data, isLoading } = useGetAllSchoolsQuery();
+
+  const TABS: { id: FilterTab; label: string }[] = [
+    { id: 'all', label: t('allSchoolsPage.all') },
+    { id: 'approved', label: t('allSchoolsPage.active') },
+    { id: 'pending', label: t('allSchoolsPage.pending') },
+    { id: 'rejected', label: t('allSchoolsPage.rejected') },
+  ];
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [tab, setTab] = useState<FilterTab>('all');
@@ -37,19 +39,19 @@ export default function SuperAdminSchool() {
 
   return (
     <div className="space-y-4">
-      <p className="text-[13.5px] text-gray-500 max-w-xl">Browse and manage every school registered on Inzozi.</p>
+      <p className="text-[13.5px] text-gray-500 max-w-xl">{t('allSchoolsPage.intro')}</p>
 
       <Panel noBodyPadding>
         <div className="flex gap-2 px-4 pt-4 flex-wrap">
-          {TABS.map((t) => (
+          {TABS.map((tab_) => (
             <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
+              key={tab_.id}
+              onClick={() => setTab(tab_.id)}
               className={`px-3.5 py-1.5 rounded-full text-[12px] font-semibold border cursor-pointer ${
-                tab === t.id ? 'bg-[#05416B] border-[#05416B] text-white' : 'bg-white border-gray-300 text-gray-600'
+                tab === tab_.id ? 'bg-[#05416B] border-[#05416B] text-white' : 'bg-white border-gray-300 text-gray-600'
               }`}
             >
-              {t.label} ({counts[t.id]})
+              {tab_.label} ({counts[tab_.id]})
             </button>
           ))}
         </div>
@@ -58,24 +60,24 @@ export default function SuperAdminSchool() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by school or district..."
+            placeholder={t('allSchoolsPage.searchPlaceholder')}
             className="w-full sm:max-w-sm border border-gray-300 rounded-lg px-3.5 py-2 text-[13px] outline-none focus:border-[#F09C00]"
           />
         </div>
 
         {filtered.length === 0 ? (
           <div className="py-14 text-center text-[13.5px] text-gray-500 px-4">
-            {isLoading ? 'Loading…' : 'No schools match that filter.'}
+            {isLoading ? t('allSchoolsPage.loading') : t('allSchoolsPage.noSchoolsMatch')}
           </div>
         ) : (
           <div className="overflow-x-auto mt-3">
             <table className="w-full min-w-[560px]">
               <thead>
                 <tr className="border-t border-b border-gray-200">
-                  <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-4 py-2.5">School</th>
-                  <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">Location</th>
-                  <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">School Manager</th>
-                  <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">Status</th>
+                  <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-4 py-2.5">{t('allSchoolsPage.school')}</th>
+                  <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">{t('allSchoolsPage.location')}</th>
+                  <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">{t('allSchoolsPage.schoolManager')}</th>
+                  <th className="text-left font-mono text-[10px] uppercase text-gray-400 px-3 py-2.5">{t('table.status')}</th>
                   <th className="px-3 py-2.5" />
                 </tr>
               </thead>
@@ -87,7 +89,9 @@ export default function SuperAdminSchool() {
                     </td>
                     <td className="px-3 py-3 text-[13px]">{school.district}</td>
                     <td className="px-3 py-3 text-[13px]">
-                      {school.SchoolManager.firstName} {school.SchoolManager.lastName}
+                      {school.SchoolManager
+                        ? `${school.SchoolManager.firstName} ${school.SchoolManager.lastName}`
+                        : <span className="text-gray-400 italic">{t('allSchoolsPage.accountDeleted')}</span>}
                     </td>
                     <td className="px-3 py-3">
                       <Badge variant={school.status === 'approved' ? 'approved' : school.status === 'pending' ? 'pending' : 'rejected'}>
@@ -102,7 +106,7 @@ export default function SuperAdminSchool() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-8 h-8 rounded-full border border-gray-300 text-gray-500 hover:text-[#05416B] hover:border-[#05416B] flex items-center justify-center flex-shrink-0"
-                            aria-label="View legal document"
+                            aria-label={t('allSchoolsPage.viewLegalDocument')}
                           >
                             <IoDocumentTextOutline className="text-[15px]" />
                           </a>
@@ -111,7 +115,7 @@ export default function SuperAdminSchool() {
                           onClick={() => navigate(`/superAdmin/ViewSchool/${school.id}`)}
                           className="border border-gray-300 rounded-full px-3.5 py-1.5 text-[11.5px] font-semibold cursor-pointer hover:border-[#05416B] hover:text-[#05416B] whitespace-nowrap"
                         >
-                          View
+                          {t('allSchoolsPage.view')}
                         </button>
                       </div>
                     </td>

@@ -1,15 +1,17 @@
 import ContNav from '../Components/ContNav';
 import Footer from '../Components/Footer';
 import AuthLayout from '../Components/AuthLayout';
+import { useTranslation } from 'react-i18next';
 import { IoCheckmarkCircle, IoHourglassOutline, IoMailOutline } from 'react-icons/io5';
 
 export default function Pending() {
+  const { t } = useTranslation();
   return (
     <div>
       <ContNav />
       <AuthLayout
-        title="Your school is under review"
-        subtitle="We've received your registration and documents. Inzozi Admin will verify everything before your school goes live to parents."
+        title={t('pending.title')}
+        subtitle={t('pending.subtitle')}
       >
         <div className="space-y-5">
           <div className="flex gap-3">
@@ -17,8 +19,8 @@ export default function Pending() {
               <IoCheckmarkCircle />
             </div>
             <div>
-              <b className="block text-[13.5px] text-[#282C34]">Registration submitted</b>
-              <span className="text-[12px] text-gray-500">Your school details and documents were received</span>
+              <b className="block text-[13.5px] text-[#282C34]">{t('pending.step1Title')}</b>
+              <span className="text-[12px] text-gray-500">{t('pending.step1Body')}</span>
             </div>
           </div>
           <div className="flex gap-3">
@@ -26,8 +28,8 @@ export default function Pending() {
               <IoHourglassOutline />
             </div>
             <div>
-              <b className="block text-[13.5px] text-[#282C34]">Under review by Admin</b>
-              <span className="text-[12px] text-gray-500">Usually takes 2–3 business days</span>
+              <b className="block text-[13.5px] text-[#282C34]">{t('pending.step2Title')}</b>
+              <span className="text-[12px] text-gray-500">{t('pending.step2Body')}</span>
             </div>
           </div>
           <div className="flex gap-3 opacity-50">
@@ -35,8 +37,8 @@ export default function Pending() {
               <IoMailOutline />
             </div>
             <div>
-              <b className="block text-[13.5px] text-[#282C34]">Decision sent by email</b>
-              <span className="text-[12px] text-gray-500">You&apos;ll be notified either way</span>
+              <b className="block text-[13.5px] text-[#282C34]">{t('pending.step3Title')}</b>
+              <span className="text-[12px] text-gray-500">{t('pending.step3Body')}</span>
             </div>
           </div>
         </div>

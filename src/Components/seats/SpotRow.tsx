@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type AdmissionConditions = {
   minGrade?: string;
@@ -26,6 +27,7 @@ export default function SpotRow({
   admissionConditions,
   onApply,
 }: SpotRowProps) {
+  const { t } = useTranslation();
   const [showConditions, setShowConditions] = useState(false);
   const available = Math.max(totalSeats - occupiedSeats, 0);
   const isOpen = available > 0;
@@ -48,7 +50,7 @@ export default function SpotRow({
           {level} <span className="text-[#6B7280] font-normal">· {yearofstudy}</span>
         </div>
         <div className="text-[12px] text-[#6B7280] font-family-poppins mt-0.5">
-          {available} of {totalSeats} seat{totalSeats === 1 ? '' : 's'} available
+          {t('spotRow.seatsAvailable', { available, total: totalSeats, count: totalSeats })}
           {hasConditions && (
             <>
               {' · '}
@@ -57,7 +59,7 @@ export default function SpotRow({
                 onClick={() => setShowConditions(true)}
                 className="text-[#05416B] font-semibold hover:underline cursor-pointer"
               >
-                Admission requirements
+                {t('spotRow.admissionRequirements')}
               </button>
             </>
           )}
@@ -72,14 +74,14 @@ export default function SpotRow({
               : 'text-[#B10E1E] bg-[#FBEAE8]'
           }`}
         >
-          {isOpen ? 'Spots open' : 'Spots full'}
+          {isOpen ? t('spotRow.spotsOpen') : t('spotRow.spotsFull')}
         </span>
         {isOpen && (
           <button
             onClick={onApply}
             className="bg-gradient-to-r from-[#F09C00] to-[#FFB833] text-white text-[12px] font-bold px-3.5 py-1.5 rounded-full cursor-pointer whitespace-nowrap"
           >
-            Apply
+            {t('spotRow.apply')}
           </button>
         )}
       </div>
@@ -94,37 +96,37 @@ export default function SpotRow({
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-lg font-bold text-[#282C34] font-family-playfair mb-4">
-              Admission requirements
+              {t('spotRow.admissionRequirements')}
             </h2>
             <div className="space-y-2.5 text-[13.5px] text-[#4E5155] font-family-poppins">
               {admissionConditions?.minGrade && (
-                <p><span className="font-semibold">Minimum grade:</span> {admissionConditions.minGrade}</p>
+                <p><span className="font-semibold">{t('spotRow.minimumGrade')}</span> {admissionConditions.minGrade}</p>
               )}
               {admissionConditions?.examScore && (
-                <p><span className="font-semibold">Exam score:</span> {admissionConditions.examScore}</p>
+                <p><span className="font-semibold">{t('spotRow.examScore')}</span> {admissionConditions.examScore}</p>
               )}
               {admissionConditions?.interviewRequired !== undefined && (
                 <p>
-                  <span className="font-semibold">Interview required:</span>{' '}
-                  {admissionConditions.interviewRequired ? 'Yes' : 'No'}
+                  <span className="font-semibold">{t('spotRow.interviewRequired')}</span>{' '}
+                  {admissionConditions.interviewRequired ? t('spotRow.yes') : t('spotRow.no')}
                 </p>
               )}
               {admissionConditions?.documents && admissionConditions.documents.length > 0 && (
                 <p>
-                  <span className="font-semibold">Documents:</span>{' '}
+                  <span className="font-semibold">{t('spotRow.documents')}</span>{' '}
                   {admissionConditions.documents.join(', ')}
                 </p>
               )}
               {admissionConditions?.notes && (
-                <p><span className="font-semibold">Notes:</span> {admissionConditions.notes}</p>
+                <p><span className="font-semibold">{t('spotRow.notes')}</span> {admissionConditions.notes}</p>
               )}
-              {!hasConditions && <p>No specific requirements listed for this spot.</p>}
+              {!hasConditions && <p>{t('spotRow.noSpecificRequirements')}</p>}
             </div>
             <button
               onClick={() => setShowConditions(false)}
               className="mt-6 w-full bg-gray-100 hover:bg-gray-200 rounded-md py-2 text-[13.5px] font-semibold cursor-pointer"
             >
-              Close
+              {t('spotRow.close')}
             </button>
           </div>
         </div>

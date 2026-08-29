@@ -24,10 +24,10 @@ export default function AuthLayout({ title, subtitle, wide, backTo, backLabel, c
         )}
 
         <Link to="/" className="flex items-center gap-2 mb-6">
-          <img className="w-9" src={logo} alt="Inzozi" />
+          <img className="w-9" src={logo} alt="Inzoziedu" />
           <div>
             <div className="font-family-playfair font-bold text-[17px] bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] bg-clip-text text-transparent leading-none">
-              inzozI
+              inzoziEdu
             </div>
             <div className="text-[9.5px] font-semibold bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] bg-clip-text text-transparent leading-none mt-0.5">
               Smart Dreams. Bright Futures

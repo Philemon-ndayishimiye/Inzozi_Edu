@@ -19,7 +19,7 @@ export interface School {
   status: 'pending' | 'approved' | 'rejected'; // extend if more statuses exist
   licenseDocument: string;
   approvedAt: string | null;
-  SchoolManager: SchoolManager;
+  SchoolManager: SchoolManager | null;
   ApprovedByAdmin: ApprovedByAdmin | null;
 }
 

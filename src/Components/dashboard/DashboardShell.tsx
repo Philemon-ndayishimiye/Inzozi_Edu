@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { IoMenu, IoClose, IoLogOutOutline } from 'react-icons/io5';
 import { useUser } from '../../Hooks/useUser';
 import { useLogoutMutation } from '../../App/api/Auth/auth';
@@ -32,6 +33,7 @@ export default function DashboardShell({
   headerAction,
   children,
 }: DashboardShellProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [confirmingLogout, setConfirmingLogout] = useState(false);
   const { user, clearUser } = useUser();
@@ -52,11 +54,11 @@ export default function DashboardShell({
     <div className="flex flex-col h-full bg-[#05416B] text-white w-64 flex-shrink-0">
       <div className="flex items-center gap-2 px-5 pt-6 pb-5">
         <img src="/images/school.png" alt="" className="w-7 h-7 rounded-full object-cover" onError={(e) => (e.currentTarget.style.display = 'none')} />
-        <span className="font-family-playfair font-bold text-[17px]">Inzozi</span>
+        <span className="font-family-playfair font-bold text-[17px]">Inzoziedu</span>
       </div>
 
       <div className="mx-4 mb-5 bg-white/10 rounded-xl px-3 py-3">
-        <div className="font-mono text-[9.5px] uppercase tracking-wide text-white/55">Signed in as</div>
+        <div className="font-mono text-[9.5px] uppercase tracking-wide text-white/55">{t('dashboard.signedInAs')}</div>
         <div className="text-[13px] font-bold mt-0.5 truncate">
           {user?.firstName ? `${user.firstName} ${user.lastName}` : (user?.email ?? '—')}
         </div>
@@ -89,7 +91,7 @@ export default function DashboardShell({
           className="flex items-center gap-2 text-[12px] text-white/70 hover:text-white cursor-pointer"
         >
           <IoLogOutOutline className="text-base" />
-          Log out
+          {t('dashboard.logOut')}
         </button>
       </div>
     </div>
@@ -112,7 +114,7 @@ export default function DashboardShell({
             <button
               className="lg:hidden w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center flex-shrink-0"
               onClick={() => setOpen(true)}
-              aria-label="Open menu"
+              aria-label={t('dashboard.openMenu')}
             >
               <IoMenu />
             </button>
@@ -137,7 +139,7 @@ export default function DashboardShell({
         <button
           className="lg:hidden fixed top-4 right-4 z-50 w-9 h-9 rounded-full bg-white shadow flex items-center justify-center"
           onClick={() => setOpen(false)}
-          aria-label="Close menu"
+          aria-label={t('dashboard.closeMenu')}
         >
           <IoClose />
         </button>
@@ -145,9 +147,9 @@ export default function DashboardShell({
 
       <ConfirmDialog
         isOpen={confirmingLogout}
-        title="Log out?"
-        message="You'll need to log in again to get back to your dashboard."
-        confirmLabel="Log out"
+        title={t('dashboard.logOutConfirmTitle')}
+        message={t('dashboard.logOutConfirmMessage')}
+        confirmLabel={t('dashboard.logOut')}
         tone="danger"
         loading={loggingOut}
         onConfirm={handleLogout}

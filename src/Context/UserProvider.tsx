@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { UserContext } from './LoggedUser';
-import type { LoggedUserType } from './LoggedUser';
+import type { LoggedUserType, LoginUserPayload } from './LoggedUser';
 import { useGetLoggedUserQuery } from '../App/api/Auth/auth';
 
 interface UserProviderProps {
@@ -54,10 +54,29 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   }
 }, [token, refetch]);
 
- const setUserFromLogin = (payload: { user: LoggedUserType; token: string }) => {
+ // The login endpoint returns a thinner user object than /users/me. We stash
+ // what we have immediately (role/mustChangePassword are needed right away
+ // for the post-login redirect); the token-change effect above triggers a
+ // /users/me refetch that fills in the rest a moment later.
+ const setUserFromLogin = (payload: { user: LoginUserPayload; token: string }) => {
+  const [firstName = '', ...rest] = payload.user.name.split(' ');
   localStorage.setItem('token', payload.token);
   setToken(payload.token);
-  setUser(payload.user);
+  setUser({
+    id: '',
+    name: payload.user.name,
+    firstName,
+    lastName: rest.join(' '),
+    email: payload.user.email,
+    gender: '',
+    province: '',
+    district: '',
+    profileImage: '',
+    roleId: '',
+    role: { id: '', name: payload.user.roleName },
+    schoolId: '',
+    mustChangePassword: payload.user.mustChangePassword,
+  });
   setSuccess(true);
   setErrMsg(null);
 };
@@ -80,6 +99,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         success,
         setUserFromLogin,
         clearUser,
+        refetchUser: refetch,
       }}
     >
       {children}

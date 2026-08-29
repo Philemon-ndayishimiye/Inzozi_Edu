@@ -1,4 +1,5 @@
 import React from 'react';
+import { MdEdit, MdDeleteOutline } from 'react-icons/md';
 
 interface SeatCapacityCardProps {
   title: string;
@@ -78,13 +79,13 @@ export const SeatCapacityCard: React.FC<SeatCapacityCardProps> = ({
           onClick={onEdit}
           className="p-1 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 cursor-pointer"
         >
-          ✏️
+          <MdEdit />
         </button>
         <button
           onClick={onDelete}
           className="p-1 bg-red-100 text-red-600 rounded-full hover:bg-red-200 cursor-pointer"
         >
-          🗑️
+          <MdDeleteOutline />
         </button>
       </div>
 

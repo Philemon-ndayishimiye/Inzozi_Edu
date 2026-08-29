@@ -1,4 +1,5 @@
 import Footer from '../Components/Footer';
+import GuidedSchoolFinder from '../Components/GuidedSchoolFinder';
 import Hero from '../Components/Hero';
 import HowItWorks from '../Components/HowItWorks';
 import Navigation from '../Components/Navigation';
@@ -21,6 +22,7 @@ export default function LandingPage() {
         <Hero />
       </div>
 
+      <GuidedSchoolFinder />
       <SchoolSection />
       <WhyChooseInzoziSection />
       <ParentSection />

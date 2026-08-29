@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { skipToken } from '@reduxjs/toolkit/query';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { IoCheckmarkCircle, IoImagesOutline } from 'react-icons/io5';
@@ -24,6 +25,7 @@ type ProfileForm = {
 const EMPTY_FORM: ProfileForm = { description: '', mission: '', vision: '', foundedYear: '', profilePhoto: null };
 
 export default function Settings() {
+  const { t } = useTranslation();
   const { user } = useUser();
   const { data: schoolDetails } = useGetSchoolDetailsQuery(user?.schoolId ?? skipToken);
   const { data: profileData, refetch: refetchProfile } = useGetProfileQuery(user?.schoolId ?? skipToken);
@@ -81,9 +83,9 @@ export default function Settings() {
 
   const errorMessage =
     error && 'status' in (error as FetchBaseQueryError)
-      ? (error as FetchBaseQueryError & { data: ErrorResponse }).data?.message || 'Failed to save changes'
+      ? (error as FetchBaseQueryError & { data: ErrorResponse }).data?.message || t('settingsPage.failedToSave')
       : error
-        ? 'Failed to save changes'
+        ? t('settingsPage.failedToSave')
         : '';
 
   const photoSrc = preview || profile?.profilePhoto || '/images/school.png';
@@ -91,12 +93,12 @@ export default function Settings() {
   return (
     <div className="space-y-5">
       <p className="text-[13.5px] text-gray-500 max-w-xl">
-        Your school&apos;s story and profile photo — this is what parents see on {schoolDetails?.data.schoolName ?? 'your'} page.
+        {t('settingsPage.intro', { school: schoolDetails?.data.schoolName ?? t('settingsPage.yourSchool') })}
       </p>
 
       {saved && (
         <div className="flex items-center gap-2 bg-[#E7F5EA] border border-[#1E7A34]/30 text-[#1E7A34] rounded-lg px-4 py-3 text-[13px] font-semibold">
-          <IoCheckmarkCircle /> Profile updated.
+          <IoCheckmarkCircle /> {t('settingsPage.profileUpdated')}
         </div>
       )}
       {errorMessage && (
@@ -105,7 +107,7 @@ export default function Settings() {
         </div>
       )}
 
-      <Panel title="Profile photo">
+      <Panel title={t('settingsPage.profilePhoto')}>
         <div className="flex items-center gap-5 flex-wrap">
           <div className="relative w-24 h-24 flex-shrink-0">
             <img src={photoSrc} alt="School profile" className="w-24 h-24 rounded-full object-cover border border-gray-200" />
@@ -115,37 +117,35 @@ export default function Settings() {
             </label>
           </div>
           <div className="text-[12.5px] text-gray-500 max-w-sm">
-            Square photos work best. This is saved together with the rest of the form below — pick a photo, then
-            hit &quot;Save changes&quot;.
+            {t('settingsPage.photoHint')}
           </div>
         </div>
       </Panel>
 
-      <Panel title="Vision, mission & story">
+      <Panel title={t('settingsPage.visionMissionStory')}>
         <form onSubmit={handleSubmit} className="space-y-1">
-          <SchoolDescriptionTextarea label="About / description" name="description" value={form.description} onChange={handleChange} placeholder="Tell parents what makes your school special" />
-          <SchoolDescriptionTextarea label="Mission" name="mission" value={form.mission} onChange={handleChange} placeholder="Enter mission statement" />
-          <SchoolDescriptionTextarea label="Vision" name="vision" value={form.vision} onChange={handleChange} placeholder="Enter vision statement" />
+          <SchoolDescriptionTextarea label={t('settingsPage.aboutDescription')} name="description" value={form.description} onChange={handleChange} placeholder={t('settingsPage.aboutPlaceholder')} />
+          <SchoolDescriptionTextarea label={t('settingsPage.mission')} name="mission" value={form.mission} onChange={handleChange} placeholder={t('settingsPage.missionPlaceholder')} />
+          <SchoolDescriptionTextarea label={t('settingsPage.vision')} name="vision" value={form.vision} onChange={handleChange} placeholder={t('settingsPage.visionPlaceholder')} />
           <div className="max-w-xs">
-            <TextInput label="Founded year" type="number" name="foundedYear" value={form.foundedYear} onChange={handleChange} placeholder="e.g. 2005" />
+            <TextInput label={t('settingsPage.foundedYear')} type="number" name="foundedYear" value={form.foundedYear} onChange={handleChange} placeholder="e.g. 2005" />
           </div>
           <div className="flex justify-end pt-3">
-            <EditProfileButton label={saving ? 'Saving…' : 'Save changes'} type="submit" disabled={saving} loading={saving} />
+            <EditProfileButton label={saving ? t('settingsPage.saving') : t('settingsPage.saveChanges')} type="submit" disabled={saving} loading={saving} />
           </div>
         </form>
       </Panel>
 
-      <Panel title="Facility photos">
+      <Panel title={t('settingsPage.facilityPhotos')}>
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <p className="text-[12.5px] text-gray-500 max-w-sm">
-            Photos of your classrooms, dormitories, library and more are managed on the Facilities page, organized
-            by category.
+            {t('settingsPage.facilityPhotosHint')}
           </p>
           <Link
             to="/schoolAdmin/gallery"
             className="flex items-center gap-1.5 bg-gradient-to-r from-[#F09C00] to-[#FFB833] text-white font-bold text-[13px] px-4 py-2.5 rounded-lg whitespace-nowrap"
           >
-            <IoImagesOutline /> Manage facility photos
+            <IoImagesOutline /> {t('settingsPage.manageFacilityPhotos')}
           </Link>
         </div>
       </Panel>

@@ -1,5 +1,6 @@
 // CreateNewPasswordForm.tsx
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaLock } from 'react-icons/fa';
 import LoginInput from '../LoginInput';
 import AuthLayout from '../AuthLayout';
@@ -8,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const CreateNewPasswordForm: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [resetpass, { isLoading }]=useResetePasswordMutation();
   const[formError , setFormError] = useState({
@@ -46,18 +48,17 @@ const handleCreatePassword = async(e: React.FormEvent<HTMLFormElement>) => {
   };
 
   if (!newpass) {
-    errors.newpassword = 'Password is required.';
+    errors.newpassword = t('createNewPassword.passwordRequired');
   } else if (!isStrongPassword(newpass)) {
-    errors.newpassword =
-      'Password must be at least 8 characters and include uppercase, lowercase, number, and special character.';
+    errors.newpassword = t('createNewPassword.passwordWeak');
   }
 
   if (!confirmpass) {
-    errors.confirmpassword = 'Please confirm your password.';
+    errors.confirmpassword = t('createNewPassword.confirmRequired');
   }
 
   if (newpass && confirmpass && newpass !== confirmpass) {
-    errors.notmatch = 'Passwords do not match.';
+    errors.notmatch = t('createNewPassword.passwordsNoMatch');
   }
 
   setFormError(errors);
@@ -79,14 +80,14 @@ const handleCreatePassword = async(e: React.FormEvent<HTMLFormElement>) => {
 };
 
   return (
-    <AuthLayout title="Create new password">
+    <AuthLayout title={t('createNewPassword.title')}>
       <form onSubmit={handleCreatePassword}>
         <LoginInput
-          label="New password"
+          label={t('createNewPassword.newPassword')}
           name="newPassword"
           type="password"
           icon={<FaLock />}
-          placeholder="Password"
+          placeholder={t('auth.login.password')}
           value={newPassword}
           onChange={handleNewPasswordChange}
           variant="default"
@@ -96,11 +97,11 @@ const handleCreatePassword = async(e: React.FormEvent<HTMLFormElement>) => {
         )}
 
         <LoginInput
-          label="Confirm new password"
+          label={t('createNewPassword.confirmPassword')}
           name="confirmPassword"
           type="password"
           icon={<FaLock />}
-          placeholder="Password"
+          placeholder={t('auth.login.password')}
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}
           variant="default"
@@ -118,7 +119,7 @@ const handleCreatePassword = async(e: React.FormEvent<HTMLFormElement>) => {
           className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] text-white font-bold rounded-lg py-3 text-[14.5px] mt-4 cursor-pointer disabled:opacity-60 transition-transform active:scale-[0.98]"
         >
           {isLoading && <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
-          {isLoading ? 'Saving…' : 'Create password'}
+          {isLoading ? t('createNewPassword.saving') : t('createNewPassword.createPassword')}
         </button>
       </form>
     </AuthLayout>

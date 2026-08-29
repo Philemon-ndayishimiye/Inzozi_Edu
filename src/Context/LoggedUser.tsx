@@ -18,6 +18,7 @@ export type LoggedUserType = {
   roleId: string;
   role:roleType;
   schoolId: string;
+  mustChangePassword?: boolean;
 };
 
 // API response structure
@@ -27,14 +28,24 @@ export type LoggedResponse = {
   success: boolean;
 };
 
+// The login endpoint returns a thinner user object than /users/me; context
+// stores it as-is until the background /users/me refetch fills in the rest.
+export type LoginUserPayload = {
+  email: string;
+  name: string;
+  roleName: string;
+  mustChangePassword?: boolean;
+};
+
 // Context type
 export type UserCont = {
   user: LoggedUserType | null;
   loading: boolean;
   error: string | null;
   success: boolean;
-  setUserFromLogin?: (payload: { user: LoggedUserType; token: string }) => void;
+  setUserFromLogin?: (payload: { user: LoginUserPayload; token: string }) => void;
   clearUser: () => void;
+  refetchUser?: () => void;
 };
 
 
@@ -47,4 +58,5 @@ export const UserContext = createContext<UserCont>({
   success: false,
   setUserFromLogin: () => {}, // default no-op
   clearUser: () => {},// default no-op
+  refetchUser: () => {}, // default no-op
 });

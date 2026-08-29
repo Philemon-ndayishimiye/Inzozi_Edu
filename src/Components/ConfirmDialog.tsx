@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 type ConfirmDialogProps = {
   isOpen: boolean;
   title: string;
@@ -14,13 +16,14 @@ export default function ConfirmDialog({
   isOpen,
   title,
   message,
-  confirmLabel = 'Confirm',
-  cancelLabel = 'Cancel',
+  confirmLabel,
+  cancelLabel,
   tone = 'danger',
   loading = false,
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  const { t } = useTranslation();
   if (!isOpen) {return null;}
 
   const confirmClasses =
@@ -46,7 +49,7 @@ export default function ConfirmDialog({
             disabled={loading}
             className="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-[#282C34] font-semibold text-[13px] rounded-lg cursor-pointer disabled:opacity-60 transition-colors"
           >
-            {cancelLabel}
+            {cancelLabel ?? t('confirmDialog.cancel')}
           </button>
           <button
             onClick={onConfirm}
@@ -54,7 +57,7 @@ export default function ConfirmDialog({
             className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-white font-semibold text-[13px] rounded-lg cursor-pointer disabled:opacity-70 transition-colors ${confirmClasses}`}
           >
             {loading && <span className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
-            {loading ? 'Please wait…' : confirmLabel}
+            {loading ? t('confirmDialog.pleaseWait') : (confirmLabel ?? t('confirmDialog.confirm'))}
           </button>
         </div>
       </div>

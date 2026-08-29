@@ -41,6 +41,7 @@ import AdmissionManagerPage from '../Pages/admissionManager/AdmissionManagerPage
 import AdmissionManagerDashboard from '../Pages/admissionManager/AdmissionManagerDashboard';
 import AdmissionManagerApplicationDetail from '../Pages/admissionManager/AdmissionManagerApplicationDetail';
 import SchoolManagerSettings from '../Pages/Admin/Settings';
+import MustChangePassword from '../Pages/MustChangePassword';
 
 
 
@@ -68,6 +69,7 @@ export default function AppRoutes() {
              <Route path='/apply/:schoolId' element={<StudentApplication/>}/>
              <Route path='/application/confirmation' element={<ApplicationConfirmation/>}/>
              <Route path='/track' element={<TrackApplication/>}/>
+             <Route path='/must-change-password' element={ <ProtectedRoute><MustChangePassword/></ProtectedRoute> }/>
 
           
             <Route path='/schoolAdmin' element={
@@ -97,6 +99,8 @@ export default function AppRoutes() {
               <ProtectedRoute><AdmissionManagerPage/></ProtectedRoute> }>
                 <Route path='dashboard' element={<AdmissionManagerDashboard/>} />
                 <Route path='application/:ref' element={<AdmissionManagerApplicationDetail/>} />
+                <Route path='seats' element={<Seats/>} />
+                <Route path='addSeats' element={<AddSeats/>} />
              </Route>
 
             <Route path='/admin' element={<Admin/>}> </Route>

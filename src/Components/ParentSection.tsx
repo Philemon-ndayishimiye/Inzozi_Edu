@@ -1,23 +1,25 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaChartBar, FaSearch, FaClock } from 'react-icons/fa';
 import FeatureCard from './cards/FeatureCard';
 
 const ParentSection: React.FC = () => {
+  const { t } = useTranslation();
   const features = [
     {
       icon: <FaSearch className="w-5 h-5" />,
-      title: 'Find Schools Easily',
-      description: 'Browse comprehensive school profiles with detailed information about facilities, programs, and admission requirements.',
+      title: t('parentSection.f1Title'),
+      description: t('parentSection.f1Desc'),
     },
     {
       icon: <FaClock className="w-5 h-5" />,
-      title: 'Apply in Minutes',
-      description: 'Complete your school applications online with our streamlined process. Upload documents once and apply everywhere.',
+      title: t('parentSection.f2Title'),
+      description: t('parentSection.f2Desc'),
     },
     {
       icon: <FaChartBar className="w-5 h-5" />,
-      title: 'Track Your Child\'s Admission',
-      description: 'Monitor application status in real-time with updates, and communicate directly with school administrators.',
+      title: t('parentSection.f3Title'),
+      description: t('parentSection.f3Desc'),
     },
   ];
 
@@ -26,11 +28,11 @@ const ParentSection: React.FC = () => {
       <div className="md:px-[80px]">
         <div className="text-center mb-12">
           <h2 className="text-[30px] font-bold  mb-4">
-            <span className="text-[#223D60] font-family-playfair">You Are </span>
-            <span className="text-[#E69500] font-family-playfair">a  Parent?</span>
+            <span className="text-[#223D60] font-family-playfair">{t('parentSection.titleLine1')} </span>
+            <span className="text-[#E69500] font-family-playfair">{t('parentSection.titleLine2')}</span>
           </h2>
           <p className="text-[#223D60] text-lg max-w-2xl mx-auto font-family-poppins">
-            Simplify your child's educational journey with powerful tools designed for Rwandan families.
+            {t('parentSection.subtitle')}
           </p>
         </div>
 
@@ -64,13 +66,13 @@ const ParentSection: React.FC = () => {
         <div className="text-center mt-12">
           <div className="bg-opacity-10 rounded-xl p-8 w-full mx-auto backdrop-blur-sm">
             <h3 className="text-[#223D60] text-xl font-semibold mb-2 font-family-playfair">
-              Join thousands of families already using Inzozi
+              {t('parentSection.ctaTitle')}
             </h3>
             <p className="text-[#223D60] mb-6 font-family-poppins">
-              Make informed decisions about your child's education with comprehensive school data and seamless application management.
+              {t('parentSection.ctaBody')}
             </p>
             <button className="bg-gradient-to-r from-[#053f69] to-[#cad9e9] hover:from-[#E69500] hover:to-[#E69500] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg transform hover:scale-105 active:scale-95">
-              Continue As a Parent
+              {t('parentSection.ctaButton')}
             </button>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useApproveSchoolMutation, useGetSchoolByIdQuery, useRejectSchoolMutation } from '../../App/api/school/school';
 import { IoArrowBack, IoDocumentTextOutline } from 'react-icons/io5';
 import Panel from '../../Components/dashboard/Panel';
@@ -7,6 +8,7 @@ import Badge from '../../Components/dashboard/Badge';
 import DecisionBox from '../../Components/dashboard/DecisionBox';
 
 export default function ViewSchool() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams();
   const { data, refetch } = useGetSchoolByIdQuery(id ?? '');
@@ -24,10 +26,10 @@ export default function ViewSchool() {
     if (!id) {return;}
     try {
       await approveSchool(id).unwrap();
-      showToast('School approved successfully!', 'success');
+      showToast(t('viewSchoolPage.approvedToast'), 'success');
       refetch();
     } catch {
-      showToast('Something went wrong. Please try again.', 'error');
+      showToast(t('viewSchoolPage.errorToast'), 'error');
     }
   };
 
@@ -35,10 +37,10 @@ export default function ViewSchool() {
     if (!id) {return;}
     try {
       await rejectSchool({ id, message: reason }).unwrap();
-      showToast('School rejected.', 'success');
+      showToast(t('viewSchoolPage.rejectedToast'), 'success');
       refetch();
     } catch {
-      showToast('Something went wrong. Please try again.', 'error');
+      showToast(t('viewSchoolPage.errorToast'), 'error');
     }
   };
 
@@ -51,7 +53,7 @@ export default function ViewSchool() {
           onClick={() => navigate('/superAdmin/schools')}
           className="flex items-center gap-1.5 text-[13px] text-gray-600 cursor-pointer"
         >
-          <IoArrowBack /> Back to schools
+          <IoArrowBack /> {t('viewSchoolPage.backToSchools')}
         </button>
         {school && (
           <Badge variant={school.status === 'approved' ? 'approved' : school.status === 'pending' ? 'pending' : 'rejected'}>
@@ -60,30 +62,30 @@ export default function ViewSchool() {
         )}
       </div>
 
-      <h2 className="text-[19px] font-bold text-[#282C34] font-family-playfair">{school?.schoolName ?? 'Loading…'}</h2>
+      <h2 className="text-[19px] font-bold text-[#282C34] font-family-playfair">{school?.schoolName ?? t('viewSchoolPage.loading')}</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <div className="lg:col-span-2 space-y-5">
-          <Panel title="School details">
+          <Panel title={t('viewSchoolPage.schoolDetails')}>
             <div className="divide-y divide-gray-100 -mx-5">
               {[
-                ['School name', school?.schoolName],
-                ['Location', school?.district],
-                ['School email', school?.email],
-                ['School phone', school?.telephone],
-                ['Registered by', school ? `${school.SchoolManager.firstName} ${school.SchoolManager.lastName}` : undefined],
-                ['Manager email', school?.SchoolManager.email],
-                ['Submitted', school ? new Date(school.createdAt).toLocaleString() : undefined],
+                [t('viewSchoolPage.schoolName'), school?.schoolName],
+                [t('viewSchoolPage.location'), school?.district],
+                [t('viewSchoolPage.schoolEmail'), school?.email],
+                [t('viewSchoolPage.schoolPhone'), school?.telephone],
+                [t('viewSchoolPage.registeredBy'), school ? `${school.SchoolManager.firstName} ${school.SchoolManager.lastName}` : undefined],
+                [t('viewSchoolPage.managerEmail'), school?.SchoolManager.email],
+                [t('viewSchoolPage.submitted'), school ? new Date(school.createdAt).toLocaleString() : undefined],
               ].map(([k, v]) => (
                 <div key={k} className="flex justify-between gap-4 px-5 py-2.5 text-[13.5px]">
                   <span className="text-gray-500">{k}</span>
-                  <span className="font-semibold text-[#282C34] text-right">{v || '—'}</span>
+                  <span className="font-semibold text-[#282C34] text-right">{v || t('viewSchoolPage.noneValue')}</span>
                 </div>
               ))}
             </div>
           </Panel>
 
-          <Panel title="Legal documents">
+          <Panel title={t('viewSchoolPage.legalDocuments')}>
             {school?.licenseDocument ? (
               <a
                 href={school.licenseDocument}
@@ -92,10 +94,10 @@ export default function ViewSchool() {
                 className="flex items-center gap-3 border border-gray-200 rounded-lg px-3.5 py-2.5 bg-gray-50 hover:border-[#05416B]"
               >
                 <IoDocumentTextOutline className="text-[#05416B] text-lg flex-shrink-0" />
-                <span className="text-[12.5px] font-semibold text-[#05416B]">View registration certificate</span>
+                <span className="text-[12.5px] font-semibold text-[#05416B]">{t('viewSchoolPage.viewCertificate')}</span>
               </a>
             ) : (
-              <p className="text-[13px] text-gray-500">No document uploaded.</p>
+              <p className="text-[13px] text-gray-500">{t('viewSchoolPage.noDocumentUploaded')}</p>
             )}
           </Panel>
         </div>
@@ -103,16 +105,16 @@ export default function ViewSchool() {
         <div>
           {school?.status === 'pending' ? (
             <DecisionBox
-              title="Decision"
-              description="Approving makes this school visible to parents immediately. This is emailed to the School Manager either way."
+              title={t('viewSchoolPage.decision')}
+              description={t('viewSchoolPage.approveDescription')}
               onApprove={handleApprove}
               onReject={handleReject}
             />
           ) : (
-            <Panel title="Decision">
-              <p className="text-[13px] text-gray-600">This school has already been {school?.status}.</p>
+            <Panel title={t('viewSchoolPage.decision')}>
+              <p className="text-[13px] text-gray-600">{t('viewSchoolPage.alreadyDecided', { status: school?.status })}</p>
               {school?.rejectedReason && (
-                <p className="text-[12.5px] text-gray-500 mt-2">Reason: {school.rejectedReason}</p>
+                <p className="text-[12.5px] text-gray-500 mt-2">{t('viewSchoolPage.reason', { reason: school.rejectedReason })}</p>
               )}
             </Panel>
           )}

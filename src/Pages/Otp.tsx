@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useVerifyOtpMutation } from '../App/api/Auth/auth';
 import AuthLayout from '../Components/AuthLayout';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +9,7 @@ const DIGIT_KEYS = ['firstNumber', 'secondNumber', 'thirdNumber', 'fouthNumber',
 type FormDataType = Record<(typeof DIGIT_KEYS)[number], string>;
 
 export default function OtpPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<FormDataType>({
     firstNumber: '', secondNumber: '', thirdNumber: '', fouthNumber: '', firthNumber: '', sixthNumber: '',
@@ -37,7 +39,7 @@ export default function OtpPage() {
 
     const code = DIGIT_KEYS.map((k) => formData[k]).join('');
     if (code.length !== 6) {
-      setError('Enter all 6 digits');
+      setError(t('otp.enterAllDigits'));
       return;
     }
 
@@ -45,12 +47,12 @@ export default function OtpPage() {
       await verify(Number(code)).unwrap();
       navigate('/newpassword');
     } catch {
-      setError('That code didn\'t work. Please try again.');
+      setError(t('otp.invalidCode'));
     }
   };
 
   return (
-    <AuthLayout title="OTP verification" subtitle="Enter the code sent to your email.">
+    <AuthLayout title={t('otp.title')} subtitle={t('otp.subtitle')}>
       <form onSubmit={handleVerification}>
         <div className="flex gap-2 sm:gap-3 justify-center mb-6">
           {DIGIT_KEYS.map((key, i) => (
@@ -76,7 +78,7 @@ export default function OtpPage() {
           className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] text-white font-bold rounded-lg py-3 text-[14.5px] cursor-pointer disabled:opacity-60 transition-transform active:scale-[0.98]"
         >
           {isLoading && <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
-          {isLoading ? 'Verifying…' : 'Verify OTP'}
+          {isLoading ? t('otp.verifying') : t('otp.verify')}
         </button>
       </form>
     </AuthLayout>

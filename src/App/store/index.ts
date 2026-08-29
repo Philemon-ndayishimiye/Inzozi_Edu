@@ -1,10 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import SchoolReducer from '../Slices/SchoolSlice';
 import { apiSlice } from '../api/EntryApi';
 
 export const store = configureStore({
   reducer: {
-    school: SchoolReducer,
     [apiSlice.reducerPath]:apiSlice.reducer,
   },
 

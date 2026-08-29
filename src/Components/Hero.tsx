@@ -1,10 +1,12 @@
 import { useState, type FormEvent } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Button from './Button';
 import LocationFilter from './LocationFilter';
 
 export default function Hero() {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') ?? '');
   const province = searchParams.get('province') ?? '';
@@ -49,22 +51,22 @@ export default function Hero() {
 
       <div className="relative z-10 flex flex-col items-center justify-center text-center text-white px-4 pt-16 pb-10 sm:pt-20">
         <h1 className="font-medium text-3xl sm:text-5xl pt-4 sm:pt-[60px] font-family-playfair leading-tight">
-          Bridging <span className="text-[#F09C00]">Schools</span> and Parents <br />
-          <span className="text-2xl sm:text-4xl font-light">Seamlessly</span>
+          {t('hero.titleLine1')} <span className="text-[#F09C00]">{t('hero.titleSchools')}</span> {t('hero.titleLine2')} <br />
+          <span className="text-2xl sm:text-4xl font-light">{t('hero.titleLine3')}</span>
         </h1>
 
         <h2 className="pt-5 sm:pt-11 font-normal text-[15px] sm:text-[17px] max-w-3xl font-family-poppins">
-          Connecting families with quality private schools across{' '}
-          <span className="block sm:inline">Rwanda.</span>{' '}
-          <span className="text-[#F09C00]">Discover, compare, and apply with confidence.</span>
+          {t('hero.subtitle1')}{' '}
+          <span className="block sm:inline">{t('hero.subtitle2')}</span>{' '}
+          <span className="text-[#F09C00]">{t('hero.subtitle3')}</span>
         </h2>
 
         <div className="w-full max-w-lg sm:max-w-2xl bg-white/95 sm:bg-white/40 backdrop-blur-sm pt-4 pb-5 px-4 sm:px-6 rounded-2xl mt-6 shadow-xl">
           <h1 className="text-black font-semibold text-xl sm:text-2xl py-1 font-family-playfair">
-            Start your search
+            {t('hero.startSearch')}
           </h1>
           <p className="text-[#6B7280] text-[13px] sm:text-base font-family-poppins">
-            Find schools that match your preferences
+            {t('hero.searchSubtitle')}
           </p>
 
           <form onSubmit={handleSubmit} className="pt-5 flex flex-col gap-3 text-left">
@@ -72,7 +74,7 @@ export default function Hero() {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search by school name..."
+                placeholder={t('hero.searchPlaceholder')}
                 className="flex-1 min-w-0 px-3 py-2.5 text-[13.5px] text-[#282C34] font-family-poppins outline-none"
               />
               <button
@@ -80,7 +82,7 @@ export default function Hero() {
                 className="flex items-center gap-1.5 px-4 bg-gradient-to-r from-[#F09C00] to-[#FFB833] text-white font-semibold text-[13px] cursor-pointer"
               >
                 <CiSearch className="text-lg" />
-                <span className="hidden sm:inline">Search</span>
+                <span className="hidden sm:inline">{t('hero.search')}</span>
               </button>
             </div>
 
@@ -95,12 +97,12 @@ export default function Hero() {
 
         <div className="flex flex-wrap justify-center gap-3 pt-10 pb-6">
           <Button
-            label="Apply For Child"
+            label={t('hero.applyForChild')}
             variant="applychild"
             onClick={() => document.getElementById('schools')?.scrollIntoView({ behavior: 'smooth' })}
           />
           <Link to="/register">
-            <Button label="Register School" variant="registerschool" />
+            <Button label={t('hero.registerSchool')} variant="registerschool" />
           </Link>
         </div>
       </div>

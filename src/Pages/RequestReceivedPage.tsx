@@ -39,7 +39,7 @@ const RequestReceivedPage: React.FC = () => (
             Copyright © 2025
           </p>
           <p className="text-xs text-gray-500 font-poppins">
-            Inzozi Limited
+            Inzoziedu Limited
           </p>
         </div>
       </div>

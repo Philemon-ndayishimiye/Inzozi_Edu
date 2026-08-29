@@ -1,8 +1,9 @@
 import React from 'react';
-import { 
-  FaBook, 
-  FaVideo, 
-  FaQuestionCircle, 
+import { useTranslation } from 'react-i18next';
+import {
+  FaBook,
+  FaVideo,
+  FaQuestionCircle,
   FaDownload,
   FaEnvelope,
   FaComments,
@@ -10,44 +11,45 @@ import {
 import FeatureBenefitCard from './cards/FeatureBenefitCard';
 
 const ResourcesSupportSection: React.FC = () => {
+  const { t } = useTranslation();
   const resources = [
     {
       icon: <FaBook className="w-7 h-7" />,
-      title: 'Getting Started Guide',
-      description: 'Comprehensive guide to help parents and schools get started with Inzozi.',
-      label: 'GUIDE',
+      title: t('resourcesSupport.r1Title'),
+      description: t('resourcesSupport.r1Desc'),
+      label: t('resourcesSupport.r1Label'),
       iconGradient: 'bg-[#054069]',
     },
     {
       icon: <FaVideo className="w-7 h-7" />,
-      title: 'Video Tutorials',
-      description: 'Step-by-step video walkthroughs for all platform features.',
-      label: 'VIDEOS',
+      title: t('resourcesSupport.r2Title'),
+      description: t('resourcesSupport.r2Desc'),
+      label: t('resourcesSupport.r2Label'),
       iconGradient: 'bg-[#054069]',
     },
     {
       icon: <FaQuestionCircle className="w-7 h-7" />,
-      title: 'Frequently Asked Questions',
-      description: 'Find quick answers to common questions about admissions and applications.',
-      label: 'FAQ',
+      title: t('resourcesSupport.r3Title'),
+      description: t('resourcesSupport.r3Desc'),
+      label: t('resourcesSupport.r3Label'),
       iconGradient: 'bg-[#054069]',
     },
     {
       icon: <FaDownload className="w-7 h-7" />,
-      title: 'Application Templates',
-      description: 'Download simple application forms and required document checklists.',
-      label: 'TEMPLATES',
+      title: t('resourcesSupport.r4Title'),
+      description: t('resourcesSupport.r4Desc'),
+      label: t('resourcesSupport.r4Label'),
       iconGradient: 'bg-[#054069]',
     },
   ];
 
   const helpTopics = [
-    'How to create a school profile',
-    'Understanding admission requirements',
-    'Managing multiple applications',
-    'Setting up communication preferences',
-    'Tracking application status',
-    'Payment and fee structures',
+    t('resourcesSupport.topic1'),
+    t('resourcesSupport.topic2'),
+    t('resourcesSupport.topic3'),
+    t('resourcesSupport.topic4'),
+    t('resourcesSupport.topic5'),
+    t('resourcesSupport.topic6'),
   ];
 
   return (
@@ -55,11 +57,11 @@ const ResourcesSupportSection: React.FC = () => {
       <div className="md:px-[80px]">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
-            Resources & Support
+            {t('resourcesSupport.title')}
           </h2>
-          
+
           <p className="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
-            Everything you need to make the most of Inzozi's platform
+            {t('resourcesSupport.subtitle')}
           </p>
         </div>
 
@@ -80,7 +82,7 @@ const ResourcesSupportSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
             <h3 className="text-xl font-semibold text-blue-600 mb-6">
-              Popular Help Topics
+              {t('resourcesSupport.popularTopics')}
             </h3>
             <div className="space-y-4">
               {helpTopics.map((topic, index) => (
@@ -99,16 +101,16 @@ const ResourcesSupportSection: React.FC = () => {
 
           <div>
             <h3 className="text-xl font-semibold text-blue-600 mb-6">
-              Need More Help?
+              {t('resourcesSupport.needHelp')}
             </h3>
-            
+
             <div className="bg-[#0B111E] p-6 rounded-lg">
               <div className="mb-4">
                 <h4 className="text-white font-semibold text-lg mb-2">
-                  Contact Our Support Team
+                  {t('resourcesSupport.contactTitle')}
                 </h4>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Our dedicated support team is here to help you succeed. Get personalized assistance for your specific needs.
+                  {t('resourcesSupport.contactBody')}
                 </p>
               </div>
 
@@ -118,8 +120,8 @@ const ResourcesSupportSection: React.FC = () => {
                     <FaEnvelope className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <div className="text-white font-medium text-sm">Email Support</div>
-                    <div className="text-gray-400 text-xs">support@inzozi.rw</div>
+                    <div className="text-white font-medium text-sm">{t('resourcesSupport.emailSupport')}</div>
+                    <div className="text-gray-400 text-xs">support@inzoziedu.rw</div>
                   </div>
                 </div>
 
@@ -128,14 +130,14 @@ const ResourcesSupportSection: React.FC = () => {
                     <FaComments className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <div className="text-white font-medium text-sm">Live Chat</div>
-                    <div className="text-gray-400 text-xs">Available 8 AM - 6 PM WAT</div>
+                    <div className="text-white font-medium text-sm">{t('resourcesSupport.liveChat')}</div>
+                    <div className="text-gray-400 text-xs">{t('resourcesSupport.liveChatHours')}</div>
                   </div>
                 </div>
               </div>
 
               <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold text-sm transition-colors duration-200">
-                Contact Support
+                {t('resourcesSupport.contactButton')}
               </button>
             </div>
           </div>

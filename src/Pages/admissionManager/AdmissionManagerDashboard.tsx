@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import { useUser } from '../../Hooks/useUser';
 import { useSchoolApplications } from '../../Hooks/useSchoolApplications';
 import ApplicationsTable from '../../Components/dashboard/ApplicationsTable';
 import StatCard from '../../Components/dashboard/StatCard';
 
 export default function AdmissionManagerDashboard() {
+  const { t } = useTranslation();
   const { user } = useUser();
   const { applications, isLoading } = useSchoolApplications(user?.schoolId);
 
@@ -14,20 +16,20 @@ export default function AdmissionManagerDashboard() {
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <StatCard label="Pending review" value={pending} sub="Needs a decision" />
-        <StatCard label="Approved (this browser)" value={approved} sub="Recently decided" />
-        <StatCard label="Rejected (this browser)" value={rejected} sub="Recently decided" />
+        <StatCard label={t('applicationsPage.admissionManagerPendingReview')} value={pending} sub={t('applicationsPage.needsDecision')} />
+        <StatCard label={t('applicationsPage.approvedThisBrowser')} value={approved} sub={t('applicationsPage.recentlyDecided')} />
+        <StatCard label={t('applicationsPage.rejectedThisBrowser')} value={rejected} sub={t('applicationsPage.recentlyDecided')} />
       </div>
 
       {isLoading ? (
         <div className="bg-white border border-gray-200 rounded-xl py-14 text-center text-[13.5px] text-gray-500">
-          Loading applications…
+          {t('applicationsPage.loadingApplications')}
         </div>
       ) : (
         <ApplicationsTable
           applications={applications}
           detailBasePath="/admissionManager/application"
-          emptyMessage="No applications yet."
+          emptyMessage={t('applicationsPage.admissionManagerEmpty')}
         />
       )}
     </div>

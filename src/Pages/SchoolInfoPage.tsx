@@ -1,31 +1,49 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Navigation from '../Components/Navigation';
 import Footer from '../Components/Footer';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useGetProfileQuery, useGetSchoolDetailsQuery } from '../App/api/school/school';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useGetAllSpotsQuery } from '../App/api/spots/spot';
 import { useGetAllGalleryQuery } from '../App/api/gallery/Gallery';
 import { categoryLabels } from '../Types/Category';
 import SpotRow from '../Components/seats/SpotRow';
-import { IoArrowBack, IoInformationCircleOutline } from 'react-icons/io5';
+import { IoArrowBack, IoInformationCircleOutline, IoClose } from 'react-icons/io5';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 
 const SchoolInfoPage: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { data, isLoading: profileLoading } = useGetProfileQuery(id ?? skipToken);
+  const [searchParams] = useSearchParams();
+  const lang = i18n.language !== 'en' ? i18n.language : undefined;
+  const { data, isLoading: profileLoading } = useGetProfileQuery(id ? { id, lang } : skipToken);
   const { data: informations, isLoading: infoLoading } = useGetSchoolDetailsQuery(id ?? skipToken);
-  const { data: spots } = useGetAllSpotsQuery(id ?? skipToken);
-  const { data: gallery } = useGetAllGalleryQuery(id ?? skipToken);
+  const { data: spots } = useGetAllSpotsQuery(id ? { id, lang } : skipToken);
+  const { data: gallery } = useGetAllGalleryQuery(id ? { schoolId: id, lang } : skipToken);
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
+  // Level/studentType the parent already picked while searching - carried
+  // over via the URL so they don't have to re-scan the whole spot list to
+  // find the class they were originally looking for.
+  const wantedLevel = searchParams.get('level') ?? '';
+  const wantedStudentType = searchParams.get('studentType') ?? '';
+  const [showAllSpots, setShowAllSpots] = useState(false);
+
   const profile = data?.data.profiles?.[0];
   const images = gallery?.data.images ?? [];
-  const spotList = spots?.data.spots ?? [];
+  const allSpotList = spots?.data.spots ?? [];
+  const matchingSpotList = allSpotList.filter(
+    (s) =>
+      (!wantedLevel || s.level === wantedLevel) &&
+      (!wantedStudentType || s.studentType === wantedStudentType),
+  );
+  const hasSpotFilter = Boolean((wantedLevel || wantedStudentType) && matchingSpotList.length > 0);
+  const spotList = hasSpotFilter && !showAllSpots ? matchingSpotList : allSpotList;
   const openSpotCount = spotList.filter(
     (s) => Number(s.totalSpots) - Number(s.occupiedSpots ?? 0) > 0,
   ).length;
@@ -63,7 +81,7 @@ const SchoolInfoPage: React.FC = () => {
             <button
               onClick={() => navigate(-1)}
               className="absolute top-4 left-4 sm:top-6 sm:left-6 w-9 h-9 rounded-full bg-white/20 backdrop-blur border border-white/40 flex items-center justify-center text-white cursor-pointer"
-              aria-label="Go back"
+              aria-label={t('schoolInfoPage.goBack')}
             >
               <IoArrowBack />
             </button>
@@ -78,7 +96,7 @@ const SchoolInfoPage: React.FC = () => {
                 onClick={() => goApply()}
                 className="bg-white text-[#05416B] px-4 py-2 rounded-lg text-sm font-bold cursor-pointer shadow-lg"
               >
-                Apply For a Child
+                {t('schoolInfoPage.applyForChild')}
               </button>
             </div>
           </div>
@@ -88,7 +106,7 @@ const SchoolInfoPage: React.FC = () => {
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[#6B7280] text-[13.5px] font-family-poppins">
             <HiOutlineLocationMarker className="text-[#F09C00]" />
             <span>
-              {informations?.data.sector}, {informations?.data.district} District
+              {informations?.data.sector}, {informations?.data.district} {t('schoolInfoPage.district')}
             </span>
             {informations?.data.schoolType && (
               <>
@@ -107,8 +125,8 @@ const SchoolInfoPage: React.FC = () => {
           <div className="flex gap-3 items-start bg-[#FFF3E0] border border-[#F09C00]/40 rounded-xl px-4 py-3.5">
             <IoInformationCircleOutline className="text-[#B77300] text-xl flex-shrink-0 mt-0.5" />
             <p className="text-[12.5px] sm:text-[13.5px] text-[#6B4A0A] leading-relaxed font-family-poppins">
-              <b className="text-[#5c4a10]">You only pay tuition after your child is admitted.</b>{' '}
-              Applying and having your application reviewed through Inzozi is completely free.
+              <b className="text-[#5c4a10]">{t('schoolInfoPage.freeToApplyBold')}</b>{' '}
+              {t('schoolInfoPage.freeToApplyRest')}
             </p>
           </div>
 
@@ -116,9 +134,9 @@ const SchoolInfoPage: React.FC = () => {
             <div>
               <div className="flex items-baseline justify-between mb-3">
                 <h3 className="text-[16px] sm:text-[18px] font-bold text-[#282C34] font-family-playfair">
-                  Photos &amp; facilities
+                  {t('schoolInfoPage.photosAndFacilities')}
                 </h3>
-                <span className="font-mono text-[11px] text-[#6B7280]">{images.length} photos</span>
+                <span className="font-mono text-[11px] text-[#6B7280]">{t('schoolInfoPage.photosCount', { count: images.length })}</span>
               </div>
 
               {galleryCategories.length > 1 && (
@@ -129,7 +147,7 @@ const SchoolInfoPage: React.FC = () => {
                       activeCategory === 'all' ? 'bg-[#05416B] border-[#05416B] text-white' : 'bg-white border-gray-300 text-gray-600'
                     }`}
                   >
-                    All
+                    {t('schoolInfoPage.allCategories')}
                   </button>
                   {galleryCategories.map((cat) => (
                     <button
@@ -152,7 +170,7 @@ const SchoolInfoPage: React.FC = () => {
                     <div key={img.id} className="relative flex-shrink-0">
                       <img
                         src={img.imageUrl}
-                        alt={img.caption || 'School photo'}
+                        alt={img.caption || t('schoolInfoPage.schoolPhotoAlt')}
                         onClick={() => setLightboxIndex(globalIndex)}
                         className="w-[150px] sm:w-full h-[110px] sm:h-[130px] object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90"
                       />
@@ -169,17 +187,32 @@ const SchoolInfoPage: React.FC = () => {
           <div id="spots">
             <div className="flex items-baseline justify-between mb-3">
               <h3 className="text-[16px] sm:text-[18px] font-bold text-[#282C34] font-family-playfair">
-                Available spots
+                {t('schoolInfoPage.availableSpots')}
               </h3>
               {spotList.length > 0 && (
                 <span className="font-mono text-[11px] text-[#6B7280]">
-                  {openSpotCount} open now
+                  {t('schoolInfoPage.openSpotsNow', { count: openSpotCount })}
                 </span>
               )}
             </div>
+            {hasSpotFilter && (
+              <div className="flex items-center flex-wrap gap-2 mb-3 text-[12px] font-family-poppins">
+                <span className="text-[#6B7280]">
+                  {showAllSpots
+                    ? t('schoolInfoPage.showingAllClasses')
+                    : t('schoolInfoPage.showingMatchesFor', { criteria: [wantedLevel, wantedStudentType].filter(Boolean).join(' · ') })}
+                </span>
+                <button
+                  onClick={() => setShowAllSpots((v) => !v)}
+                  className="text-[#05416B] font-semibold underline cursor-pointer"
+                >
+                  {showAllSpots ? t('schoolInfoPage.showOnlyMySearch') : t('schoolInfoPage.showAllClasses')}
+                </button>
+              </div>
+            )}
             {spotList.length === 0 ? (
               <p className="text-[13.5px] text-[#6B7280] font-family-poppins">
-                This school hasn&apos;t published open spots yet. Check back soon.
+                {t('schoolInfoPage.noSpotsYet')}
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -199,21 +232,21 @@ const SchoolInfoPage: React.FC = () => {
 
           <div>
             <h3 className="text-[16px] sm:text-[18px] font-bold text-[#282C34] font-family-playfair mb-3">
-              Location
+              {t('schoolInfoPage.location')}
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
-                ['District', informations?.data.district],
-                ['Sector', informations?.data.sector],
-                ['Cell', informations?.data.cell],
-                ['Village', informations?.data.village],
+                [t('schoolInfoPage.district'), informations?.data.district],
+                [t('schoolInfoPage.sector'), informations?.data.sector],
+                [t('schoolInfoPage.cell'), informations?.data.cell],
+                [t('schoolInfoPage.village'), informations?.data.village],
               ].map(([label, value]) => (
                 <div key={label} className="bg-white border border-gray-200 rounded-lg px-3.5 py-3">
                   <div className="font-mono text-[10px] uppercase tracking-wide text-[#F09C00]">
                     {label}
                   </div>
                   <div className="font-semibold text-[13.5px] text-[#282C34] mt-0.5 font-family-poppins">
-                    {value || '—'}
+                    {value || t('schoolInfoPage.noneValue')}
                   </div>
                 </div>
               ))}
@@ -225,7 +258,7 @@ const SchoolInfoPage: React.FC = () => {
               {profile.description && (
                 <div>
                   <h3 className="text-[16px] font-bold text-[#282C34] font-family-playfair mb-2">
-                    About the school
+                    {t('schoolInfoPage.aboutTheSchool')}
                   </h3>
                   <p className="text-[13.5px] leading-relaxed text-[#6B7280] font-family-poppins">
                     {profile.description}
@@ -235,7 +268,7 @@ const SchoolInfoPage: React.FC = () => {
               {profile.mission && (
                 <div>
                   <h3 className="text-[15px] font-bold text-[#282C34] font-family-playfair mb-2">
-                    Mission
+                    {t('schoolInfoPage.mission')}
                   </h3>
                   <p className="text-[13.5px] leading-relaxed text-[#6B7280] font-family-poppins">
                     {profile.mission}
@@ -245,7 +278,7 @@ const SchoolInfoPage: React.FC = () => {
               {profile.vision && (
                 <div>
                   <h3 className="text-[15px] font-bold text-[#282C34] font-family-playfair mb-2">
-                    Vision
+                    {t('schoolInfoPage.vision')}
                   </h3>
                   <p className="text-[13.5px] leading-relaxed text-[#6B7280] font-family-poppins">
                     {profile.vision}
@@ -265,9 +298,9 @@ const SchoolInfoPage: React.FC = () => {
           <button
             onClick={() => setLightboxIndex(null)}
             className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 border border-white/25 text-white flex items-center justify-center cursor-pointer"
-            aria-label="Close"
+            aria-label={t('schoolInfoPage.close')}
           >
-            ✕
+            <IoClose />
           </button>
           <img
             src={images[lightboxIndex].imageUrl}

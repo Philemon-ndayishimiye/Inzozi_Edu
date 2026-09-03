@@ -121,7 +121,7 @@ const ResourcesSupportSection: React.FC = () => {
                   </div>
                   <div>
                     <div className="text-white font-medium text-sm">{t('resourcesSupport.emailSupport')}</div>
-                    <div className="text-gray-400 text-xs">support@inzoziedu.rw</div>
+                    <div className="text-gray-400 text-xs">info@inzoziedu.com</div>
                   </div>
                 </div>
 
@@ -136,9 +136,12 @@ const ResourcesSupportSection: React.FC = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold text-sm transition-colors duration-200">
+              <a
+                href="mailto:info@inzoziedu.com"
+                className="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold text-sm transition-colors duration-200"
+              >
                 {t('resourcesSupport.contactButton')}
-              </button>
+              </a>
             </div>
           </div>
         </div>

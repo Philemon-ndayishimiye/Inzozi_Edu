@@ -371,6 +371,15 @@
     "step3Title": "Décision envoyée par email",
     "step3Body": "Vous serez notifié dans tous les cas"
   },
+  "rejected": {
+    "title": "L'inscription de votre école a été rejetée",
+    "subtitle": "L'Administrateur Inzoziedu a examiné votre inscription et vos documents, mais n'a pas pu approuver votre école pour le moment.",
+    "reasonTitle": "Motif du rejet",
+    "reasonFallback": "Aucun motif n'a été fourni.",
+    "whatNext": "Vous pouvez contacter le support pour obtenir de l'aide, ou mettre à jour les informations et documents de votre école et vous réinscrire.",
+    "registerAgain": "S'inscrire à nouveau",
+    "contactSupport": "Contacter le support"
+  },
   "registrationReceived": {
     "title": "Votre demande a été reçue",
     "success": "Succès !",

@@ -33,10 +33,14 @@ export default function SchoolSection() {
   const level = searchParams.get('level') ?? '';
   const studentType = searchParams.get('studentType') ?? '';
 
-  const setParam = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams);
-    if (value) {params.set(key, value);} else {params.delete(key);}
-    setSearchParams(params, { replace: true });
+  const setParams = (patch: Record<string, string | undefined>) => {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      Object.entries(patch).forEach(([key, value]) => {
+        if (value) {params.set(key, value);} else {params.delete(key);}
+      });
+      return params;
+    }, { replace: true });
   };
 
   const [page, setPage] = useState(1);
@@ -102,10 +106,7 @@ export default function SchoolSection() {
         type={type}
         level={level}
         studentType={studentType}
-        onCategoryChange={(v) => setParam('category', v)}
-        onTypeChange={(v) => setParam('type', v)}
-        onLevelChange={(v) => setParam('level', v)}
-        onStudentTypeChange={(v) => setParam('studentType', v)}
+        onChange={setParams}
         className="mb-5"
       />
 

@@ -14,6 +14,7 @@ export function getRoleDestination(
     if (schoolStatus === 'not_registered') {return '/schoolManager';}
     if (schoolStatus === 'pending') {return '/pending';}
     if (schoolStatus === 'approved') {return '/schoolAdmin/dashboard';}
+    if (schoolStatus === 'rejected') {return '/rejected';}
   }
   return '/login';
 }

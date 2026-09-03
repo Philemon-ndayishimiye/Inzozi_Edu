@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Footer from '../Components/Footer';
 import ContNav from '../Components/ContNav';
 import AuthLayout from '../Components/AuthLayout';
 
@@ -20,7 +19,6 @@ export default function SchoolPage() {
           {t('schoolPage.registerNewSchool')}
         </Link>
       </AuthLayout>
-      <Footer />
     </div>
   );
 }

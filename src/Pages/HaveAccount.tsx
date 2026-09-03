@@ -2,7 +2,6 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Navigation from '../Components/Navigation';
-import Footer from '../Components/Footer';
 import AuthLayout from '../Components/AuthLayout';
 
 export default function HaveAccountPage() {
@@ -25,7 +24,6 @@ export default function HaveAccountPage() {
           </Link>
         </div>
       </AuthLayout>
-      <Footer />
     </div>
   );
 }

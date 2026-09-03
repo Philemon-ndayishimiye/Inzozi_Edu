@@ -1,8 +1,7 @@
-// import { FaUser } from 'react-icons/fa6';
 import logo from '../assets/logo 2.png';
 import { IoMdMenu } from 'react-icons/io';
 import { IoClose } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -21,6 +20,8 @@ type Navigation={
 export default function Navigation({variant='defoult'}:Navigation) {
   const { t, i18n } = useTranslation();
   const [open, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSelect = (value: string) => {
     i18n.changeLanguage(value);
@@ -29,6 +30,22 @@ export default function Navigation({variant='defoult'}:Navigation) {
   const handleClick = () => {
     setIsOpen(!open);
   };
+
+  const closeMenu = () => setIsOpen(false);
+
+  const goToHowItWorks = (e: React.MouseEvent) => {
+    e.preventDefault();
+    closeMenu();
+    if (location.pathname === '/') {
+      document.getElementById('howitWorks')?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById('howitWorks')?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+  };
+
   return (
     <>
       <div className={` fixed w-full z-50 px-[50px] flex justify-between py-2  ${classVariant[variant]}  border-none max-sm:hidden`}>
@@ -49,10 +66,10 @@ export default function Navigation({variant='defoult'}:Navigation) {
         </Link>
 
         <nav className="flex items-center gap-[32px] text-white max-sm:hidden">
-          <Link to='/'><a className="text-[15px] font-family-poppins" href="#">
+          <Link to='/' className="text-[15px] font-family-poppins">
             {t('nav.home')}
-          </a></Link>
-          <a className="text-[15px] font-family-poppins" href="#howitWorks">
+          </Link>
+          <a className="text-[15px] font-family-poppins cursor-pointer" href="#howitWorks" onClick={goToHowItWorks}>
             {t('nav.howItWorks')}
           </a>
           <Link to='/track' className="text-[15px] font-family-poppins">
@@ -73,9 +90,9 @@ export default function Navigation({variant='defoult'}:Navigation) {
         </div>
       </div>
    {/* phone responsiveness */}
-      <div className=" px-4 py-3 bg-[#0b4d7c] text-white text-3xl  max-sm:block max-md:hidden max-lg:hidden max-xl:hidden max-2xl:hidden">
-        <div className="flex justify-between">
-          <div className="flex">
+      <div className="w-full z-50 px-4 py-3 bg-[#0b4d7c] text-white text-3xl sm:hidden">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
             <div>
               {' '}
               {open ? (
@@ -86,7 +103,7 @@ export default function Navigation({variant='defoult'}:Navigation) {
             </div>
 
             <div>
-              <div className="flex items-center">
+              <Link to='/' onClick={closeMenu} className="flex items-center">
                 <div className="text-white font-bold text-xl">
                   <img className="w-[70px]" src={logo} />
                 </div>
@@ -98,32 +115,46 @@ export default function Navigation({variant='defoult'}:Navigation) {
                     {t('nav.tagline')}
                   </span>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
 
           <Language options={SUPPORTED_LANGUAGES} variant='defoult' value={i18n.resolvedLanguage} onChange={handleSelect} />
         </div>
 
+        {open && (
+          <nav className="flex flex-col gap-1 pt-3 text-base">
+            <Link
+              to='/'
+              onClick={closeMenu}
+              className="text-[15px] font-family-poppins px-4 py-3 rounded-lg hover:bg-white/10 active:bg-white/15"
+            >
+              {t('nav.home')}
+            </Link>
+            <a
+              href="#howitWorks"
+              onClick={goToHowItWorks}
+              className="text-[15px] font-family-poppins px-4 py-3 rounded-lg hover:bg-white/10 active:bg-white/15 cursor-pointer"
+            >
+              {t('nav.howItWorks')}
+            </a>
+            <Link
+              to='/track'
+              onClick={closeMenu}
+              className="text-[15px] font-family-poppins px-4 py-3 rounded-lg hover:bg-white/10 active:bg-white/15"
+            >
+              {t('nav.trackApplication')}
+            </Link>
+            <Link
+              to='/login'
+              onClick={closeMenu}
+              className="text-[15px] font-family-poppins px-4 py-3 mt-1 rounded-lg bg-gradient-to-r from-[#F09C00] via-[#FFB833] to-[#F09C00] text-white font-bold text-center"
+            >
+              {t('nav.login')}
+            </Link>
+          </nav>
+        )}
       </div>
-<div className="max-sm:block max-md:hidden max-lg:hidden max-xl:hidden max-2xl:hidden">
-  {open && (
-    <div className="flex flex-col gap-3  h-[100vh]">
-      <a className="text-[15px] pt-3 font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white " href="#">
-        {t('nav.home')}
-      </a>
-      <a className="text-[15px] font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white" href="#">
-        {t('nav.howItWorks')}
-      </a>
-      <Link to='/track' className="text-[15px] font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white">
-        {t('nav.trackApplication')}
-      </Link>
-      <Link to='/login' className="text-[15px] font-family-poppins px-4 py-2 hover:bg-[#0b4d7c] hover:text-white">
-        {t('nav.login')}
-      </Link>
-    </div>
-  )}
-</div>
 
     </>
   );

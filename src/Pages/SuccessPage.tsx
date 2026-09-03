@@ -2,7 +2,6 @@ import ContNav from '../Components/ContNav';
 import logo from '../assets/logo 2.png';
 import { FaCheckCircle } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
-import Footer from '../Components/Footer';
 import Button from '../Components/Button';
 import { Link } from 'react-router-dom';
 
@@ -58,7 +57,6 @@ export default function SuccessPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

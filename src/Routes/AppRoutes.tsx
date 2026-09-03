@@ -7,6 +7,7 @@ import SchoolPage from '../Pages/SchoolPage';
 import SchoolRegister from '../Pages/SchoolRegister';
 import SuccessPage from '../Pages/SuccessPage';
 import Pending from '../Pages/Pending';
+import Rejected from '../Pages/Rejected';
 import ResetPasswordPage from '../Pages/ResetPasswordPage';
 import CreateNewPasswordPage from '../Pages/CreateNewPasswordPage';
 import { SchoolAdminPage } from '../Pages/SchoolAdminPage';
@@ -59,6 +60,7 @@ export default function AppRoutes() {
             <Route path='/schoolRegister' element={<ProtectedRoute><SchoolRegister/></ProtectedRoute> }/>
             <Route path='/success' element={<SuccessPage/>}/>
             <Route path='/pending' element={ <ProtectedRoute><Pending/></ProtectedRoute> }/>
+            <Route path='/rejected' element={ <ProtectedRoute><Rejected/></ProtectedRoute> }/>
             <Route path='/viewSchool/:id' element={<SchoolInfoPage/>}/>
             <Route path='/reset' element={<ResetPasswordPage/>}/>
             <Route path='/newpassword' element={<CreateNewPasswordPage/>}/>

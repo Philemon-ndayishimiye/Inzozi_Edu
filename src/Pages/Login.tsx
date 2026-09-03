@@ -6,7 +6,6 @@ import { FaRegUser } from 'react-icons/fa';
 import { RxLockClosed } from 'react-icons/rx';
 import { Link, useNavigate } from 'react-router-dom';
 import Navigation from '../Components/Navigation';
-import Footer from '../Components/Footer';
 import AuthLayout from '../Components/AuthLayout';
 import {useLoginMutation} from '../App/api/Auth/auth';
 import { useUser } from '../Hooks/useUser';
@@ -165,8 +164,6 @@ const handleSubmit = async (e: React.FormEvent) => {
           )}
         </form>
       </AuthLayout>
-
-      <Footer />
     </div>
   );
 }

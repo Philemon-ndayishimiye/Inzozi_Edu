@@ -1,5 +1,4 @@
 import ContNav from '../Components/ContNav';
-import Footer from '../Components/Footer';
 import CreateNewPasswordForm from '../Components/forms/CreateNewPasswordForm';
 
 export default function CreateNewPasswordPage() {
@@ -12,10 +11,6 @@ export default function CreateNewPasswordPage() {
        <div>
         <CreateNewPasswordForm/>
        </div>
-
-        <div>
-            <Footer/>
-        </div>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import ContNav from '../Components/ContNav';
-import Footer from '../Components/Footer';
 import AuthLayout from '../Components/AuthLayout';
 import { useTranslation } from 'react-i18next';
 import { IoCheckmarkCircle, IoHourglassOutline, IoMailOutline } from 'react-icons/io5';
@@ -43,7 +42,6 @@ export default function Pending() {
           </div>
         </div>
       </AuthLayout>
-      <Footer />
     </div>
   );
 }

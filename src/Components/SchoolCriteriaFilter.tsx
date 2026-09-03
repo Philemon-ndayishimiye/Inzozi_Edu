@@ -2,15 +2,20 @@ import { IoOptionsOutline } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
 import { categ, schoolType, Levels, StudentType } from '../Types/Seats';
 
-type SchoolCriteriaFilterProps = {
+type CriteriaFields = {
   category: string;
   type: string;
   level: string;
   studentType: string;
-  onCategoryChange: (value: string) => void;
-  onTypeChange: (value: string) => void;
-  onLevelChange: (value: string) => void;
-  onStudentTypeChange: (value: string) => void;
+};
+
+type SchoolCriteriaFilterProps = CriteriaFields & {
+  // A single callback carrying only the changed field(s) - firing several
+  // separate onChange calls in one tick is unsafe here because consumers
+  // built on react-router's setSearchParams resolve a functional update
+  // against the same pre-update snapshot for every call issued before the
+  // next render, so later calls silently clobber earlier ones (e.g. "Clear").
+  onChange: (next: Partial<CriteriaFields>) => void;
   className?: string;
 };
 
@@ -22,10 +27,7 @@ export default function SchoolCriteriaFilter({
   type,
   level,
   studentType,
-  onCategoryChange,
-  onTypeChange,
-  onLevelChange,
-  onStudentTypeChange,
+  onChange,
   className = '',
 }: SchoolCriteriaFilterProps) {
   const { t } = useTranslation();
@@ -41,12 +43,7 @@ export default function SchoolCriteriaFilter({
         {hasFilter && (
           <button
             type="button"
-            onClick={() => {
-              onCategoryChange('');
-              onTypeChange('');
-              onLevelChange('');
-              onStudentTypeChange('');
-            }}
+            onClick={() => onChange({ category: '', type: '', level: '', studentType: '' })}
             className="text-[12px] font-semibold text-[#05416B] hover:underline cursor-pointer font-family-poppins"
           >
             {t('criteriaFilter.clear')}
@@ -55,28 +52,28 @@ export default function SchoolCriteriaFilter({
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
-        <select value={category} onChange={(e) => onCategoryChange(e.target.value)} className={selectClass}>
+        <select value={category} onChange={(e) => onChange({ category: e.target.value })} className={selectClass}>
           <option value="">{t('criteriaFilter.anyCurriculum')}</option>
           {categ.map((c) => (
             <option key={c.value} value={c.value}>{c.label}</option>
           ))}
         </select>
 
-        <select value={type} onChange={(e) => onTypeChange(e.target.value)} className={selectClass}>
+        <select value={type} onChange={(e) => onChange({ type: e.target.value })} className={selectClass}>
           <option value="">{t('criteriaFilter.boysGirlsMixed')}</option>
           {schoolType.map((opt) => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>
 
-        <select value={level} onChange={(e) => onLevelChange(e.target.value)} className={selectClass}>
+        <select value={level} onChange={(e) => onChange({ level: e.target.value })} className={selectClass}>
           <option value="">{t('criteriaFilter.anyLevel')}</option>
           {Levels.map((l) => (
             <option key={l.value} value={l.value}>{l.label}</option>
           ))}
         </select>
 
-        <select value={studentType} onChange={(e) => onStudentTypeChange(e.target.value)} className={selectClass}>
+        <select value={studentType} onChange={(e) => onChange({ studentType: e.target.value })} className={selectClass}>
           <option value="">{t('criteriaFilter.newcomerOrTransfer')}</option>
           {StudentType.map((s) => (
             <option key={s.value} value={s.value}>{s.label === 'newcomer' ? t('criteriaFilter.newcomer') : t('criteriaFilter.transfer')}</option>

@@ -371,6 +371,15 @@
     "step3Title": "Icyemezo cyoherejwe kuri email",
     "step3Body": "Uzamenyeshwa uko byagenze"
   },
+  "rejected": {
+    "title": "Ubwiyandikishe bw'ishuri ryawe bwanze",
+    "subtitle": "Umuyobozi wa Inzoziedu yasuzumye ubwiyandikishe bwawe n'inyandiko zawe ariko ntibashoboye kwemeza ishuri ryawe muri iki gihe.",
+    "reasonTitle": "Impamvu yo kwanga",
+    "reasonFallback": "Nta mpamvu yatanzwe.",
+    "whatNext": "Ushobora guhamagara ubufasha kugira ngo ubone inama, cyangwa uhindure amakuru n'inyandiko z'ishuri ryawe hanyuma wiyandikishe nanone.",
+    "registerAgain": "Iyandikishe nanone",
+    "contactSupport": "Vugana n'Ubufasha"
+  },
   "registrationReceived": {
     "title": "Ubusabe bwawe bwakiriwe",
     "success": "Byagenze neza!",

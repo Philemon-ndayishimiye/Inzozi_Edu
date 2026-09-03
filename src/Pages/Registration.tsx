@@ -4,7 +4,6 @@ import Input from '../Components/Input';
 import { Link } from 'react-router-dom';
  import { useNavigate } from 'react-router-dom';
  import Navigation from '../Components/Navigation';
- import Footer from '../Components/Footer';
  import AuthLayout from '../Components/AuthLayout';
  import {districts , genders} from '../Types/district';
 import Select from '../Components/Select';
@@ -201,8 +200,6 @@ const handleSelectChange = (name: string) => (value: string) => {
           )}
         </form>
       </AuthLayout>
-
-      <Footer />
     </div>
   );
 }

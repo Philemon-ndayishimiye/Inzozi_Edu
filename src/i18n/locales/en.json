@@ -371,6 +371,15 @@
     "step3Title": "Decision sent by email",
     "step3Body": "You'll be notified either way"
   },
+  "rejected": {
+    "title": "Your school registration was rejected",
+    "subtitle": "Inzoziedu Admin reviewed your registration and documents but couldn't approve your school at this time.",
+    "reasonTitle": "Reason for rejection",
+    "reasonFallback": "No reason was provided.",
+    "whatNext": "You can contact support for guidance, or update your school details and documents and register again.",
+    "registerAgain": "Register again",
+    "contactSupport": "Contact support"
+  },
   "registrationReceived": {
     "title": "Your request was received",
     "success": "Success!",

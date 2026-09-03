@@ -75,11 +75,10 @@ export default function GuidedSchoolFinder() {
             <LocationFilter
               province={province}
               district={district}
-              onProvinceChange={(p) => {
+              onChange={({ province: p, district: d }) => {
                 setProvince(p);
-                setDistrict('');
+                setDistrict(d);
               }}
-              onDistrictChange={setDistrict}
             />
           </div>
 

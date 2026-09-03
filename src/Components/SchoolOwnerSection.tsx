@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { FaUser, FaClipboardList, FaChartLine } from 'react-icons/fa';
 import FeatureCard from './cards/FeatureCard';
 
@@ -71,9 +72,12 @@ const SchoolOwnerSection: React.FC = () => {
             <p className="text-[#223D60] mb-6">
               {t('schoolOwner.ctaBody')}
             </p>
-            <button className="bg-gradient-to-r from-[#053f69] to-[#cad9e9] hover:from-[#E69500] hover:to-[#E69500] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg transform hover:scale-105 active:scale-95">
+            <Link
+              to="/login"
+              className="inline-block bg-gradient-to-r from-[#053f69] to-[#cad9e9] hover:from-[#E69500] hover:to-[#E69500] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg transform hover:scale-105 active:scale-95"
+            >
               {t('schoolOwner.ctaButton')}
-            </button>
+            </Link>
           </div>
         </div>
       </div>

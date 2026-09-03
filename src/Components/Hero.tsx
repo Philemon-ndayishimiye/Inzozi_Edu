@@ -13,20 +13,22 @@ export default function Hero() {
   const district = searchParams.get('district') ?? '';
 
   const updateParams = (next: { q?: string; province?: string; district?: string }) => {
-    const params = new URLSearchParams(searchParams);
-    const merged = {
-      q: next.q ?? searchParams.get('q') ?? '',
-      province: next.province ?? searchParams.get('province') ?? '',
-      district: next.district ?? searchParams.get('district') ?? '',
-    };
-    (Object.keys(merged) as Array<keyof typeof merged>).forEach((key) => {
-      if (merged[key]) {
-        params.set(key, merged[key]);
-      } else {
-        params.delete(key);
-      }
-    });
-    setSearchParams(params, { replace: true });
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      const merged = {
+        q: next.q ?? prev.get('q') ?? '',
+        province: next.province ?? prev.get('province') ?? '',
+        district: next.district ?? prev.get('district') ?? '',
+      };
+      (Object.keys(merged) as Array<keyof typeof merged>).forEach((key) => {
+        if (merged[key]) {
+          params.set(key, merged[key]);
+        } else {
+          params.delete(key);
+        }
+      });
+      return params;
+    }, { replace: true });
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -89,8 +91,7 @@ export default function Hero() {
             <LocationFilter
               province={province}
               district={district}
-              onProvinceChange={(p) => updateParams({ province: p, district: '' })}
-              onDistrictChange={(d) => updateParams({ district: d })}
+              onChange={({ province: p, district: d }) => updateParams({ province: p, district: d })}
             />
           </form>
         </div>

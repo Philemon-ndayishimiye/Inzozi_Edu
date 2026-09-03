@@ -1,7 +1,6 @@
 import ContNav from '../Components/ContNav';
 import { FaCheckCircle } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
-import Footer from '../Components/Footer';
 import AuthLayout from '../Components/AuthLayout';
 import { Link } from 'react-router-dom';
 
@@ -25,7 +24,6 @@ export default function ResetPasswordSuccessPage() {
           </Link>
         </div>
       </AuthLayout>
-      <Footer />
     </div>
   );
 }

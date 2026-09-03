@@ -4,16 +4,19 @@ import { PROVINCE_OPTIONS, districtsForProvince } from '../Types/location';
 type LocationFilterProps = {
   province: string;
   district: string;
-  onProvinceChange: (province: string) => void;
-  onDistrictChange: (district: string) => void;
+  // A single callback carrying both fields at once - setting province and
+  // district via two separate calls in the same tick is unsafe here because
+  // consumers built on react-router's setSearchParams resolve a functional
+  // update against the same pre-update snapshot for every call issued before
+  // the next render, so the second call silently clobbers the first.
+  onChange: (next: { province: string; district: string }) => void;
   className?: string;
 };
 
 export default function LocationFilter({
   province,
   district,
-  onProvinceChange,
-  onDistrictChange,
+  onChange,
   className = '',
 }: LocationFilterProps) {
   const districtOptions = districtsForProvince(province);
@@ -29,10 +32,7 @@ export default function LocationFilter({
         {hasFilter && (
           <button
             type="button"
-            onClick={() => {
-              onProvinceChange('');
-              onDistrictChange('');
-            }}
+            onClick={() => onChange({ province: '', district: '' })}
             className="text-[12px] font-semibold text-[#05416B] hover:underline cursor-pointer font-family-poppins"
           >
             Clear
@@ -43,10 +43,7 @@ export default function LocationFilter({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <select
           value={province}
-          onChange={(e) => {
-            onProvinceChange(e.target.value);
-            onDistrictChange('');
-          }}
+          onChange={(e) => onChange({ province: e.target.value, district: '' })}
           className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-[13.5px] text-[#282C34] font-family-poppins outline-none focus:border-[#F09C00] focus:ring-2 focus:ring-[#FFB833]/30"
         >
           <option value="">All provinces</option>
@@ -60,7 +57,7 @@ export default function LocationFilter({
         <select
           value={district}
           disabled={!province}
-          onChange={(e) => onDistrictChange(e.target.value)}
+          onChange={(e) => onChange({ province, district: e.target.value })}
           className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-[13.5px] text-[#282C34] font-family-poppins outline-none focus:border-[#F09C00] focus:ring-2 focus:ring-[#FFB833]/30 disabled:bg-gray-100 disabled:text-gray-400"
         >
           <option value="">All districts</option>

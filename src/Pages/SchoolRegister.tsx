@@ -6,7 +6,6 @@ import ContNav from '../Components/ContNav';
 import Input from '../Components/Input';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Footer from '../Components/Footer';
 import AuthLayout from '../Components/AuthLayout';
 import { useRegisterSchoolMutation } from '../App/api/school/school';
 import Select from '../Components/Select';
@@ -168,8 +167,6 @@ const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
           )}
         </form>
       </AuthLayout>
-
-      <Footer />
     </div>
   );
 }

@@ -246,7 +246,7 @@
   "auth": {
     "login": {
       "title": "Injira kuri konti yawe",
-      "subtitle": "Ku Bayobozi b'Amashuri, Abayobozi b'Ubwiyandikishe, n'Abayobozi ba Inzoziedu. Ababyeyi ntibakeneye konti — bandikisha bakoresheje urupapuro rw'ishuri.",
+      "subtitle": "Ku Bayobozi b'Amashuri, Abayobozi b'Ubwiyandikishe, n'Abayobozi ba Inzoziedu. Ababyeyi ntibakeneye konti bandikisha bakoresheje urupapuro rw'ishuri.",
       "noAccount": "Ntufite konti?",
       "signUp": "Iyandikishe",
       "email": "Email",

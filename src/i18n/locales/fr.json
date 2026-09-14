@@ -246,7 +246,7 @@
   "auth": {
     "login": {
       "title": "Connectez-vous à votre compte",
-      "subtitle": "Pour les Directeurs d'école, Responsables des admissions et Administrateurs Inzoziedu. Les parents n'ont pas besoin de compte — postulez directement depuis la page d'une école.",
+      "subtitle": "Pour les Directeurs d'école, Responsables des admissions et Administrateurs Inzoziedu. Les parents n'ont pas besoin de compte postulez directement depuis la page d'une école.",
       "noAccount": "Vous n'avez pas de compte ?",
       "signUp": "Inscrivez-vous",
       "email": "Email",

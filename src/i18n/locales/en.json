@@ -246,7 +246,7 @@
   "auth": {
     "login": {
       "title": "Log in to your account",
-      "subtitle": "For School Managers, Admission Managers, and Inzoziedu Admins. Parents don't need an account — apply directly from a school's page.",
+      "subtitle": "For School Managers, Admission Managers, and Inzoziedu Admins. Parents don't need an account apply directly from a school's page.",
       "noAccount": "Don't have an account?",
       "signUp": "Sign up",
       "email": "Email",

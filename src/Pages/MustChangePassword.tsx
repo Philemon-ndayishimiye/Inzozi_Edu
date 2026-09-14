@@ -9,6 +9,7 @@ import AuthLayout from '../Components/AuthLayout';
 import { useUpdateUserMutation } from '../App/api/users/users';
 import { useUser } from '../Hooks/useUser';
 import { getRoleDestination } from '../Helper/roleRedirect';
+import Cookies from 'js-cookie';
 
 type ErrorResponse = { message?: string };
 
@@ -26,7 +27,7 @@ export default function MustChangePassword() {
   const [formError, setFormError] = useState({ newPassword: '', confirmPassword: '' });
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = Cookies.get('token');
     if (!token) {
       navigate('/login', { replace: true });
       return;

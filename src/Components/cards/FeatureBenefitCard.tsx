@@ -44,7 +44,7 @@ const FeatureBenefitCard: React.FC<FeatureBenefitCardProps> = ({
           title: 'text-white font-family-playfair',
           description: 'text-gray-400',
           iconBg: 'bg-[#054069]',
-          cardBg: 'bg-[#0B111E]',
+          cardBg: 'bg-primary-color',
           iconSize: 'w-12 h-12',
           iconRounding: 'rounded-lg',
         };

@@ -31,19 +31,19 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
         };
       case 'dark':
         return {
-          cardBg: 'bg-gray-800',
+          cardBg: 'bg-primary-color',
           text: 'text-white',
           iconColor: 'text-blue-400',
         };
       case 'transparent':
         return {
-          cardBg: 'bg-white/20 backdrop-blur-sm',
+          cardBg: 'bg-primary-color backdrop-blur-sm',
           text: 'text-white',
           iconColor: 'text-white',
         };
       default:
         return {
-          cardBg: 'bg-white/10 backdrop-blur-sm',
+          cardBg: 'bg-primary-color backdrop-blur-sm',
           text: 'text-white',
           iconColor: 'text-white',
         };

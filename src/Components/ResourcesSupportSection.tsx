@@ -56,7 +56,7 @@ const ResourcesSupportSection: React.FC = () => {
     <section className="bg-gray-100 py-16 px-4">
       <div className="md:px-[80px]">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
+          <h2 className="text-4xl md:text-5xl font-family-playfair font-bold mb-6 text-gray-800">
             {t('resourcesSupport.title')}
           </h2>
 
@@ -79,9 +79,11 @@ const ResourcesSupportSection: React.FC = () => {
           ))}
         </div>
 
+        {/* font-family-playfair */}
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
-            <h3 className="text-xl font-semibold text-blue-600 mb-6">
+            <h3 className="text-xl font-semibold font-family-playfair text-blue-600 mb-6">
               {t('resourcesSupport.popularTopics')}
             </h3>
             <div className="space-y-4">
@@ -90,7 +92,7 @@ const ResourcesSupportSection: React.FC = () => {
                   <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
                   <a 
                     href="#" 
-                    className="text-gray-700 hover:text-blue-600 transition-colors duration-200 text-sm"
+                    className="text-gray-700  hover:text-blue-600 transition-colors duration-200 text-sm"
                   >
                     {topic}
                   </a>
@@ -100,11 +102,11 @@ const ResourcesSupportSection: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold text-blue-600 mb-6">
+            <h3 className="text-xl font-semibold font-family-playfair text-blue-600 mb-6">
               {t('resourcesSupport.needHelp')}
             </h3>
 
-            <div className="bg-[#0B111E] p-6 rounded-lg">
+            <div className="bg-primary-color p-6 rounded-lg">
               <div className="mb-4">
                 <h4 className="text-white font-semibold text-lg mb-2">
                   {t('resourcesSupport.contactTitle')}
@@ -137,11 +139,14 @@ const ResourcesSupportSection: React.FC = () => {
               </div>
 
               <a
-                href="mailto:info@inzoziedu.com"
-                className="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold text-sm transition-colors duration-200"
-              >
-                {t('resourcesSupport.contactButton')}
-              </a>
+             
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=info@inzoziedu.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold text-sm transition-colors duration-200"
+>
+  {t('resourcesSupport.contactButton')}
+</a>
             </div>
           </div>
         </div>

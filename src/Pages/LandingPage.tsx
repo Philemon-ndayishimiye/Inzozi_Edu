@@ -1,10 +1,10 @@
 import Footer from '../Components/Footer';
-import GuidedSchoolFinder from '../Components/GuidedSchoolFinder';
+//import GuidedSchoolFinder from '../Components/GuidedSchoolFinder';
 import Hero from '../Components/Hero';
-import HowItWorks from '../Components/HowItWorks';
+//import HowItWorks from '../Components/HowItWorks';
 import Navigation from '../Components/Navigation';
 import ParentSection from '../Components/ParentSection';
-import PowerfulFeaturesSection from '../Components/PowerfulFeaturesSection';
+//import PowerfulFeaturesSection from '../Components/PowerfulFeaturesSection';
 import ResourcesSupportSection from '../Components/ResourcesSupportSection';
 import SchoolOwnerSection from '../Components/SchoolOwnerSection';
 import SchoolSection from '../Components/SchoolSection';
@@ -22,18 +22,19 @@ export default function LandingPage() {
         <Hero />
       </div>
 
-      <GuidedSchoolFinder />
+     {/**<GuidedSchoolFinder /> */} 
       <SchoolSection />
       <WhyChooseInzoziSection />
+       <TrustedBySection />
       <ParentSection />
-      <PowerfulFeaturesSection />
+      {/* <PowerfulFeaturesSection /> */}
       <SchoolOwnerSection />
       <div id="howitWorks">
-        <HowItWorks />
+        {/* <HowItWorks /> */}
       </div>
 
       <ResourcesSupportSection />
-      <TrustedBySection />
+     
       <Footer />
     </div>
   );

@@ -44,6 +44,7 @@ const ParentSection: React.FC = () => {
                 icon={feature.icon}
                 title={feature.title}
                 description={feature.description}
+                cardBgColor="bg-primary-color"
                 variant="default"
               />
             ))}

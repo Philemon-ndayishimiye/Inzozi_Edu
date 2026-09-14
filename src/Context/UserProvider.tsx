@@ -3,13 +3,14 @@ import type { ReactNode } from 'react';
 import { UserContext } from './LoggedUser';
 import type { LoggedUserType, LoginUserPayload } from './LoggedUser';
 import { useGetLoggedUserQuery } from '../App/api/Auth/auth';
+import Cookies from 'js-cookie';
 
 interface UserProviderProps {
   children: ReactNode;
 }
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
+  const [token, setToken] = useState<string | null>(() => Cookies.get('token') ?? null);
 
   const { data, isError, isLoading, error, refetch } = useGetLoggedUserQuery(undefined, {
     skip: !token,
@@ -60,7 +61,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
  // /users/me refetch that fills in the rest a moment later.
  const setUserFromLogin = (payload: { user: LoginUserPayload; token: string }) => {
   const [firstName = '', ...rest] = payload.user.name.split(' ');
-  localStorage.setItem('token', payload.token);
+  Cookies.set('token', payload.token, { expires: 7, secure: true, sameSite: 'strict' });
   setToken(payload.token);
   setUser({
     id: '',
@@ -83,7 +84,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
 
   const clearUser = () => {
-    localStorage.removeItem('token');
+    Cookies.remove('token');
     setToken(null);
     setUser(null);
     setSuccess(false);

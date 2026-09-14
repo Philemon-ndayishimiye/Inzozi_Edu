@@ -25,7 +25,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
     switch (variant) {
       case 'light':
         return {
-          card: 'bg-white hover:bg-gray-50',
+          card: 'bg-primary-color hover:bg-gray-50',
           description: 'text-gray-300',
           text: 'text-gray-800',
           iconBg: 'bg-blue-100',
@@ -41,7 +41,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         };
       default:
         return {
-          card: 'bg-[#0A303F] hover:bg-[#0A303F]/90',
+          card: 'bg-primary-color hover:bg-[#0A303F]/90',
           description: 'font-family-poppins',
           text: 'text-[#F6FCFF] font-family-playfair',
           iconBg: 'bg-white',

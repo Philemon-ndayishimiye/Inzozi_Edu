@@ -18,9 +18,10 @@ export default function LandingPage() {
   return (
     <div>
       <Navigation />
-      <div className="pt-[40px]">
-        <Hero />
-      </div>
+       <Hero />
+      {/* <div className="pt-[40px]">
+       
+      </div> */}
 
      {/**<GuidedSchoolFinder /> */} 
       <SchoolSection />

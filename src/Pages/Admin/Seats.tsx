@@ -10,7 +10,7 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import ConfirmDialog from '../../Components/ConfirmDialog';
 import Panel from '../../Components/dashboard/Panel';
 import Toggle from '../../Components/dashboard/Toggle';
-import { IoAddCircleOutline, IoTrashOutline } from 'react-icons/io5';
+import { IoAddCircleOutline, IoCreateOutline, IoTrashOutline } from 'react-icons/io5';
 
 export default function Seats() {
   const { t } = useTranslation();
@@ -124,6 +124,15 @@ export default function Seats() {
                       disabled={togglingId === spot.id}
                       onChange={(next) => toggleOpen(spot.id, next)}
                     />
+                    <button
+                      onClick={() => {
+                        // TODO: wire up update/edit action here
+                      }}
+                      className="w-8 h-8 rounded-full border border-gray-200 text-gray-500 hover:text-[#005EA2] hover:border-[#005EA2] flex items-center justify-center cursor-pointer"
+                      aria-label={t('seatsPage.updateClassAria')}
+                    >
+                      <IoCreateOutline className="text-[15px]" />
+                    </button>
                     <button
                       onClick={() => setDeleteId(spot.id)}
                       className="w-8 h-8 rounded-full border border-gray-200 text-gray-500 hover:text-[#B10E1E] hover:border-[#B10E1E] flex items-center justify-center cursor-pointer"

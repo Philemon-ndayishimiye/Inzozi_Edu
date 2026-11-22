@@ -9,7 +9,6 @@ import AuthLayout from '../Components/AuthLayout';
 import { useUpdateUserMutation } from '../App/api/users/users';
 import { useUser } from '../Hooks/useUser';
 import { getRoleDestination } from '../Helper/roleRedirect';
-import Cookies from 'js-cookie';
 
 type ErrorResponse = { message?: string };
 
@@ -19,7 +18,7 @@ const isStrongPassword = (password: string) =>
 export default function MustChangePassword() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { user, refetchUser } = useUser();
+  const { user, token, bootstrapping, refetchUser } = useUser();
   const [updateUser, { isLoading, error, isError }] = useUpdateUserMutation();
 
   const [newPassword, setNewPassword] = useState('');
@@ -27,7 +26,7 @@ export default function MustChangePassword() {
   const [formError, setFormError] = useState({ newPassword: '', confirmPassword: '' });
 
   useEffect(() => {
-    const token = Cookies.get('token');
+    if (bootstrapping) {return;}
     if (!token) {
       navigate('/login', { replace: true });
       return;
@@ -36,7 +35,7 @@ export default function MustChangePassword() {
     if (user && user.mustChangePassword === false) {
       navigate(getRoleDestination(user.role?.name, undefined), { replace: true });
     }
-  }, [user, navigate]);
+  }, [user, token, bootstrapping, navigate]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

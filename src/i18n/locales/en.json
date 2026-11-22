@@ -475,7 +475,10 @@
     "wasStatus": "This application was {{status}}",
     "onDate": " on {{date}}",
     "reason": "Reason: {{reason}}",
-    "noneValue": "—"
+    "noneValue": "—",
+    "approvedToast": "Application approved successfully!",
+    "rejectedToast": "Application rejected.",
+    "errorToast": "Something went wrong. Please try again."
   },
   "decisionBox": {
     "title": "Decision",

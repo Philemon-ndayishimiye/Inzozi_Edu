@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useApproveSchoolMutation, useGetSchoolByIdQuery, useRejectSchoolMutation } from '../../App/api/school/school';
@@ -6,6 +5,9 @@ import { IoArrowBack, IoDocumentTextOutline } from 'react-icons/io5';
 import Panel from '../../Components/dashboard/Panel';
 import Badge from '../../Components/dashboard/Badge';
 import DecisionBox from '../../Components/dashboard/DecisionBox';
+import Toast from '../../Components/dashboard/Toast';
+import { useToast } from '../../Hooks/useToast';
+import { getApiErrorMessage } from '../../Helper/apiError';
 
 export default function ViewSchool() {
   const { t } = useTranslation();
@@ -15,12 +17,7 @@ export default function ViewSchool() {
   const [approveSchool] = useApproveSchoolMutation();
   const [rejectSchool] = useRejectSchoolMutation();
 
-  const [toast, setToast] = useState<{ message: string; kind: 'success' | 'error' } | null>(null);
-
-  const showToast = (message: string, kind: 'success' | 'error') => {
-    setToast({ message, kind });
-    setTimeout(() => setToast(null), 3500);
-  };
+  const { toast, showToast } = useToast();
 
   const handleApprove = async () => {
     if (!id) {return;}
@@ -28,8 +25,9 @@ export default function ViewSchool() {
       await approveSchool(id).unwrap();
       showToast(t('viewSchoolPage.approvedToast'), 'success');
       refetch();
-    } catch {
-      showToast(t('viewSchoolPage.errorToast'), 'error');
+    } catch (err) {
+      showToast(getApiErrorMessage(err, t('viewSchoolPage.errorToast')), 'error');
+      refetch();
     }
   };
 
@@ -39,8 +37,9 @@ export default function ViewSchool() {
       await rejectSchool({ id, message: reason }).unwrap();
       showToast(t('viewSchoolPage.rejectedToast'), 'success');
       refetch();
-    } catch {
-      showToast(t('viewSchoolPage.errorToast'), 'error');
+    } catch (err) {
+      showToast(getApiErrorMessage(err, t('viewSchoolPage.errorToast')), 'error');
+      refetch();
     }
   };
 
@@ -121,15 +120,7 @@ export default function ViewSchool() {
         </div>
       </div>
 
-      {toast && (
-        <div
-          className={`fixed top-5 right-5 px-5 py-3 rounded-lg shadow-lg text-white text-[13.5px] font-semibold z-50 ${
-            toast.kind === 'success' ? 'bg-[#1E7A34]' : 'bg-[#B10E1E]'
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
+      <Toast toast={toast} />
     </div>
   );
 }

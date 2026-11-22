@@ -17,6 +17,12 @@ export type LoginResponseData = {
   schoolStatus?: 'not_registered' | 'pending' | 'approved' | 'rejected';
 };
 
+export type RefreshResponse = {
+  data: { token: string } | null;
+  message: string;
+  success: boolean;
+};
+
 export type LoginResponse = {
   data: LoginResponseData;
   message: string;
@@ -41,6 +47,18 @@ export const LoginApi = apiSlice.injectEndpoints({
     Logout: builder.mutation({
       query: () => ({
         url: '/auth/logout',
+        method: 'POST',
+      }),
+    }),
+
+    // Trades the httpOnly refresh-token cookie (sent automatically by the
+    // browser) for a new access token. Used both for silent reauth on a
+    // 401 (see EntryApi's baseQueryWithReauth) and to rehydrate the
+    // in-memory access token on app load, since that memory is wiped by a
+    // page reload.
+    Refresh: builder.mutation<RefreshResponse, void>({
+      query: () => ({
+        url: '/auth/refresh',
         method: 'POST',
       }),
     }),
@@ -85,5 +103,5 @@ export const LoginApi = apiSlice.injectEndpoints({
 });
 
 export const {
- useLoginMutation , useGetLoggedUserQuery, useRegistrationMutation, useLogoutMutation , useForgotPasswordMutation , useResetePasswordMutation, useVerifyOtpMutation,
+ useLoginMutation , useGetLoggedUserQuery, useRegistrationMutation, useLogoutMutation , useForgotPasswordMutation , useResetePasswordMutation, useVerifyOtpMutation, useRefreshMutation,
 } = LoginApi;

@@ -475,7 +475,10 @@
     "wasStatus": "Cette candidature a été {{status}}",
     "onDate": " le {{date}}",
     "reason": "Raison : {{reason}}",
-    "noneValue": "—"
+    "noneValue": "—",
+    "approvedToast": "Candidature approuvée avec succès !",
+    "rejectedToast": "Candidature rejetée.",
+    "errorToast": "Une erreur s'est produite. Veuillez réessayer."
   },
   "decisionBox": {
     "title": "Décision",

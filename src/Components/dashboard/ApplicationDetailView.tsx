@@ -8,6 +8,9 @@ import { mapStudentToApplicationRecord } from '../../Helper/studentMapper';
 import Panel from './Panel';
 import Badge from './Badge';
 import DecisionBox from './DecisionBox';
+import Toast from './Toast';
+import { useToast } from '../../Hooks/useToast';
+import { getApiErrorMessage } from '../../Helper/apiError';
 
 type ApplicationDetailViewProps = {
   referenceCode: string;
@@ -18,9 +21,10 @@ type ApplicationDetailViewProps = {
 export default function ApplicationDetailView({ referenceCode, backTo, backLabel }: ApplicationDetailViewProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { data: pendingData, isFetching } = useGetPendingApplicationsQuery();
+  const { data: pendingData, isFetching, refetch } = useGetPendingApplicationsQuery();
   const [approveApplication, { isLoading: approving }] = useApproveApplicationMutation();
   const [rejectApplication, { isLoading: rejecting }] = useRejectApplicationMutation();
+  const { toast, showToast } = useToast();
 
   const application = useMemo(() => {
     const pendingStudent = pendingData?.data?.find((s) => s.id === referenceCode);
@@ -52,8 +56,10 @@ export default function ApplicationDetailView({ referenceCode, backTo, backLabel
     try {
       await approveApplication({ studentId: application.referenceCode, babyeyiDocument: approvalDocument }).unwrap();
       saveApplication({ ...application, status: 'approved', decidedAt: new Date().toISOString() });
-    } catch {
-      // RTK Query surfaces the error via mutation state; DecisionBox stays interactive to retry.
+      showToast(t('applicationDetail.approvedToast'), 'success');
+    } catch (err) {
+      showToast(getApiErrorMessage(err, t('applicationDetail.errorToast')), 'error');
+      refetch();
     }
   };
 
@@ -61,8 +67,10 @@ export default function ApplicationDetailView({ referenceCode, backTo, backLabel
     try {
       await rejectApplication({ studentId: application.referenceCode, rejectionReason: reason }).unwrap();
       saveApplication({ ...application, status: 'rejected', decisionReason: reason, decidedAt: new Date().toISOString() });
-    } catch {
-      // RTK Query surfaces the error via mutation state; DecisionBox stays interactive to retry.
+      showToast(t('applicationDetail.rejectedToast'), 'success');
+    } catch (err) {
+      showToast(getApiErrorMessage(err, t('applicationDetail.errorToast')), 'error');
+      refetch();
     }
   };
 
@@ -167,6 +175,8 @@ export default function ApplicationDetailView({ referenceCode, backTo, backLabel
           )}
         </div>
       </div>
+
+      <Toast toast={toast} />
     </div>
   );
 }

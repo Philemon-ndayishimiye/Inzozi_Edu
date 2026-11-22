@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { UserContext } from './LoggedUser';
 import type { LoggedUserType, LoginUserPayload } from './LoggedUser';
-import { useGetLoggedUserQuery } from '../App/api/Auth/auth';
-import Cookies from 'js-cookie';
+import { useGetLoggedUserQuery, useRefreshMutation } from '../App/api/Auth/auth';
+import { getAccessToken, setAccessToken } from '../App/api/tokenStore';
 
 interface UserProviderProps {
   children: ReactNode;
 }
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [token, setToken] = useState<string | null>(() => Cookies.get('token') ?? null);
+  const [token, setToken] = useState<string | null>(() => getAccessToken());
+  const [bootstrapping, setBootstrapping] = useState(true);
+  const [refresh] = useRefreshMutation();
 
   const { data, isError, isLoading, error, refetch } = useGetLoggedUserQuery(undefined, {
     skip: !token,
@@ -19,6 +21,27 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<LoggedUserType | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string | null>(null);
+
+  // The access token lives only in memory (tokenStore), so a page reload
+  // wipes it. On mount, try the httpOnly refresh cookie once to silently
+  // get a new one back before deciding the user is logged out.
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await refresh().unwrap();
+        if (res.success && res.data?.token) {
+          setAccessToken(res.data.token);
+          setToken(res.data.token);
+        }
+      } catch {
+        // No valid refresh cookie (never logged in, or it expired) - stay logged out.
+      } finally {
+        setBootstrapping(false);
+      }
+    })();
+    // Only ever run once, on mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!token) {
@@ -61,7 +84,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
  // /users/me refetch that fills in the rest a moment later.
  const setUserFromLogin = (payload: { user: LoginUserPayload; token: string }) => {
   const [firstName = '', ...rest] = payload.user.name.split(' ');
-  Cookies.set('token', payload.token, { expires: 7, secure: true, sameSite: 'strict' });
+  setAccessToken(payload.token);
   setToken(payload.token);
   setUser({
     id: '',
@@ -84,7 +107,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
 
   const clearUser = () => {
-    Cookies.remove('token');
+    setAccessToken(null);
     setToken(null);
     setUser(null);
     setSuccess(false);
@@ -95,6 +118,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     <UserContext.Provider
       value={{
         user,
+        token,
+        bootstrapping,
         loading: isLoading,
         error: errMsg,
         success,

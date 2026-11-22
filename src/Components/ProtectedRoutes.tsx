@@ -1,21 +1,25 @@
 import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { useUser } from '../Hooks/useUser';
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // Check if token exists in cookies
-  const token = Cookies.get('token');
+  const { token, bootstrapping } = useUser();
+
+  // Still trying the silent refresh (httpOnly cookie -> new access token)
+  // on app load - don't redirect yet, or a plain reload would always bounce
+  // an otherwise still-logged-in user to /login.
+  if (bootstrapping) {
+    return null;
+  }
 
   if (!token) {
-    // If no token, redirect to login
     return <Navigate to="/login" replace />;
   }
 
-  // If token exists, render the child component
   return children;
 };
 

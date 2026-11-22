@@ -40,6 +40,12 @@ export type LoginUserPayload = {
 // Context type
 export type UserCont = {
   user: LoggedUserType | null;
+  token: string | null;
+  // True only during the initial silent-refresh attempt on app load (trading
+  // the httpOnly refresh cookie for an in-memory access token). Routes that
+  // gate on `token` should wait for this before redirecting to /login, or a
+  // plain page reload would always bounce an otherwise-still-logged-in user.
+  bootstrapping: boolean;
   loading: boolean;
   error: string | null;
   success: boolean;
@@ -53,6 +59,8 @@ export type UserCont = {
 // Create context with default values
 export const UserContext = createContext<UserCont>({
   user: null,
+  token: null,
+  bootstrapping: true,
   loading: false,
   error: null,
   success: false,

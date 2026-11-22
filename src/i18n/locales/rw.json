@@ -475,7 +475,10 @@
     "wasStatus": "Ubu busabe bwa {{status}}",
     "onDate": " ku itariki {{date}}",
     "reason": "Impamvu: {{reason}}",
-    "noneValue": "—"
+    "noneValue": "—",
+    "approvedToast": "Ubusabe bwemejwe neza!",
+    "rejectedToast": "Ubusabe bwanze.",
+    "errorToast": "Habaye ikibazo. Ongera ugerageze."
   },
   "decisionBox": {
     "title": "Icyemezo",

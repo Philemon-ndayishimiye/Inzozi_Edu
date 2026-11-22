@@ -27,7 +27,12 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 ) => {
   let result = await rawBaseQuery(args, api, extraOptions);
 
-  if (result.error?.status === 401) {
+  // Only attempt the refresh-and-redirect dance for a visitor who actually
+  // had a session (an access token already in memory). A 401 with no prior
+  // token means an anonymous/public request (e.g. a parent applying, or a
+  // misconfigured public endpoint) - there's nothing to restore, and forcing
+  // that visitor to /login would be wrong since they were never logged in.
+  if (result.error?.status === 401 && getAccessToken()) {
     const refreshResult = await rawBaseQuery({ url: '/auth/refresh', method: 'POST' }, api, extraOptions);
     const refreshData = refreshResult.data as { success: boolean; data?: { token: string } } | undefined;
 

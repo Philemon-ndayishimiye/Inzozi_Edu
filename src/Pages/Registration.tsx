@@ -159,16 +159,16 @@ const handleSelectChange = (name: string) => (value: string) => {
         <form onSubmit={handleCreate}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3">
             <div>
-              <Input label={t('register.firstName')} placeholder={t('register.firstName')} value={formData.firstName} onChange={handleInputChange} name="firstName" type="text" />
+              <Input required label={t('register.firstName')} placeholder={t('register.firstName')} value={formData.firstName} onChange={handleInputChange} name="firstName" type="text" />
               {formError.firstName && <span className="text-red-500 text-[12px]">{formError.firstName}</span>}
             </div>
             <div>
-              <Input label={t('register.lastName')} placeholder={t('register.lastName')} value={formData.lastName} onChange={handleInputChange} name="lastName" type="text" />
+              <Input required label={t('register.lastName')} placeholder={t('register.lastName')} value={formData.lastName} onChange={handleInputChange} name="lastName" type="text" />
               {formError.lastName && <span className="text-red-500 text-[12px]">{formError.lastName}</span>}
             </div>
           </div>
 
-          <Input label={t('register.email')} placeholder={t('register.email')} value={formData.email} onChange={handleInputChange} name="email" type="email" />
+          <Input required label={t('register.email')} placeholder={t('register.email')} value={formData.email} onChange={handleInputChange} name="email" type="email" />
           {formError.email && <span className="text-red-500 text-[12px]">{formError.email}</span>}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3">
@@ -179,7 +179,7 @@ const handleSelectChange = (name: string) => (value: string) => {
             <Select options={genders} value={formData.gender} onChange={handleSelectChange('gender')} />
           </div>
 
-          <Input label={t('register.password')} placeholder={t('register.password')} value={formData.password} onChange={handleInputChange} name="password" type="password" />
+          <Input required label={t('register.password')} placeholder={t('register.password')} value={formData.password} onChange={handleInputChange} name="password" type="password" />
           {formError.password && <span className="text-red-500 text-[12px]">{formError.password}</span>}
 
           <button

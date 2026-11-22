@@ -91,6 +91,7 @@ export default function MustChangePassword() {
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           variant="default"
+          required
         />
         {formError.newPassword && (
           <span className="text-red-500 text-[12px]">{formError.newPassword}</span>
@@ -105,6 +106,7 @@ export default function MustChangePassword() {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           variant="default"
+          required
         />
         {formError.confirmPassword && (
           <span className="text-red-500 text-[12px]">{formError.confirmPassword}</span>

@@ -255,29 +255,29 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
             <div>
                 <form action="" onSubmit={createSeats} className='px-10'>
                     <div className='flex gap-13'>
-                     <SelectInput options={availableLevelOptions} label={t('addSeatsPage.level')} placeholder={t('addSeatsPage.selectLevel')} name='level' value={formData.level} onChange={handleSelectChange} />
+                     <SelectInput required options={availableLevelOptions} label={t('addSeatsPage.level')} placeholder={t('addSeatsPage.selectLevel')} name='level' value={formData.level} onChange={handleSelectChange} />
                      {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.level}</span>
                      )}
-                     <SelectInput options={StudentType} label={t('addSeatsPage.studentType')} placeholder={t('addSeatsPage.selectStudentType')} onChange={handleSelectChange} name='studentType' value={formData.studentType} />
+                     <SelectInput required options={StudentType} label={t('addSeatsPage.studentType')} placeholder={t('addSeatsPage.selectStudentType')} onChange={handleSelectChange} name='studentType' value={formData.studentType} />
                      {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.studentType}</span>
                      )}
                     </div>
 
                     <div className='flex gap-13 py-2'>
-                      <TextInput label={t('addSeatsPage.academicYear')} placeholder='e.g., 2025/2026' type='text' name='academicYear' value={formData.academicYear} onChange={handleInputChange}/>
+                      <TextInput required label={t('addSeatsPage.academicYear')} placeholder='e.g., 2025/2026' type='text' name='academicYear' value={formData.academicYear} onChange={handleInputChange}/>
                       {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.academicYear}</span>
                      )}
-                      <TextInput label={t('addSeatsPage.yearOfStudy')} onChange={handleInputChange} value={formData.yearofstudy} name='yearofstudy'/>
+                      <TextInput required label={t('addSeatsPage.yearOfStudy')} onChange={handleInputChange} value={formData.yearofstudy} name='yearofstudy'/>
                       {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.yearofstudy}</span>
                      )}
                     </div>
 
                     <div className='flex gap-13 py-2'>
-                      <TextInput label={t('addSeatsPage.totalSpots')} placeholder='50' type='number' name='totalSpots' value={formData.totalSpots.toString()} onChange={handleInputChange} />
+                      <TextInput required label={t('addSeatsPage.totalSpots')} placeholder='50' type='number' name='totalSpots' value={formData.totalSpots.toString()} onChange={handleInputChange} />
                       {errors &&(
                       <span className='text-red-600 text-[15px]'>{errors.totalSpots}</span>
                      )}

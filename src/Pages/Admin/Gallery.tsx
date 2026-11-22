@@ -188,10 +188,11 @@ export default function Gallery() {
               <Select options={category} value={formData.category} onChange={handleSelectChange('category')} />
               {errors.category && <p className="text-red-500 text-sm">{errors.category}</p>}
 
-              <TextInput label={t('galleryPage.caption')} placeholder={t('galleryPage.captionPlaceholder')} value={formData.caption} name="caption" onChange={handleChange} />
+              <TextInput required label={t('galleryPage.caption')} placeholder={t('galleryPage.captionPlaceholder')} value={formData.caption} name="caption" onChange={handleChange} />
               {errors.caption && <p className="text-red-500 text-sm">{errors.caption}</p>}
 
               <TextInput
+                required={!editing}
                 label={editing ? t('galleryPage.replacePhoto') : t('galleryPage.photo')}
                 placeholder="imageUrl"
                 name="imageUrl"

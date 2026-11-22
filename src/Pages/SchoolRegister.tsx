@@ -126,11 +126,11 @@ const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
             <div>
-              <Input label={t('schoolRegister.schoolCode')} placeholder={t('schoolRegister.schoolCode')} value={formData.schoolCode} onChange={handleChange} name="schoolCode" type="text" />
+              <Input required label={t('schoolRegister.schoolCode')} placeholder={t('schoolRegister.schoolCode')} value={formData.schoolCode} onChange={handleChange} name="schoolCode" type="text" />
               {errors.schoolcode && <p className="text-red-500 text-sm">{errors.schoolcode}</p>}
             </div>
             <div>
-              <Input label={t('schoolRegister.schoolName')} placeholder={t('schoolRegister.schoolName')} value={formData.schoolName} onChange={handleChange} name="schoolName" type="text" />
+              <Input required label={t('schoolRegister.schoolName')} placeholder={t('schoolRegister.schoolName')} value={formData.schoolName} onChange={handleChange} name="schoolName" type="text" />
               {errors.schoolname && <p className="text-red-500 text-sm">{errors.schoolname}</p>}
             </div>
           </div>
@@ -141,12 +141,12 @@ const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
               {errors.district && <p className="text-red-500 text-sm">{errors.district}</p>}
             </div>
             <div>
-              <Input label={t('schoolRegister.schoolEmail')} placeholder={t('schoolRegister.schoolEmail')} value={formData.email} onChange={handleChange} name="email" type="email" />
+              <Input required label={t('schoolRegister.schoolEmail')} placeholder={t('schoolRegister.schoolEmail')} value={formData.email} onChange={handleChange} name="email" type="email" />
               {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             </div>
           </div>
 
-          <Input label={t('schoolRegister.certificateLabel')} placeholder={t('schoolRegister.certificate')} onChange={handleChange} name="licenseDocument" type="file" />
+          <Input required label={t('schoolRegister.certificateLabel')} placeholder={t('schoolRegister.certificate')} onChange={handleChange} name="licenseDocument" type="file" />
           <p className="text-[11.5px] text-gray-400 -mt-2 mb-3">{t('schoolRegister.certificateHint')}</p>
 
           <button

@@ -1,4 +1,5 @@
 import React from 'react';
+import RequiredMark from '../RequiredMark';
 
 // 1. Define the props interface for type safety
 interface SchoolDescriptionTextareaProps {
@@ -13,6 +14,7 @@ interface SchoolDescriptionTextareaProps {
   /** The number of visible text lines (optional, defaults to 4). */
   rows?: number;
   label:string;
+  required?: boolean;
 }
 
 // 2. The Textarea Component with Implicit Return
@@ -25,11 +27,13 @@ const SchoolDescriptionTextarea: React.FC<SchoolDescriptionTextareaProps> = ({
   onChange,
   placeholder = 'Enter school description...', // Set a default placeholder
   rows = 4, // Default rows for a multi-line input
+  required = false,
 }) => (
   <div className="w-full">
     {/* Optional: Add a label above the description field */}
     <label htmlFor={name} className="block text-lg font-semibold text-gray-800 mb-2">
       {label}
+      {required && <RequiredMark />}
     </label>
     
     {/* The main Textarea element with Tailwind CSS styling */}

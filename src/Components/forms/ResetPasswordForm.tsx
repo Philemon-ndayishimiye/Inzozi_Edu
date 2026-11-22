@@ -70,6 +70,7 @@ const ResetPasswordForm: React.FC = () => {
           value={email}
           onChange={handleEmailChange}
           variant="default"
+          required
         />
         {errorm && <p className="text-red-500 text-[12.5px] pt-1">{errorm}</p>}
 

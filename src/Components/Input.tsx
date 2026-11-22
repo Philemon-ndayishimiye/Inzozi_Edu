@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
+import RequiredMark from './RequiredMark';
 
 const classVariant = {
   default:
@@ -18,6 +19,7 @@ type InputType = {
   value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   variant?: keyof typeof classVariant;
+  required?: boolean;
 };
 
 export default function Input({
@@ -28,6 +30,7 @@ export default function Input({
   value,
   onChange,
   variant = 'default',
+  required = false,
 }: InputType) {
   const [reveal, setReveal] = useState(false);
   const isPassword = type === 'password';
@@ -37,6 +40,7 @@ export default function Input({
     <div className="w-full flex flex-col gap-1 py-3">
       <label htmlFor={name} className="text-sm font-medium text-[#4E5155] font-family-poppins text-[16px] ">
         {label}
+        {required && <RequiredMark />}
       </label>
       <div className={`relative flex items-center rounded-md ${classVariant[variant]}`}>
         <input

@@ -1,4 +1,5 @@
 import React from 'react';
+import RequiredMark from '../RequiredMark';
 
 // Define the structure for each option in the dropdown
 interface SelectOption {
@@ -57,7 +58,7 @@ export const SelectInput: React.FC<SelectInputProps> = ({
       {/* Label: "Level *" */}
       <label htmlFor={selectId} className={labelClasses}>
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <RequiredMark />}
       </label>
       
       {/* Select Input Field */}

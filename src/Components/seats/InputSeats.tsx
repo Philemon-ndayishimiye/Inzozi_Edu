@@ -1,5 +1,6 @@
 // This component assumes React and Tailwind CSS are set up in your project.
 import React from 'react';
+import RequiredMark from '../RequiredMark';
 
 // Define the properties (props) for the component
 interface TextInputProps {
@@ -47,7 +48,7 @@ export const TextInput: React.FC<TextInputProps> = ({
       {/* Label: 'Year of Study *' */}
       <label htmlFor={inputId} className={labelClasses}>
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <RequiredMark />}
       </label>
       
       {/* Input Field */}

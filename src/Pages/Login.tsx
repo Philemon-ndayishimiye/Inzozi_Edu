@@ -125,6 +125,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             type="email"
             onChange={handleChange}
             variant={error ? 'danger' : 'default'}
+            required
           />
           {errors.email && <p className="text-red-500 text-[12px]">{errors.email}</p>}
 
@@ -137,6 +138,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             type="password"
             onChange={handleChange}
             variant={error ? 'danger' : 'default'}
+            required
           />
           {errors.password && <p className="text-red-500 text-[12px]">{errors.password}</p>}
 

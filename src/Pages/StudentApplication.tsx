@@ -14,6 +14,7 @@ import { useGetAllSpotsQuery } from '../App/api/spots/spot';
 import { useApplyStudentMutation } from '../App/api/students/students';
 import { IoArrowBack, IoCheckmarkCircle, IoWarningOutline, IoPersonOutline, IoAttachOutline } from 'react-icons/io5';
 import { saveApplication, type StoredDocument } from '../Helper/applicationsStore';
+import RequiredMark from '../Components/RequiredMark';
 import type { ReactNode } from 'react';
 
 type StepId = 1 | 2 | 3;
@@ -360,12 +361,12 @@ export default function StudentApplication() {
                   {t('studentApplication.studentInformation')}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-                  <TextInput label={t('studentApplication.firstName')} name="firstName" placeholder={t('studentApplication.firstName')} value={form.firstName} onChange={handleInput} />
-                  <TextInput label={t('studentApplication.lastName')} name="lastName" placeholder={t('studentApplication.lastName')} value={form.lastName} onChange={handleInput} />
+                  <TextInput required label={t('studentApplication.firstName')} name="firstName" placeholder={t('studentApplication.firstName')} value={form.firstName} onChange={handleInput} />
+                  <TextInput required label={t('studentApplication.lastName')} name="lastName" placeholder={t('studentApplication.lastName')} value={form.lastName} onChange={handleInput} />
                   <TextInput label={t('studentApplication.middleName')} name="middleName" placeholder={t('common.optional')} value={form.middleName} onChange={handleInput} />
-                  <SelectInput label={t('studentApplication.gender')} name="gender" placeholder={t('studentApplication.selectGender')} options={getGenderOptions(t)} value={form.gender} onChange={handleInput} />
-                  <TextInput label={t('studentApplication.nationality')} name="nationality" placeholder="e.g. Rwandan" value={form.nationality} onChange={handleInput} />
-                  <TextInput label={t('studentApplication.dateOfBirth')} name="dateOfBirth" type="date" value={form.dateOfBirth} onChange={handleInput} />
+                  <SelectInput required label={t('studentApplication.gender')} name="gender" placeholder={t('studentApplication.selectGender')} options={getGenderOptions(t)} value={form.gender} onChange={handleInput} />
+                  <TextInput required label={t('studentApplication.nationality')} name="nationality" placeholder="e.g. Rwandan" value={form.nationality} onChange={handleInput} />
+                  <TextInput required label={t('studentApplication.dateOfBirth')} name="dateOfBirth" type="date" value={form.dateOfBirth} onChange={handleInput} />
                 </div>
 
                 <h3 className="font-bold text-[15px] text-[#282C34] mt-5 mb-3 font-family-poppins">
@@ -383,10 +384,10 @@ export default function StudentApplication() {
                   {t('studentApplication.guardianInformation')}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-                  <TextInput label={t('studentApplication.fatherName')} name="fatherName" placeholder={t('studentApplication.fatherName')} value={form.fatherName} onChange={handleInput} />
-                  <TextInput label={t('studentApplication.motherName')} name="motherName" placeholder={t('studentApplication.motherName')} value={form.motherName} onChange={handleInput} />
-                  <TextInput label={t('studentApplication.guardianPhone')} name="guardianPhone" placeholder="078 000 0000" value={form.guardianPhone} onChange={handleInput} />
-                  <TextInput label={t('studentApplication.guardianEmail')} name="guardianEmail" type="email" placeholder="you@email.com" value={form.guardianEmail} onChange={handleInput} />
+                  <TextInput required label={t('studentApplication.fatherName')} name="fatherName" placeholder={t('studentApplication.fatherName')} value={form.fatherName} onChange={handleInput} />
+                  <TextInput required label={t('studentApplication.motherName')} name="motherName" placeholder={t('studentApplication.motherName')} value={form.motherName} onChange={handleInput} />
+                  <TextInput required label={t('studentApplication.guardianPhone')} name="guardianPhone" placeholder="078 000 0000" value={form.guardianPhone} onChange={handleInput} />
+                  <TextInput required label={t('studentApplication.guardianEmail')} name="guardianEmail" type="email" placeholder="you@email.com" value={form.guardianEmail} onChange={handleInput} />
                 </div>
                 <p className="text-[11.5px] text-[#6B7280] font-family-poppins -mt-2">
                   {t('studentApplication.guardianEmailHint')}
@@ -431,7 +432,7 @@ export default function StudentApplication() {
                         ) : (
                           <div>
                             <div className="font-semibold text-[13.5px] text-[#282C34] font-family-poppins">
-                              {label} {required && '*'}
+                              {label} {required && <RequiredMark />}
                             </div>
                             <div className="text-[11.5px] text-[#6B7280]">{hint}</div>
                           </div>

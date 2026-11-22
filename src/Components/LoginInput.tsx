@@ -1,5 +1,6 @@
 import React, { useState, type ReactNode } from 'react';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
+import RequiredMark from './RequiredMark';
 
 const classVariant = {
   default:
@@ -20,6 +21,7 @@ type InputType = {
   error?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   variant?: keyof typeof classVariant;
+  required?: boolean;
 };
 
 export default function LoginInput({
@@ -32,6 +34,7 @@ export default function LoginInput({
   error,
   onChange,
   variant = 'default',
+  required = false,
 }: InputType) {
   const [reveal, setReveal] = useState(false);
   const isPassword = type === 'password';
@@ -45,6 +48,7 @@ export default function LoginInput({
         className="text-sm font-medium text-[#4E5155] font-family-poppins text-[16px]"
       >
         {label}
+        {required && <RequiredMark />}
       </label>
 
       {/* Input with icon */}

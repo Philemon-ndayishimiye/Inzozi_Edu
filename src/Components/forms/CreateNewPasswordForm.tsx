@@ -91,6 +91,7 @@ const handleCreatePassword = async(e: React.FormEvent<HTMLFormElement>) => {
           value={newPassword}
           onChange={handleNewPasswordChange}
           variant="default"
+          required
         />
         {formError.newpassword && (
           <span className="text-red-500 text-[12px]">{formError.newpassword}</span>
@@ -105,6 +106,7 @@ const handleCreatePassword = async(e: React.FormEvent<HTMLFormElement>) => {
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}
           variant="default"
+          required
         />
         {formError.confirmpassword && (
           <span className="text-red-500 text-[12px]">{formError.confirmpassword}</span>

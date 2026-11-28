@@ -27,6 +27,7 @@ export type ApplicationRecord = {
   guardianPhone: string;
   level?: string;
   yearofstudy?: string;
+  combination?: string[];
   spotId?: string;
   documents: StoredDocument[];
   status: ApplicationStatus;

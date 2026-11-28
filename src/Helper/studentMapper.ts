@@ -28,6 +28,8 @@ export function mapStudentToApplicationRecord(student: StudentRecord, schoolName
     guardianEmail: student.representerEmail ?? '',
     guardianPhone: student.representerPhone ?? '',
     level: student.level,
+    yearofstudy: student.yearOfStudy,
+    combination: student.spot?.combination ?? undefined,
     documents,
     // The backend calls the not-yet-decided state "pending"; the rest of
     // this app calls it "submitted" (chosen before this endpoint existed).

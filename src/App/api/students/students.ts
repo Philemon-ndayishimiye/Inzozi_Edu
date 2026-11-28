@@ -13,6 +13,7 @@ export interface StudentRecord {
   DOB: string;
   studentType: 'newcomer' | 'transfer';
   level: StudentLevel;
+  yearOfStudy?: string;
   status: StudentStatus;
   schoolId: string;
   schoolSpotId?: string;
@@ -34,6 +35,10 @@ export interface StudentRecord {
   rejectedReason?: string | null;
   createdAt?: string;
   updatedAt?: string;
+  // Which A-level combination this application is for - only meaningful
+  // when `level` is 'A-level'; comes from the spot the student applied to
+  // (one spot = one combination), not stored directly on the student.
+  spot?: { combination?: string[] | null } | null;
 }
 
 export interface TrackApplicationResult {
@@ -45,6 +50,7 @@ export interface TrackApplicationResult {
   level: StudentLevel;
   yearOfStudy: string;
   studentType: 'newcomer' | 'transfer';
+  combination?: string[] | null;
   representerEmail: string;
   schoolName: string | null;
   rejectedReason: string | null;

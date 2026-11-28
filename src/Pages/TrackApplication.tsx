@@ -92,6 +92,7 @@ export default function TrackApplication() {
               <p className="text-[13px] text-[#6B7280] font-family-poppins mb-6">
                 {record.firstName} {record.lastName}
                 {record.level ? ` · ${t('trackApplication.applyingFor', { level: record.level })}` : ''}
+                {record.combination && record.combination.length > 0 ? ` · ${record.combination.join(', ')}` : ''}
               </p>
 
               {record.status === 'pending' && (

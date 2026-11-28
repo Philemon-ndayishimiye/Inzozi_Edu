@@ -99,7 +99,10 @@ export default function ApplicationDetailView({ referenceCode, backTo, backLabel
                 [t('applicationDetail.gender'), application.gender],
                 [t('applicationDetail.dateOfBirth'), application.dateOfBirth],
                 [t('applicationDetail.studentType'), application.studentType],
-                [t('applicationDetail.classApplyingFor'), [application.level, application.yearofstudy].filter(Boolean).join(' · ')],
+                [
+                  t('applicationDetail.classApplyingFor'),
+                  [application.level, application.yearofstudy, application.combination?.join(', ')].filter(Boolean).join(' · '),
+                ],
                 [t('applicationDetail.parentGuardian'), [application.fatherName, application.motherName].filter(Boolean).join(' / ')],
                 [t('applicationDetail.phone'), application.guardianPhone],
                 [t('applicationDetail.email'), application.guardianEmail],

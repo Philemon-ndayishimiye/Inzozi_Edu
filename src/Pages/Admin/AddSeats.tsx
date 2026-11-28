@@ -288,7 +288,14 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
           ? { admissionConditions: cleanAdmissionConditions }
           : {}),
     };
-    const combinations = formData.combination && formData.combination.length > 0 ? formData.combination : [];
+    // combination only ever means anything for A-level - force it empty for
+    // any other level so stale data (e.g. from before combination support
+    // existed) gets cleared on save even though the picker UI is hidden for
+    // non-A-level and never gave the user a way to touch it directly.
+    const combinations =
+      formData.level === 'A-level' && formData.combination && formData.combination.length > 0
+        ? formData.combination
+        : [];
 
     // 4️⃣ Call backend
     if (isEdit && spotId) {

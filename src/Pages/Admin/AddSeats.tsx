@@ -275,7 +275,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
     }
 
     // 3️⃣ Build payload — required fields first, optional fields only if valid
-    const payload= {
+    const basePayload = {
       level: formData.level,
       studentType: formData.studentType,
       academicYear: formData.academicYear,
@@ -284,17 +284,37 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
       ...(formData.occupiedSpots !== undefined ? { occupiedSpots: Number(formData.occupiedSpots) } : {}),
       ...(formData.registrationOpen !== undefined ? { registrationOpen: formData.registrationOpen } : {}),
       ...(formData.waitingListCount !== undefined ? { waitingListCount: formData.waitingListCount } : {}),
-      ...(formData.combination && formData.combination.length > 0 ? { combination: formData.combination } : {}),
       ...(Object.keys(cleanAdmissionConditions).length > 0
           ? { admissionConditions: cleanAdmissionConditions }
           : {}),
     };
+    const combinations = formData.combination && formData.combination.length > 0 ? formData.combination : [];
 
     // 4️⃣ Call backend
     if (isEdit && spotId) {
-      await updateSpot({ schoolId: user?.schoolId ?? '', spotId, data: payload }).unwrap();
+      // One spot row = one combination (or none), always - matching how
+      // creating a spot already fans multiple combinations out into
+      // separate rows. So this row only ever takes the first combination;
+      // any additional ones typed here become new, separate spots rather
+      // than being merged into this row's capacity.
+      await updateSpot({
+        schoolId: user?.schoolId ?? '',
+        spotId,
+        data: { ...basePayload, combination: combinations.length > 0 ? [combinations[0]] : [] },
+      }).unwrap();
+
+      const extraCombinations = combinations.slice(1);
+      if (extraCombinations.length > 0) {
+        await Promise.all(
+          extraCombinations.map((combo) =>
+            registerSpot({ data: { ...basePayload, combination: [combo] }, id: user?.schoolId ?? '' }).unwrap(),
+          ),
+        );
+      }
       showToast(t('addSeatsPage.updatedToast'), 'success');
     } else {
+      // Create fans multiple combinations out into separate rows itself.
+      const payload = { ...basePayload, ...(combinations.length > 0 ? { combination: combinations } : {}) };
       await registerSpot({ data: payload, id: user?.schoolId ?? '' }).unwrap();
       showToast(t('addSeatsPage.addedToast'), 'success');
     }

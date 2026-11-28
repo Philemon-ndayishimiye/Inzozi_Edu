@@ -11,6 +11,8 @@ import ConfirmDialog from '../../Components/ConfirmDialog';
 import Panel from '../../Components/dashboard/Panel';
 import Toggle from '../../Components/dashboard/Toggle';
 import { IoAddCircleOutline, IoCreateOutline, IoEyeOutline, IoTrashOutline } from 'react-icons/io5';
+import AdmissionRequirementsModal from '../../Components/AdmissionRequirementsModal';
+import { hasAdmissionConditions } from '../../Helper/admissionConditions';
 
 export default function Seats() {
   const { t } = useTranslation();
@@ -26,6 +28,7 @@ export default function Seats() {
   const [search, setSearch] = useState('');
   const [level, setLevel] = useState('');
   const [studentType, setStudentType] = useState('');
+  const [viewingRequirementsFor, setViewingRequirementsFor] = useState<string | null>(null);
 
   const spots = data?.data.spots ?? [];
 
@@ -112,6 +115,18 @@ export default function Seats() {
                       {spot.combination && spot.combination.length > 0 && (
                         <> · {spot.combination.join(', ')}</>
                       )}
+                      {isOpen && hasAdmissionConditions(spot.admissionConditions) && (
+                        <>
+                          {' · '}
+                          <button
+                            type="button"
+                            onClick={() => setViewingRequirementsFor(spot.id)}
+                            className="text-[#05416B] font-semibold hover:underline cursor-pointer"
+                          >
+                            {t('spotRow.admissionRequirements')}
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-3 flex-shrink-0">
@@ -165,6 +180,13 @@ export default function Seats() {
         onConfirm={confirmDelete}
         onCancel={() => setDeleteId(null)}
       />
+
+      {viewingRequirementsFor && (
+        <AdmissionRequirementsModal
+          admissionConditions={spots.find((s) => s.id === viewingRequirementsFor)?.admissionConditions}
+          onClose={() => setViewingRequirementsFor(null)}
+        />
+      )}
     </div>
   );
 }

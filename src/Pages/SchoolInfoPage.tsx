@@ -223,6 +223,8 @@ const SchoolInfoPage: React.FC = () => {
                     yearofstudy={spot.yearofstudy}
                     totalSeats={Number(spot.totalSpots)}
                     occupiedSeats={Number(spot.occupiedSpots ?? 0)}
+                    combination={spot.combination}
+                    admissionConditions={spot.admissionConditions}
                     onApply={() => goApply(spot.id)}
                   />
                 ))}

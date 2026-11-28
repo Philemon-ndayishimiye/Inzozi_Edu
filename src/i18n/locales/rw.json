@@ -944,6 +944,7 @@
     "seatsAvailable_one": "{{available}} kuri {{total}} umwanya uboneka",
     "seatsAvailable_other": "{{available}} kuri {{total}} imyanya iboneka",
     "admissionRequirements": "Ibisabwa mu kwakirwa",
+    "viewRequirements": "Reba ibisabwa",
     "spotsOpen": "Imyanya ifunguye",
     "spotsFull": "Imyanya yuzuye",
     "apply": "Iyandikishe",
@@ -955,7 +956,10 @@
     "documents": "Inyandiko:",
     "notes": "Ibisobanuro:",
     "noSpecificRequirements": "Nta bisabwa byihariye byatanzwe kuri uyu mwanya.",
-    "close": "Funga"
+    "close": "Funga",
+    "reviewBeforeApplying": "Nyamuneka reba ibisabwa mbere yo kwiyandikisha.",
+    "cancel": "Hagarika",
+    "continueToApply": "Komeza wiyandikishe"
   },
   "galleryCard": {
     "edit": "Hindura",

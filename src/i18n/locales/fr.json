@@ -944,6 +944,7 @@
     "seatsAvailable_one": "{{available}} place disponible sur {{total}}",
     "seatsAvailable_other": "{{available}} places disponibles sur {{total}}",
     "admissionRequirements": "Conditions d'admission",
+    "viewRequirements": "Voir les conditions",
     "spotsOpen": "Places ouvertes",
     "spotsFull": "Places complètes",
     "apply": "Postuler",
@@ -955,7 +956,10 @@
     "documents": "Documents :",
     "notes": "Notes :",
     "noSpecificRequirements": "Aucune exigence spécifique répertoriée pour cette place.",
-    "close": "Fermer"
+    "close": "Fermer",
+    "reviewBeforeApplying": "Veuillez consulter ces exigences avant de postuler.",
+    "cancel": "Annuler",
+    "continueToApply": "Continuer vers la candidature"
   },
   "galleryCard": {
     "edit": "Modifier",

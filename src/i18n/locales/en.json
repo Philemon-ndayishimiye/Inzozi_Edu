@@ -944,6 +944,7 @@
     "seatsAvailable_one": "{{available}} of {{total}} seat available",
     "seatsAvailable_other": "{{available}} of {{total}} seats available",
     "admissionRequirements": "Admission requirements",
+    "viewRequirements": "View requirements",
     "spotsOpen": "Spots open",
     "spotsFull": "Spots full",
     "apply": "Apply",
@@ -955,7 +956,10 @@
     "documents": "Documents:",
     "notes": "Notes:",
     "noSpecificRequirements": "No specific requirements listed for this spot.",
-    "close": "Close"
+    "close": "Close",
+    "reviewBeforeApplying": "Please review these requirements before applying.",
+    "cancel": "Cancel",
+    "continueToApply": "Continue to application"
   },
   "galleryCard": {
     "edit": "Edit",

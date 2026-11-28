@@ -36,6 +36,7 @@ import ResetPasswordSuccessPagenp from '../Pages/ResetPasswordSuccessPage';
 import StudentInfo from '../Pages/Admin/StudentInfo';
 import Seats from '../Pages/Admin/Seats';
 import AddSeats from '../Pages/Admin/AddSeats';
+import ViewSeat from '../Pages/Admin/ViewSeat';
 import AdmissionManager from '../Pages/Admin/AdmissionManager';
 import SchoolApprovals from '../Pages/superAdmin/SchoolApprovals';
 import AdmissionManagerPage from '../Pages/admissionManager/AdmissionManagerPage';
@@ -85,6 +86,8 @@ export default function AppRoutes() {
                <Route path='gallery' element={<Gallery/>} />
                <Route path='seats' element={<Seats/>} />
                <Route path='addSeats' element={<AddSeats/>} />
+               <Route path='editSeats/:spotId' element={<AddSeats/>} />
+               <Route path='viewSeats/:spotId' element={<ViewSeat/>} />
                <Route path='settings' element={<SchoolManagerSettings/>} />
              </Route>
              <Route path='/superAdmin' element={
@@ -103,6 +106,8 @@ export default function AppRoutes() {
                 <Route path='application/:ref' element={<AdmissionManagerApplicationDetail/>} />
                 <Route path='seats' element={<Seats/>} />
                 <Route path='addSeats' element={<AddSeats/>} />
+                <Route path='editSeats/:spotId' element={<AddSeats/>} />
+                <Route path='viewSeats/:spotId' element={<ViewSeat/>} />
              </Route>
 
             <Route path='/admin' element={<Admin/>}> </Route>

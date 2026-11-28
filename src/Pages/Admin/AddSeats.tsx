@@ -4,13 +4,16 @@ import { TextInput } from '../../Components/seats/InputSeats';
 import { SelectInput } from '../../Components/seats/SelectInput';
 import {Levels, StudentType, MinimumGrade} from '../../Types/Seats';
 import {Button} from '../../Components/seats/AddSeats';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import { useRegisterSpotMutation } from '../../App/api/spots/spot';
+import { useRegisterSpotMutation, useGetAllSpotsQuery, useUpdateSpotMutation } from '../../App/api/spots/spot';
 import { useGetSchoolDetailsQuery } from '../../App/api/school/school';
 import { useUser } from '../../Hooks/useUser';
 import { skipToken } from '@reduxjs/toolkit/query';
+import Toast from '../../Components/dashboard/Toast';
+import { useToast } from '../../Hooks/useToast';
+import { getApiErrorMessage } from '../../Helper/apiError';
 
 interface ErrorState {
   level: string;
@@ -53,8 +56,14 @@ export default function AddSeats() {
   const { t } = useTranslation();
   const navigate =useNavigate();
   const{user}=useUser();
-  const[registerSpot, {isLoading: submitting}]=useRegisterSpotMutation();
+  const { spotId } = useParams<{ spotId: string }>();
+  const isEdit = Boolean(spotId);
+  const[registerSpot, {isLoading: creating}]=useRegisterSpotMutation();
+  const[updateSpot, {isLoading: updating}]=useUpdateSpotMutation();
+  const submitting = creating || updating;
+  const { toast, showToast } = useToast();
   const { data: schoolDetails } = useGetSchoolDetailsQuery(user?.schoolId ?? skipToken);
+  const { data: spotsData } = useGetAllSpotsQuery(user?.schoolId ?? skipToken);
   const schoolLevels = schoolDetails?.data.schoolLevel;
   // Only offer levels the school is actually registered for, if any are set -
   // publishing a spot for an unlisted level (e.g. Nursery on a Primary-only
@@ -66,7 +75,13 @@ export default function AddSeats() {
     // handle select 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   const { name, value } = event.target;
-  setFormData((prev) => ({ ...prev, [name]: value }));
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+    // combination only applies to A-level - drop it if switching away so a
+    // stale combination never gets sent for a different level.
+    ...(name === 'level' && value !== 'A-level' ? { combination: [] } : {}),
+  }));
 };
 
 // toogle document
@@ -104,6 +119,28 @@ const handleInputChange = (
   }));
 };
 
+// handle combination (A-level only) - free text, SchoolManager/AdmissionManager
+// types their own combination names since there's no fixed canonical list.
+const [combinationInput, setCombinationInput] = useState('');
+
+function addCombination() {
+  const value = combinationInput.trim();
+  if (!value) {return;}
+  setFormData((prev) => {
+    const existing = prev.combination || [];
+    if (existing.some((c) => c.toLowerCase() === value.toLowerCase())) {return prev;}
+    return { ...prev, combination: [...existing, value] };
+  });
+  setCombinationInput('');
+}
+
+function removeCombination(value: string) {
+  setFormData((prev) => ({
+    ...prev,
+    combination: (prev.combination || []).filter((c) => c !== value),
+  }));
+}
+
 // handle admission change
 
 // update admissionConditions (text, select, checkbox inside admissionConditions)
@@ -136,7 +173,7 @@ const handleAdmissionChange = (
   occupiedSpots: 10,
   registrationOpen: true,
   waitingListCount: 5,
-  combination: ['Math', 'Physics'], // must match backend expectations
+  combination: [],
   admissionConditions: {
     minGrade: 'B',
     requiredSubjects: ['English', 'Math'], // must match backend expectations
@@ -153,11 +190,31 @@ const handleAdmissionChange = (
 // Keeps the default level in sync with what this school actually offers,
 // once its levels have loaded (avoids defaulting to a level it doesn't run).
 useEffect(() => {
+  if (isEdit) {return;}
   if (availableLevelOptions.length > 0 && !availableLevelOptions.some((l) => l.value === formData.level)) {
     setFormData((prev) => ({ ...prev, level: availableLevelOptions[0].value }));
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [schoolLevels]);
+}, [schoolLevels, isEdit]);
+
+// Edit mode: prefill the form from the spot we're editing, once its data
+// has loaded (reuses whatever the spots list already cached, no extra fetch).
+useEffect(() => {
+  if (!isEdit || !spotId || !spotsData) {return;}
+  const existing = spotsData.data.spots.find((s) => s.id === spotId);
+  if (!existing) {return;}
+  setFormData({
+    level: existing.level,
+    studentType: existing.studentType,
+    academicYear: existing.academicYear ?? '',
+    yearofstudy: existing.yearofstudy,
+    totalSpots: Number(existing.totalSpots),
+    occupiedSpots: existing.occupiedSpots,
+    registrationOpen: existing.registrationOpen,
+    combination: existing.combination ?? [],
+    admissionConditions: existing.admissionConditions,
+  });
+}, [isEdit, spotId, spotsData]);
 
 const [errors, setErrors] = useState<ErrorState>({
   level: '',
@@ -234,13 +291,17 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
     };
 
     // 4️⃣ Call backend
-    await registerSpot({ data: payload, id: user?.schoolId ?? '' }).unwrap();
-    console.log('Submitted successfully:', payload);
-    navigate('../seats');
-    
-    
+    if (isEdit && spotId) {
+      await updateSpot({ schoolId: user?.schoolId ?? '', spotId, data: payload }).unwrap();
+      showToast(t('addSeatsPage.updatedToast'), 'success');
+    } else {
+      await registerSpot({ data: payload, id: user?.schoolId ?? '' }).unwrap();
+      showToast(t('addSeatsPage.addedToast'), 'success');
+    }
+    // Give the success toast a moment to be seen before leaving the page.
+    setTimeout(() => navigate('../seats'), 1200);
   } catch (error) {
-    console.log('error is', error);
+    showToast(getApiErrorMessage(error, t('addSeatsPage.errorToast')), 'error');
   }
 };
 
@@ -250,7 +311,7 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
   return (
     <div className='px-6 py-6'>
          <div className='border border-gray-300 py-5 px-3 rounded-lg'>
-            <h1 className='text-primary-color font-bold text-[22px] px-8 pb-10 font-family-playfair'>{t('addSeatsPage.title')}</h1>
+            <h1 className='text-primary-color font-bold text-[22px] px-8 pb-10 font-family-playfair'>{isEdit ? t('addSeatsPage.editTitle') : t('addSeatsPage.title')}</h1>
 
             <div>
                 <form action="" onSubmit={createSeats} className='px-10'>
@@ -284,9 +345,48 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
                       <TextInput label={t('addSeatsPage.occupiedSpots')} name='occupiedSpots' value={formData.occupiedSpots} onChange={handleInputChange} type='number' placeholder='0'/>
                     </div>
 
-                    <div>
-
-                    </div>
+                    {formData.level === 'A-level' && (
+                      <div className="flex flex-col gap-2 py-2">
+                        <label className="font-semibold">{t('addSeatsPage.combination')}</label>
+                        <p className="text-[12.5px] text-gray-500">{t('addSeatsPage.combinationHint')}</p>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            className="border border-gray-300 rounded-lg px-4 py-2 text-base outline-none focus:border-gray-200 focus:ring-1 focus:ring-gray-200"
+                            placeholder={t('addSeatsPage.combinationPlaceholder')}
+                            value={combinationInput}
+                            onChange={(e) => setCombinationInput(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                                addCombination();
+                              }
+                            }}
+                          />
+                          <Button type="button" label={t('addSeatsPage.combinationAdd')} variant="third" onClick={addCombination} />
+                        </div>
+                        {(formData.combination || []).length > 0 && (
+                          <div className="flex flex-wrap gap-2 pt-1">
+                            {(formData.combination || []).map((combo) => (
+                              <span
+                                key={combo}
+                                className="flex items-center gap-1.5 bg-gray-100 border border-gray-300 rounded-full px-3 py-1 text-[13px]"
+                              >
+                                {combo}
+                                <button
+                                  type="button"
+                                  onClick={() => removeCombination(combo)}
+                                  aria-label={`${t('addSeatsPage.combinationRemove')} ${combo}`}
+                                  className="text-gray-500 hover:text-red-600 cursor-pointer leading-none"
+                                >
+                                  ×
+                                </button>
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
 
                     <h1 className='text-black py-12 font-semibold text-[18px] pb-4 font-family-playfair'>{t('addSeatsPage.admissionCondition')}</h1>
 
@@ -374,14 +474,24 @@ const createSeats = async (e: React.FormEvent<HTMLFormElement>) => {
                     </div>
 
                     <div className='flex justify-between py-2'>
-                        <Button label={submitting ? t('addSeatsPage.adding') : t('addSeatsPage.addSeatAvailability')} type='submit' variant='secondary' loading={submitting} disabled={submitting}/>
+                        <Button
+                          label={
+                            submitting
+                              ? (isEdit ? t('addSeatsPage.updating') : t('addSeatsPage.adding'))
+                              : (isEdit ? t('addSeatsPage.updateSeatAvailability') : t('addSeatsPage.addSeatAvailability'))
+                          }
+                          type='submit'
+                          variant='secondary'
+                          loading={submitting}
+                          disabled={submitting}
+                        />
                          <Button label={t('addSeatsPage.cancel')} variant='third' onClick={handleCancel} disabled={submitting}/>
                     </div>
                 </form>
             </div>
          </div>
 
-         
+         <Toast toast={toast} />
     </div>
   );
 }

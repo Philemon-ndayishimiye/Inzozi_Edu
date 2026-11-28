@@ -10,7 +10,7 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import ConfirmDialog from '../../Components/ConfirmDialog';
 import Panel from '../../Components/dashboard/Panel';
 import Toggle from '../../Components/dashboard/Toggle';
-import { IoAddCircleOutline, IoCreateOutline, IoTrashOutline } from 'react-icons/io5';
+import { IoAddCircleOutline, IoCreateOutline, IoEyeOutline, IoTrashOutline } from 'react-icons/io5';
 
 export default function Seats() {
   const { t } = useTranslation();
@@ -109,6 +109,9 @@ export default function Seats() {
                     </div>
                     <div className="text-[11.5px] text-gray-500 mt-0.5">
                       {spot.studentType} · {t('seatsPage.seatsAvailable', { available, total: spot.totalSpots })}
+                      {spot.combination && spot.combination.length > 0 && (
+                        <> · {spot.combination.join(', ')}</>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-3 flex-shrink-0">
@@ -125,9 +128,14 @@ export default function Seats() {
                       onChange={(next) => toggleOpen(spot.id, next)}
                     />
                     <button
-                      onClick={() => {
-                        // TODO: wire up update/edit action here
-                      }}
+                      onClick={() => navigate(`../viewSeats/${spot.id}`)}
+                      className="w-8 h-8 rounded-full border border-gray-200 text-gray-500 hover:text-[#05416B] hover:border-[#05416B] flex items-center justify-center cursor-pointer"
+                      aria-label={t('seatsPage.viewClassAria')}
+                    >
+                      <IoEyeOutline className="text-[15px]" />
+                    </button>
+                    <button
+                      onClick={() => navigate(`../editSeats/${spot.id}`)}
                       className="w-8 h-8 rounded-full border border-gray-200 text-gray-500 hover:text-[#005EA2] hover:border-[#005EA2] flex items-center justify-center cursor-pointer"
                       aria-label={t('seatsPage.updateClassAria')}
                     >

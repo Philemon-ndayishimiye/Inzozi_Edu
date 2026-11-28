@@ -10,6 +10,7 @@ export interface AllSeats {
   totalSpots: string;
   occupiedSpots?: number;
   registrationOpen?: boolean;
+  combination?: string[];
   admissionConditions?: {
     minGrade?: string;
     requiredSubjects?: string[];
